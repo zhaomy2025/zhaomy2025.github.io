@@ -1,21 +1,21 @@
 name: Pages
 
-on:
+on: # 触发工作流程的事件
   push:
     branches:
       - main # default branch
 
-jobs:
+jobs: # 定义任务
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    runs-on: ubuntu-latest # 指定运行环境
+    steps: # 定义任务中的步骤
+      - uses: actions/checkout@v4 # 调用一个 Action，检出代码到工作目录
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # If your repository depends on submodule, please see: https://github.com/actions/checkout
           submodules: recursive
       - name: Use Node.js 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4 # 设置 Node.js 环境
         with:
           # Examples: 20, 18.19, >=16.20.2, lts/Iron, lts/Hydrogen, *, latest, current, node
           # Ref: https://github.com/actions/setup-node#supported-version-syntax
