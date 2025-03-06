@@ -1,7 +1,10 @@
 ---
 title: GitHub Pages + Hexo搭建个人网站
 date: 2025-03-03 14:59:10
-tags:
+tags: 
+- Hexo教程
+categories: 
+- Hexo教程
 ---
 # 准备环境
 准备一个 GitHub 账号并新建一个仓库，仓库名称为 `<username>.github.io`。
@@ -51,7 +54,7 @@ npm install hexo-cli -g
 # 进阶
 # npm install hexo
 # 初始化
-hexo init zhaomy2015.github.io
+hexo init zhaomy2025.github.io
 # 安装依赖
 cd <site> && npm install
 # 启动服务器
@@ -120,15 +123,29 @@ hexo n "GitHub Pages + Hexo搭建个人网站"
 
 # 主题
 1. 安装主题包
-
 ```bash
 npm install hexo-theme-next
 ```
-
 2. 打开站点配置文件 _config.yml，找到 `theme` 字段，并将其值更改为 `next`
-3. 清除缓存再预览
-
+3. 将`node_modules/hexo-theme-next/_config.yml`文件复制到站点目录`themes`
+   注意不能放到`themes/next`目录下，因为创建该目录后，不会再从node_modules目录下查找文件，找不到文件导致报错`WARN  No layout: archives/index.html`
+4. 清除缓存再预览
 ```bash
 hexo clean && hexo s
 ```
 
+# 支持高亮
+首先，给 Hexo 更换渲染器，把渲染器换成 hexo-renderer-markdown-it-plus，并且安装两个依赖 markdown-it 和 markdown-it-mark。
+```bash
+npm uninstall hexo-renderer-marked --save
+npm install hexo-renderer-markdown-it-plus --save
+npm install markdown-it --save
+npm install markdown-it-mark --save
+```
+然后，修改博客目录里的 _config.yml 文件，添加以下内容：
+```yaml
+markdown:
+  plugins:
+    - "markdown-it"
+    - "markdown-it-mark"
+```
