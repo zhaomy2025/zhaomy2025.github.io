@@ -37,6 +37,7 @@ categories:
     - String、StringBuilder、StringBuffer
     - 集合框架（List、Set、Map等）
     - 日期和时间处理
+    - 文件目录操作（对文件本身进行操作，而非文件内容，File、Path、Files、Paths等）
     - 输入输出流（I/O）
 
 # 中级阶段
