@@ -59,10 +59,8 @@ hexo new page tags
 2. 编辑页面，添加上`type: "tags"`，让主题识别页面为标签页面
 3. 给文章设置标签属性，支持多个标签
 
-
-
-#切换主题
-Next主题自带四种样式，在主题配置文件/themes/_config.yml中查找：scheme，修改scheme属性即可切换样式：
+# 切换风格
+Next主题提供了四种不同的风格（Scheme），在主题配置文件/themes/_config.yml中查找：scheme，修改scheme属性即可切换样式：
 ```
 # Schemes
 #scheme: Muse # 经典侧边栏布局，适合文字内容为主的博客。
@@ -72,7 +70,7 @@ scheme: Mist # 简洁现代风格，适合轻量级博客。
 ```
 
 # 本地搜索
-1. 安装插件`hexo-generator-searchdb`,执行以下命令:
+1. 安装插件`hexo-generator-searchdb`，执行以下命令:
 ```
 npm install hexo-generator-searchdb --save
 ```
@@ -86,7 +84,7 @@ search:
    limit: 10000
    template: themes/search.xml # 搜索结果的模板文件路径
 ```
-3. 编辑 主题配置文件，启用本地搜索功能：
+3. 编辑主题配置文件，启用本地搜索功能：
 ```
 # Local search
 local_search:
@@ -97,3 +95,12 @@ enable: true
 如果是通过npm安装的主题，需要在主题目录下创建search.xml文件，否则搜索功能将无法使用。
 这个文件可以去 https://github.com/wzpan/hexo-generator-search 下载，也可以在刚刚安装的依赖包中找到，地址为`node_modules/hexo-generator-search/demo_output/search.xml`。
 
+
+
+# TODO
+- 浏览页面显示当前浏览进度
+- 文章分享功能
+- 文章加密访问
+- 增加文章字数统计及阅读时常功能
+- 文章置顶功能
+- 评论功能
