@@ -1,5 +1,5 @@
 ---
-title: Next主题个性化配置
+title: 【Hexo】Next主题个性化配置
 date: 2025-03-06 09:09:50
 tags:
 - Hexo教程

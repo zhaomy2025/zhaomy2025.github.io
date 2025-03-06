@@ -106,8 +106,16 @@ deploy:
 # Markdown
 markdown:
   plugins:
-    - "markdown-it"
-    - "markdown-it-mark"
+    - markdown-it-checkbox
+    - markdown-it-expandable
+    - name: markdown-it-container
+      options: success
+    - name: markdown-it-container
+      options: tips
+    - name: markdown-it-container
+      options: warning
+    - name: markdown-it-container
+      options: danger
 
 # Local search
 search:

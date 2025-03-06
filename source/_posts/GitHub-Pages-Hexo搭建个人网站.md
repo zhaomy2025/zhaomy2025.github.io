@@ -134,18 +134,5 @@ npm install hexo-theme-next
 hexo clean && hexo s
 ```
 
-# 支持高亮
-首先，给 Hexo 更换渲染器，把渲染器换成 hexo-renderer-markdown-it-plus，并且安装两个依赖 markdown-it 和 markdown-it-mark。
-```bash
-npm uninstall hexo-renderer-marked --save
-npm install hexo-renderer-markdown-it-plus --save
-npm install markdown-it --save
-npm install markdown-it-mark --save
-```
-然后，修改博客目录里的 _config.yml 文件，添加以下内容：
-```yaml
-markdown:
-  plugins:
-    - "markdown-it"
-    - "markdown-it-mark"
-```
+# 选择更高级的Markdown渲染器
+Hexo 默认搭配的 Markdown 渲染器为 hexo-renderer-marked，但其实现功能有限，推荐换成`hexo-renderer-markdown-it-plus`渲染器。
