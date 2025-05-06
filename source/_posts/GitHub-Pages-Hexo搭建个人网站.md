@@ -66,7 +66,7 @@ hexo s
 
 在本地仓库中建立 .github/workflows/pages.yml，并填入以下内容：
 
-```git
+```yaml
 name: Pages
 
 on:
