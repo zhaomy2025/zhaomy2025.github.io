@@ -12,6 +12,7 @@ VuePress 是一个以 Markdown 为中心的静态网站生成器。你可以使�
 从Hexo转向VuePress最主要的原因就是没有找到Hexo顶部导航栏配置，只能配置侧边栏，而侧边栏又是默认隐藏的，需要多点击一次才能展开，使用起来很不方便；多级导航栏也没有找到。虽然可以通过修改主题模板的方式实现定制化配置，但因为创建项目时选择了依赖导入的方式引入主题，所以没法做到复杂的定制化配置。习惯了Spring的配置中心化思想，实在不喜欢这种修改源代码的方式，所以转向VuePress。VuePress内置了更直观的导航栏配置系统，通过主题配置文件即可快速设置多级导航，还可以提供更灵活的组件系统来处理复杂的布局和交互。
 此外 Hexo 对非标准的Markdown语法支持不够好。比如不支持高亮块，从语雀导过来的文件不能直接渲染，需要手动修改。VuePress增强了Markdown处理：支持自定义容器（如高亮块、提示框等）、可以在Markdown中直接使用Vue组件、提供更多扩展语法（如自定义代码块）等。  
 之前选择Hexo最主要原因就是想快速搭建一个博客，Hexo搭建简单，适合新手，而VuePress需要有Vue基础。但转向VuePress之后发现其实VuePress的配置也不难，都是通过脚手架搭建项目，两个框架的搭建难度其实差不多，主题和插件反而是觉得VuePress的配置更简单，至于Vue组件、扩展语法等，属于锦上添花的功能，不用这些功能也一样可以搭建出一个博客，可以等用到的时候再去研究。
+
 # 使用
 ## 安装
 依赖环境：Node.js v18.19.0+、npm
@@ -80,6 +81,7 @@ export default defineUserConfig({
 ```
 ### 主题
 VuePress 提供了多个官方主题，包括默认主题、简约主题、星空主题等。主题可设置logo、导航栏、侧边栏等。
+首先给出一份比较完整的默认主题配置，注意下配置项的位置。官网给出的配置信息虽然很详细，但嵌套关系不直观。因为配置项的位置出错，导致配置未生效，花了好长时间才排查出来：比如误将sidebarDepth放在到了sidebar内部，导致侧边栏展示标题层级未生效；。
 ```javascript
 theme: defaultTheme({
     logo: 'https://vuejs.press/images/hero.png',
@@ -95,7 +97,29 @@ theme: defaultTheme({
         },
     ],
     sidebar: {
-        '/posts/resource/': ['/posts/resource/']
+        '/posts/resource/': ['/posts/resource/'],
+        '/posts/spring/': [
+            {
+                text: 'Spring',
+                link: '/posts/spring/',
+            },
+            {
+                text: 'Spring Framework',
+                collapsible: true,
+                prefix: '/posts/spring/',
+                children: [
+                    'spring-framework',
+                    'spring-framework-ioc',
+                    'spring-framework-ioc-impi',
+                ],
+            },
+            {
+                text: 'Spring Boot',
+                collapsible: true,
+                prefix: '/posts/spring/',
+                children: ['spring-boot'],
+            }
+        ]
     },
     sidebarDepth: 1,
 })
@@ -239,7 +263,7 @@ console.log(`Created: ${filePath}`);
 - 标题
 - 段落与换行
 - 粗体、斜体、删除线
-- 列表
+- 列表、任务列表
 - 链接、图片
 - 行内代码、代码块
 - 引用
@@ -268,6 +292,9 @@ console.log(`Created: ${filePath}`);
 2. 列表2
 3. 列表3
 
+- [x] 任务1
+- [ ] 任务2
+
 [链接描述](https://vuejs.press/)
 
 ![图片描述](https://vuejs.press/images/hero.png)
@@ -275,29 +302,27 @@ console.log(`Created: ${filePath}`);
 分割线
 ***
 ```
-## 语法扩展
+
+## VuePress 内置支持语法扩展
 VuePress 内置支持的 Markdown 语法扩展：
-- 基础扩展
-  + 表格
-  + 任务列表
-- 标题描点
-- 链接扩展
-- Emoji `:EMOJICODE:`
-- 目录：`[[toc]]`
-- 代码块增强
-  + 代码块语法高亮：标准语法不支持高亮  
-  + 行高亮：`{1,7-9}`
-  + 行号：取消行号`no-line-numbers`
-  + 代码标题
-  + 导入外部代码
-- 自定义容器
-- 高级扩展  
-  + 脚注 `[^note]`
-  + 上下角标 `H~2~O`和`19^th^`
-  + 标记高亮 `==标记==`
-  + 自定义对齐 
-  + 图表（Mermaid/PlantUML）
-  
+| 分类 | 语法扩展 | 插件 | 配置 |
+| --- | --- | --- | --- |
+| 内置 | 表格、删除线 | markdown-it | `markdown` |
+| 标题描点 | `# 标题1 {#custom-id}` | - | ` markdown.anchor` |
+| 链接 | `[首页](../README.md) ` | 内置插件 | `markdown.links` |
+| Emoji | `:smile: :100: :fire:` | `markdown-it-emoji` | `markdown.emoji` |
+| 目录 | `[[toc]]` | `@mdit-vue/plugin-toc` | ` markdown.toc` |
+| 代码块 |  语法高亮、代码标题、高亮<br>行号`:line-numbers`和`:no-line-numbers` | `markdown-it-prism` | `markdown.code` |
+| 导入代码块 | `@[code](../foo.js)` | 内置插件 | `markdown.importCode` |
+| 容器 |-|`@vuepress/plugin-markdown-container`|-|
+
+高级扩展：
+- 脚注 `[^note]`
+- 上下角标 `H~2~O`和`19^th^`
+- 标记高亮 `==标记==`
+- 自定义对齐 
+- 图表（Mermaid/PlantUML）
+
 ### 表格
 ```markdown
 | 列1 | 列2 | 列3 |
@@ -305,18 +330,21 @@ VuePress 内置支持的 Markdown 语法扩展：
 | 左对齐 | 居中 | 右对齐 |
 ```
 
-### 任务列表
-```markdown
-- [x] 任务1
-- [ ] 任务2
-```
-
 ### 标题描点
 ```markdown
 # 标题1 {#custom-id}
 ```
+指向标题的链接：
+```markdown
+[标题1](#custom-id)
+```
+如果没有设置自定义ID，则会自动生成一个ID，大写字母会被替换成小写字母，空格会被替换成`-`：
+```markdown
+按需初始化 Bean 实例（放在[下一节](#bean-实例化)介绍）
+## Bean 实例化
+```
 
-### 链接扩展
+### 链接
 ```markdown
 [链接描述](https://vuejs.press/ "可选的标题")
 ```
@@ -331,8 +359,9 @@ VuePress 内置支持的 Markdown 语法扩展：
 [[toc]]
 ```
 
-### 行高亮
-````ts{1,7-9}
+### 代码块
+#### 行高亮
+````
 ```ts{1,7-9}
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
@@ -346,7 +375,7 @@ export default defineUserConfig({
 ```
 ````
 
-### 行号
+#### 行号
 ````ts:no-line-numbers
 ```ts:no-line-numbers
 // 行号被禁用
@@ -355,30 +384,65 @@ const line3 = 'This is line 3'
 ```
 ````
 
-### ~~plantuml~~
-配置无效
+### 容器
+```markdown
+::: <type> [info]
+[content]
+:::
+```
+
+### 图表
+### Markdown增强插件
+为 VuePress2 提供更多 [Markdown增强](https://plugin-md-enhance.vuejs.press/zh/)功能。包括：
+- 图表：Chart.js、ECharts、Markmap、Mermaid、Plantuml、流程图等
+- 代码：提供了Kotlin、Sandpack、Vue等交互演示支持
+注：Plantuml配置无效，待解决。目前可使用Mermaid语法。
+  
+### ~~markdown-it-plantuml配置无效~~
 1. 安装 markdown-it-plantuml
 ```bash
-npm install markdown-it-plantuml --save-dev
+npm install -D markdown-it-plantuml 
 ```
 2. 修改 `.vuepress/config.js` 文件，添加以下内容：
 ```javascript
-markdown: {
-    extendsMarkdown: (md) => {md.use(markdownItPlantuml);}
-}
+extendsMarkdown: (md) => {md.use(markdownItPlantuml);}
 ```
+3. 在 Markdown 文件中使用 `plantuml` 语法：
+````markdown
+```plantuml
+@startuml
+Alice -> Bob: Authentication Request
+@enduml
+```
+````
 注意：以上为vuepress 2.x版本的配置，与vuepress 1.x版本的配置不同。
 
+### ~~vuepress-plugin-plantuml插件~~
+安装失败
+```bash
+npm install -D @akebifiky/vuepress-plugin-plantuml
+```
+
 ## 在Markdown中使用Vue
-## Markdown组件
+
+## Markdown插件
+可以在[VuePress 市场](https://marketplace.vuejs.press/zh/plugins/markdown.html)上探索更多的 Markdown 插件。
+- Markdown高亮器
+- Markdown样式化：提示容器、图片尺寸、样式化内容等
+- Markdown语法扩展：代码选项卡、公式、自定义容器等
+- 功能集成：图表、幻灯片、代码展示等插件
+- 辅助工具：vuepress-plugin-markdown-define2
+
 # 静态资源
 ## 相对路径
 ## Public文件
 ## Base Helper
 ## 依赖包和路径别名
+
 # 多语言支持
 ## 站点多语言配置
 ## 主题多语言配置
+
 # 部署
 ## GitHub Pages
 GitHub Pages 可以通过路径区分来托管多个项目，需要为每个项目单独创建一个仓库。
@@ -402,4 +466,28 @@ GitHub Pages 可以通过路径区分来托管多个项目，需要为每个项�
   uses: actions/upload-pages-artifact@v3
   with:
     path: ./public
+```
+## 插件
+VuePress 团队提供了一些官方插件，有些内置到了默认主题中，有些需要单独安装，需要单独安装的插件：
+- plugin-back-to-top：返回顶部插件
+
+社区用户也创建了很多插件可以在 [VuePress 市场](https://marketplace.vuejs.press/zh/plugins/) 中探索更多插件。
+常见插件的使用放到了[VuePress 常用插件使用指南](../vuepress/vuepress/plugin.html),包括：
+- 侧边栏隐藏
+## 参考资源
+[VuePress官方文档](https://vuepress.vuejs.org/zh/)
+[VuePress 生态系统](https://ecosystem.vuejs.press/zh/)：VuePress 官方主题和插件
+[Markdown 增强](https://plugin-md-enhance.vuejs.press/zh/)：为 VuePress2 提供更多 Markdown 增强功能
+
+# 插件
+## 官方插件
+### back-to-top
+```bash
+npm i -D @vuepress/plugin-back-to-top@next
+```
+
+### 隐藏侧边栏
+```bash
+npm install vuepress-plugin-hide-sidebar
+npm install vuepress-plugin-sidebar-toggle
 ```
