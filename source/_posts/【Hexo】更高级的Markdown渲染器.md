@@ -84,7 +84,7 @@ https://www.webfx.com/tools/emoji-cheat-sheet/
 ### 自定义容器
 语法：
 ```
-::: tips
+::: tip
 提示
 :::
 

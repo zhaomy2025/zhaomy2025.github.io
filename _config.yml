@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Zhaomy's Blog
 subtitle: ''
-description: ''
-keywords:
+description: '技术博客，欢迎交流！'
+keywords: Java, Spring, Spring Boot, MySQL, Redis, Docker, ZooKeeper
 author: zhaomy
 language: zh-CN
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
