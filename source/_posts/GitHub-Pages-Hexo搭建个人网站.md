@@ -48,11 +48,9 @@ IdentityFile ~/.ssh/id_rsa.gitee
 # 安装 Hexo
 Hexo 是一个轻量级博客框架。
 
-```git
+```bash
 # 安装Hexo
 npm install hexo-cli -g
-# 进阶
-# npm install hexo
 # 初始化
 hexo init zhaomy2025.github.io
 # 安装依赖
