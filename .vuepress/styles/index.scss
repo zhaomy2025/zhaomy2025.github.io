@@ -1,0 +1,7 @@
+@use 'auto-number';
+@use 'inline-tag';
+
+// 导航栏只显示 logo，隐藏站点名文字（站点名仍用于浏览器标签 / SEO / 主页 hero）
+.VPNavBarTitle .title {
+  display: none;
+}

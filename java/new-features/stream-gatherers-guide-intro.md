@@ -1,0 +1,1 @@
+流收集器（Stream Gatherers）能为Stream API轻松添加自定义的中间操作，实现更复杂的数据转换。

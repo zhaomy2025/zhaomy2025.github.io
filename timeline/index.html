@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-rc.23" />
+    <style>
+      :root {
+        --vp-c-bg: #fff;
+      }
+
+      [data-theme='dark'] {
+        --vp-c-bg: #1b1b1f;
+      }
+
+      html,
+      body {
+        background-color: var(--vp-c-bg);
+      }
+    </style>
+    <script>
+      const useChoice = localStorage.getItem('vuepress-color-scheme')
+      const systemStatus =
+        'matchMedia' in window
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          : false
+
+      if (useChoice === 'light') {
+        document.documentElement.dataset.theme = 'light'
+      } else if (useChoice === 'dark' || systemStatus) {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
+    <link rel="icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><title>Timeline | Java 后端知识库</title><meta name="description" content="Java 后端技术沉淀，聚焦 JVM、Spring、数据库、架构与分布式">
+    <link rel="preload" href="/assets/style-BwQ77E_f.css" as="style"><link rel="stylesheet" href="/assets/style-BwQ77E_f.css">
+    <link rel="modulepreload" href="/assets/app-ekva9aW0.js"><link rel="modulepreload" href="/assets/index.html-Cp32FZDd.js">
+    <link rel="prefetch" href="/assets/index.html-LAu24uby.js" as="script"><link rel="prefetch" href="/assets/index.html-E6BqxDpm.js" as="script"><link rel="prefetch" href="/assets/dynamic-programming-intro.html-B2qee6sz.js" as="script"><link rel="prefetch" href="/assets/dynamic-programming.html-t-zXJC9t.js" as="script"><link rel="prefetch" href="/assets/index.html-DKXDOxHs.js" as="script"><link rel="prefetch" href="/assets/cloud-platform-services-comparison.html-DIwoAoSn.js" as="script"><link rel="prefetch" href="/assets/distribute.html-CGtMAejO.js" as="script"><link rel="prefetch" href="/assets/index.html-F8hS1LV5.js" as="script"><link rel="prefetch" href="/assets/fix-garbled-commit-message.html-BoQ_TXpU.js" as="script"><link rel="prefetch" href="/assets/git-hooks.html-DBO5r2xi.js" as="script"><link rel="prefetch" href="/assets/git-ssh.html-C38swv8R.js" as="script"><link rel="prefetch" href="/assets/git-worktree.html-Dlw6kcWi.js" as="script"><link rel="prefetch" href="/assets/index.html-Dj0-EQMe.js" as="script"><link rel="prefetch" href="/assets/index.html-DQE66pQg.js" as="script"><link rel="prefetch" href="/assets/collections.html-GY5N26ik.js" as="script"><link rel="prefetch" href="/assets/index.html-DTFSqqsR.js" as="script"><link rel="prefetch" href="/assets/regex.html-KcjzVpzQ.js" as="script"><link rel="prefetch" href="/assets/command.html-uWbmJPJR.js" as="script"><link rel="prefetch" href="/assets/index.html-BrUst8tr.js" as="script"><link rel="prefetch" href="/assets/shell.html-DoNvr61h.js" as="script"><link rel="prefetch" href="/assets/ssh.html-CPBg98Sq.js" as="script"><link rel="prefetch" href="/assets/n8n节点.html-Dn-_ITte.js" as="script"><link rel="prefetch" href="/assets/index.html-Dc6d7_2E.js" as="script"><link rel="prefetch" href="/assets/nvm.html-CUf6wNTl.js" as="script"><link rel="prefetch" href="/assets/yaml.html-CiWZXtDI.js" as="script"><link rel="prefetch" href="/assets/functools.html-Bfyty7BU.js" as="script"><link rel="prefetch" href="/assets/functools_wraps.html-CLVYKRyR.js" as="script"><link rel="prefetch" href="/assets/index.html-ge0KonUm.js" as="script"><link rel="prefetch" href="/assets/lru_cache_vs_cached_property.html-C2tf-wge.js" as="script"><link rel="prefetch" href="/assets/requirements.html-B7699XXB.js" as="script"><link rel="prefetch" href="/assets/wrapper.html--0BIPcHX.js" as="script"><link rel="prefetch" href="/assets/index.html-C0Bw1E0T.js" as="script"><link rel="prefetch" href="/assets/book-name-format.html-DbqDnsUX.js" as="script"><link rel="prefetch" href="/assets/book.html-CWHtj0k2.js" as="script"><link rel="prefetch" href="/assets/github.html-_jk8-yRF.js" as="script"><link rel="prefetch" href="/assets/index.html-PXPywIym.js" as="script"><link rel="prefetch" href="/assets/vscode-plugins.html-CIVcY9nY.js" as="script"><link rel="prefetch" href="/assets/windows-tools.html-D-14SzsC.js" as="script"><link rel="prefetch" href="/assets/code_tool_template.html-Da_RMqv9.js" as="script"><link rel="prefetch" href="/assets/index.html-B-w6TRbP.js" as="script"><link rel="prefetch" href="/assets/tool_template.html-UW2F2y-r.js" as="script"><link rel="prefetch" href="/assets/tutorial_website_setup_template.html-deu0ccAl.js" as="script"><link rel="prefetch" href="/assets/index.html-Da5wrISu.js" as="script"><link rel="prefetch" href="/assets/todo.html-DwKYHqKc.js" as="script"><link rel="prefetch" href="/assets/common_markdown.html-Bvvn5LgU.js" as="script"><link rel="prefetch" href="/assets/common_summary.html-CpUClUmY.js" as="script"><link rel="prefetch" href="/assets/css.html-DOOi4tms.js" as="script"><link rel="prefetch" href="/assets/index.html-DF0bMkkB.js" as="script"><link rel="prefetch" href="/assets/markdown.html-B29ZoX12.js" as="script"><link rel="prefetch" href="/assets/page.html-Bi4BIobz.js" as="script"><link rel="prefetch" href="/assets/plugin.html-B-IKW8wJ.js" as="script"><link rel="prefetch" href="/assets/vue-component.html-ClxCXi3a.js" as="script"><link rel="prefetch" href="/assets/vuepress_cloud.html-r251ETo3.js" as="script"><link rel="prefetch" href="/assets/ace-admin.html-Bad4s5wR.js" as="script"><link rel="prefetch" href="/assets/ace-file-input-shell.html-CNik78RM.js" as="script"><link rel="prefetch" href="/assets/angularjs-lifecycle.html-BTOgLwtK.js" as="script"><link rel="prefetch" href="/assets/bootstrap.html-tVsXNMz5.js" as="script"><link rel="prefetch" href="/assets/index.html-D7FKPPO-.js" as="script"><link rel="prefetch" href="/assets/ui-framework-selection.html-CCuzGdpz.js" as="script"><link rel="prefetch" href="/assets/ai-desktop-tools.html-CO8mebeB.js" as="script"><link rel="prefetch" href="/assets/ai-expert-platforms.html-4TLuek1m.js" as="script"><link rel="prefetch" href="/assets/claude-cowork.html-C64ydtKd.js" as="script"><link rel="prefetch" href="/assets/coze.html-CZ5to9Zp.js" as="script"><link rel="prefetch" href="/assets/index.html-ytuKe8cj.js" as="script"><link rel="prefetch" href="/assets/instruction.html-CTNcfZkO.js" as="script"><link rel="prefetch" href="/assets/prompt.html-hvYqUUEb.js" as="script"><link rel="prefetch" href="/assets/quesion.html-i4CHhzkY.js" as="script"><link rel="prefetch" href="/assets/workbuddy-vs-manop.html-Ts5PGPOc.js" as="script"><link rel="prefetch" href="/assets/trae-plugin.html-PwhOXEv6.js" as="script"><link rel="prefetch" href="/assets/AI大模型测评体系详解.html-mw7PBfMU.js" as="script"><link rel="prefetch" href="/assets/index.html-BO-c4-wc.js" as="script"><link rel="prefetch" href="/assets/免费大模型一览表2026.html-Ckwt6sKh.js" as="script"><link rel="prefetch" href="/assets/index.html-FImCvnhy.js" as="script"><link rel="prefetch" href="/assets/load-balance.html-DA3QOykg.js" as="script"><link rel="prefetch" href="/assets/suggest.html-AEJr3aDU.js" as="script"><link rel="prefetch" href="/assets/client.html-Bm61OpeT.js" as="script"><link rel="prefetch" href="/assets/command.html-C3z-ihK-.js" as="script"><link rel="prefetch" href="/assets/curator.html-CQiQiG8u.js" as="script"><link rel="prefetch" href="/assets/index.html-CRq_0Y9A.js" as="script"><link rel="prefetch" href="/assets/zkclient.html-3L4gWiYv.js" as="script"><link rel="prefetch" href="/assets/zookeeper_intro.html-Cq9BUc-O.js" as="script"><link rel="prefetch" href="/assets/github_action.html-D6_z2Snt.js" as="script"><link rel="prefetch" href="/assets/index.html-CABmjIYN.js" as="script"><link rel="prefetch" href="/assets/agent.html-DhMnYjfu.js" as="script"><link rel="prefetch" href="/assets/exception-handling.html-s6y5-aRX.js" as="script"><link rel="prefetch" href="/assets/file-operations.html-CADRORwv.js" as="script"><link rel="prefetch" href="/assets/index.html-DCt2sKlY.js" as="script"><link rel="prefetch" href="/assets/database-connection-pool.html-BbC4BHyU.js" as="script"><link rel="prefetch" href="/assets/annotations.html-Bmxp257L.js" as="script"><link rel="prefetch" href="/assets/generics.html-BQawv38q.js" as="script"><link rel="prefetch" href="/assets/index.html-DGi0lwe8.js" as="script"><link rel="prefetch" href="/assets/multithreading.html-DGV-NhLd.js" as="script"><link rel="prefetch" href="/assets/multithreading_intro.html-BfkbFT6B.js" as="script"><link rel="prefetch" href="/assets/linked-hash-map-to-object.html-ZQSLlLGc.js" as="script"><link rel="prefetch" href="/assets/object-formatting.html-MHgxDhav.js" as="script"><link rel="prefetch" href="/assets/index.html-S_ZMWJuv.js" as="script"><link rel="prefetch" href="/assets/java_mail.html-CnFLQ207.js" as="script"><link rel="prefetch" href="/assets/java_mail_sender.html-w-rlaVgE.js" as="script"><link rel="prefetch" href="/assets/mail.html-C_3IsP55.js" as="script"><link rel="prefetch" href="/assets/mail_smtp.html-C49Z68ZJ.js" as="script"><link rel="prefetch" href="/assets/ahead-of-time-method-profiling-intro.html-DDwHyQHZ.js" as="script"><link rel="prefetch" href="/assets/ahead-of-time-method-profiling.html-x3IvTgUM.js" as="script"><link rel="prefetch" href="/assets/class-file-api-intro.html-MJ-HZ2WQ.js" as="script"><link rel="prefetch" href="/assets/compact-object-headers-intro.html-CwTa3IF-.js" as="script"><link rel="prefetch" href="/assets/compact-object-headers.html-DMHu4LG-.js" as="script"><link rel="prefetch" href="/assets/flexible-constructor-bodies-intro.html-Xuuqggm0.js" as="script"><link rel="prefetch" href="/assets/generational-shenandoah-intro.html-Bm_CApi7.js" as="script"><link rel="prefetch" href="/assets/index.html-rg_2xlG1.js" as="script"><link rel="prefetch" href="/assets/java-14-features.html-CRuveuK5.js" as="script"><link rel="prefetch" href="/assets/java-17-features.html-uz8AGFpT.js" as="script"><link rel="prefetch" href="/assets/java-18-features.html-djx1eqxL.js" as="script"><link rel="prefetch" href="/assets/java-18-to-21-features-summary.html-DYsTCUkt.js" as="script"><link rel="prefetch" href="/assets/java-19-features.html-CN9CdAxO.js" as="script"><link rel="prefetch" href="/assets/java-20-features.html-DJDj_9Uw.js" as="script"><link rel="prefetch" href="/assets/java-21-features.html-DILkDvl4.js" as="script"><link rel="prefetch" href="/assets/java-22-features.html-DM_4dYyK.js" as="script"><link rel="prefetch" href="/assets/java-22-to-25-features-summary.html-Dguib5hw.js" as="script"><link rel="prefetch" href="/assets/java-23-features.html-BzCmF_sH.js" as="script"><link rel="prefetch" href="/assets/java-24-features.html-S8OtvkBG.js" as="script"><link rel="prefetch" href="/assets/java-25-features.html-CCxEjQVa.js" as="script"><link rel="prefetch" href="/assets/jep-445-463-477-495-512-intro.html-DWLyqSt4.js" as="script"><link rel="prefetch" href="/assets/jep-449-479-501-503.html-CJzL8-HK.js" as="script"><link rel="prefetch" href="/assets/jfr-cooperative-sampling-intro.html--ghoJfB4.js" as="script"><link rel="prefetch" href="/assets/jfr-cooperative-sampling.html-DI7Xbt_M.js" as="script"><link rel="prefetch" href="/assets/module-Import-declarations-intro.html-C8gxC3Aq.js" as="script"><link rel="prefetch" href="/assets/prepare-to-restrict-the-use-of-jni-intro.html-ILeufQS4.js" as="script"><link rel="prefetch" href="/assets/primitive-types-in-patterns-instanceof-and-switch-intro.html-Dq8VpAvO.js" as="script"><link rel="prefetch" href="/assets/primitive-types-in-patterns-instanceof-and-switch.html-2Eu-i_Iq.js" as="script"><link rel="prefetch" href="/assets/record-pattern-guide.html-DoTKnb3u.js" as="script"><link rel="prefetch" href="/assets/scoped-values-guide-intro.html-DvBzpwnx.js" as="script"><link rel="prefetch" href="/assets/scoped-values-guide.html-DvrvC3yV.js" as="script"><link rel="prefetch" href="/assets/scoped-values.html-BWL456jm.js" as="script"><link rel="prefetch" href="/assets/stable-values-intro.html-EeXiKPaY.js" as="script"><link rel="prefetch" href="/assets/stable-values.html-TGmPPRY2.js" as="script"><link rel="prefetch" href="/assets/stream-gatherers-guide-intro.html-BaC9rnFw.js" as="script"><link rel="prefetch" href="/assets/stream-gatherers-guide.html-BXVeMAIT.js" as="script"><link rel="prefetch" href="/assets/string-templates-intro.html-Tx-60gz4.js" as="script"><link rel="prefetch" href="/assets/structured-concurrency-intro.html-DG10S6z8.js" as="script"><link rel="prefetch" href="/assets/structured-concurrency.html-Bo3BSQw6.js" as="script"><link rel="prefetch" href="/assets/switch-pattern-matching-guide.html-CarQrSRU.js" as="script"><link rel="prefetch" href="/assets/vector-api-guide.html-DUVf45Eg.js" as="script"><link rel="prefetch" href="/assets/vector-api-intro.html-TFDWSsxI.js" as="script"><link rel="prefetch" href="/assets/index.html-CRBkA0ez.js" as="script"><link rel="prefetch" href="/assets/mybatis-annotation.html-DCeFaAFs.js" as="script"><link rel="prefetch" href="/assets/mybatis-intro.html-BifzZudW.js" as="script"><link rel="prefetch" href="/assets/mybatis-plus-code-generator.html-CzeG_6rW.js" as="script"><link rel="prefetch" href="/assets/mybatis-plus-multi-tenant.html-CWMytXl9.js" as="script"><link rel="prefetch" href="/assets/mybatis-plus-pagehelper.html-CxizCgS-.js" as="script"><link rel="prefetch" href="/assets/mybatis.html-Dn5pn8yr.js" as="script"><link rel="prefetch" href="/assets/apache_common.html-BdkrIOJT.js" as="script"><link rel="prefetch" href="/assets/file.html-CIXOMEA_.js" as="script"><link rel="prefetch" href="/assets/file_utils.html-bvy9DwYO.js" as="script"><link rel="prefetch" href="/assets/hutool.html-CZttuVdA.js" as="script"><link rel="prefetch" href="/assets/index.html-ks7okvr6.js" as="script"><link rel="prefetch" href="/assets/index.html-CTy9oFso.js" as="script"><link rel="prefetch" href="/assets/tencent-nginx.html-BGhRX3Bs.js" as="script"><link rel="prefetch" href="/assets/tencent.html-Cs5qM0E8.js" as="script"><link rel="prefetch" href="/assets/index.html-bgqS-ppr.js" as="script"><link rel="prefetch" href="/assets/nginx-load-balance.html-CrpPnW9E.js" as="script"><link rel="prefetch" href="/assets/nginx-problem.html-Bs23tQKB.js" as="script"><link rel="prefetch" href="/assets/nginx.html-DuDTRONK.js" as="script"><link rel="prefetch" href="/assets/index.html-Bge2dZlw.js" as="script"><link rel="prefetch" href="/assets/index.html-kdYzpy9o.js" as="script"><link rel="prefetch" href="/assets/GitHub-Pages-Hexo搭建个人网站.html-Bl0yeUsH.js" as="script"><link rel="prefetch" href="/assets/Next主题个性化配置.html-9USUm42R.js" as="script"><link rel="prefetch" href="/assets/【Hexo】更高级的Markdown渲染器.html-BmNOjS5h.js" as="script"><link rel="prefetch" href="/assets/index.html-UayIL7OJ.js" as="script"><link rel="prefetch" href="/assets/spring-boot-hello-world-intro.html-BZlhk4lV.js" as="script"><link rel="prefetch" href="/assets/spring-boot-hello-world.html-BfnyHUrJ.js" as="script"><link rel="prefetch" href="/assets/spring-boot-hikaricp.html-C-A5WTlk.js" as="script"><link rel="prefetch" href="/assets/spring-boot-oracle.html-Dd8w173b.js" as="script"><link rel="prefetch" href="/assets/spring-boot-redis-intro.html-CKsqTjwi.js" as="script"><link rel="prefetch" href="/assets/spring-boot-redis.html-BEVsCUbF.js" as="script"><link rel="prefetch" href="/assets/spring-boot.html-BBtyIqW2.js" as="script"><link rel="prefetch" href="/assets/spring-framework-aop-impi.html-Cu3SRoQq.js" as="script"><link rel="prefetch" href="/assets/spring-framework-aop.html-CmgDIlb_.js" as="script"><link rel="prefetch" href="/assets/spring-framework-ioc-impi.html-BbCWjYxt.js" as="script"><link rel="prefetch" href="/assets/spring-framework-ioc.html-DeBSHS0-.js" as="script"><link rel="prefetch" href="/assets/spring-framework.html-DtRPN8JF.js" as="script"><link rel="prefetch" href="/assets/spring-mvc.html-CXAsQOhQ.js" as="script"><link rel="prefetch" href="/assets/index.html-CUuwoHQN.js" as="script"><link rel="prefetch" href="/assets/index.html-Br8EUqIs.js" as="script"><link rel="prefetch" href="/assets/microservices.html-jHM0EK_9.js" as="script"><link rel="prefetch" href="/assets/mockito-advanced.html-DI_Auo41.js" as="script"><link rel="prefetch" href="/assets/spring-boot.html-CyZ6UlVn.js" as="script"><link rel="prefetch" href="/assets/testcontainers-mysql.html-BneMg5-z.js" as="script"><link rel="prefetch" href="/assets/assertj.html-IFO5yWJ8.js" as="script"><link rel="prefetch" href="/assets/cucumber.html-Cigxn8I4.js" as="script"><link rel="prefetch" href="/assets/junit-5.html-Bch49r9Y.js" as="script"><link rel="prefetch" href="/assets/mockito.html-DnErdkm7.js" as="script"><link rel="prefetch" href="/assets/n8n-springboot.html-CsiZSLKt.js" as="script"><link rel="prefetch" href="/assets/rest-assured.html-DUB94nuV.js" as="script"><link rel="prefetch" href="/assets/selenium.html-BMNDr0Pz.js" as="script"><link rel="prefetch" href="/assets/spring-boot-test.html-C-aD0CSl.js" as="script"><link rel="prefetch" href="/assets/testcontainers.html-BMJ_U1ZQ.js" as="script"><link rel="prefetch" href="/assets/testng.html-BKiSakXD.js" as="script"><link rel="prefetch" href="/assets/ai-testing.html-CibmK-WQ.js" as="script"><link rel="prefetch" href="/assets/e2e-testing.html-Bkaf0mcl.js" as="script"><link rel="prefetch" href="/assets/integration-testing.html-DjTsGCKE.js" as="script"><link rel="prefetch" href="/assets/tdd.html-B390TVMs.js" as="script"><link rel="prefetch" href="/assets/test-coverage.html-DMKUEU9v.js" as="script"><link rel="prefetch" href="/assets/unit-testing.html-C5Ug2fZb.js" as="script"><link rel="prefetch" href="/assets/jacoco.html-CRqWZ1Fy.js" as="script"><link rel="prefetch" href="/assets/pitest.html-XBoovstV.js" as="script"><link rel="prefetch" href="/assets/sonarqube.html-CnvxNtbB.js" as="script"><link rel="prefetch" href="/assets/index.html-u3S98lZW.js" as="script"><link rel="prefetch" href="/assets/requirement_v1.html-BNj2-uPM.js" as="script"><link rel="prefetch" href="/assets/MiniCPM.html-Cuf_ltuU.js" as="script"><link rel="prefetch" href="/assets/index.html-DERVWiqO.js" as="script"><link rel="prefetch" href="/assets/snowflake.html-BfIOgxvR.js" as="script"><link rel="prefetch" href="/assets/zab.html-BDIZvSGG.js" as="script"><link rel="prefetch" href="/assets/asymmetric-encryption-pki.html-BollgKZm.js" as="script"><link rel="prefetch" href="/assets/crypto-algorithm-security-analysis.html-DyqjJDyk.js" as="script"><link rel="prefetch" href="/assets/digital-signature.html-BYzCwC08.js" as="script"><link rel="prefetch" href="/assets/hash-function-integrity.html-CAQmKaFP.js" as="script"><link rel="prefetch" href="/assets/index.html-Da01UHY1.js" as="script"><link rel="prefetch" href="/assets/message-authentication-code.html-CRqU8nXr.js" as="script"><link rel="prefetch" href="/assets/modern-crypto-protocols.html-CsZDy7m0.js" as="script"><link rel="prefetch" href="/assets/post-quantum-cryptography.html-Dk13GQKA.js" as="script"><link rel="prefetch" href="/assets/rsa.html-ByHH-d4W.js" as="script"><link rel="prefetch" href="/assets/symmetric-encryption.html-9CSTW4yP.js" as="script"><link rel="prefetch" href="/assets/asm-bytecode-compatibility.html-Dk4NcclP.js" as="script"><link rel="prefetch" href="/assets/asm-introduction.html-D8YxaXzW.js" as="script"><link rel="prefetch" href="/assets/index.html-X4g8P_gC.js" as="script"><link rel="prefetch" href="/assets/jvm-bytecode-instructions.html-Dx855V3d.js" as="script"><link rel="prefetch" href="/assets/diagnostic-jcmd.html-B7dXn2L8.js" as="script"><link rel="prefetch" href="/assets/diagnostic-jinfo.html-D0eyvUW5.js" as="script"><link rel="prefetch" href="/assets/diagnostic-jmap.html-BLA9UpsS.js" as="script"><link rel="prefetch" href="/assets/diagnostic-jps.html-DhUOEiGX.js" as="script"><link rel="prefetch" href="/assets/diagnostic-jstack.html-Pidj_W15.js" as="script"><link rel="prefetch" href="/assets/diagnostic-jstat.html-G7stML3V.js" as="script"><link rel="prefetch" href="/assets/diagnostic-jstatd.html-CNtIP__R.js" as="script"><link rel="prefetch" href="/assets/index.html-CcdQayH4.js" as="script"><link rel="prefetch" href="/assets/memory-tools.html-CKnuvcNu.js" as="script"><link rel="prefetch" href="/assets/profiling-async-profiler.html-D2W8ILkK.js" as="script"><link rel="prefetch" href="/assets/profiling-jfr.html-BjGcn7Rd.js" as="script"><link rel="prefetch" href="/assets/profiling-jmc.html-D4pS_oSk.js" as="script"><link rel="prefetch" href="/assets/profiling-tools.html-HMVArgVs.js" as="script"><link rel="prefetch" href="/assets/profiling-visualvm.html-DLu3Oz8O.js" as="script"><link rel="prefetch" href="/assets/system-tools.html-Dy4_WcKk.js" as="script"><link rel="prefetch" href="/assets/g1.html-CPQRSvXN.js" as="script"><link rel="prefetch" href="/assets/index.html-BkBPyFCd.js" as="script"><link rel="prefetch" href="/assets/shenandoah-gc.html-BK5_nJMQ.js" as="script"><link rel="prefetch" href="/assets/zgc.html-DNW5eDeN.js" as="script"><link rel="prefetch" href="/assets/fastjson2.html-CAbEmcB6.js" as="script"><link rel="prefetch" href="/assets/jackson.html-Cv1UpK-4.js" as="script"><link rel="prefetch" href="/assets/index.html-mqKz_Dq3.js" as="script"><link rel="prefetch" href="/assets/itexpdf.html-DKxw5orx.js" as="script"><link rel="prefetch" href="/assets/index.html-XyMnKqem.js" as="script"><link rel="prefetch" href="/assets/multi-tenant.html-gHZZW0-R.js" as="script"><link rel="prefetch" href="/assets/how-it-word.html-DQ1dkE5w.js" as="script"><link rel="prefetch" href="/assets/index.html-C9Fni0zf.js" as="script"><link rel="prefetch" href="/assets/index.html-BQcLCp-C.js" as="script"><link rel="prefetch" href="/assets/constraint.html-bsJ52vzL.js" as="script"><link rel="prefetch" href="/assets/cursor.html-D0l69MTI.js" as="script"><link rel="prefetch" href="/assets/cursor_intro.html-D1xsUpuX.js" as="script"><link rel="prefetch" href="/assets/index.html-C6XlXbBN.js" as="script"><link rel="prefetch" href="/assets/merge-rows.html-CNYk3M4A.js" as="script"><link rel="prefetch" href="/assets/optimize.html-Cwku_9gE.js" as="script"><link rel="prefetch" href="/assets/oracle-job-mview.html-DPU49HJ6.js" as="script"><link rel="prefetch" href="/assets/oracle-mview-issue.html-C7gcU91R.js" as="script"><link rel="prefetch" href="/assets/procedure.html-Bx78zm1e.js" as="script"><link rel="prefetch" href="/assets/sql.html-Cs-B4X12.js" as="script"><link rel="prefetch" href="/assets/sql_index.html-CO8B1I5D.js" as="script"><link rel="prefetch" href="/assets/trigger.html-DtYPSCSS.js" as="script"><link rel="prefetch" href="/assets/index.html-CRmcyReD.js" as="script"><link rel="prefetch" href="/assets/index.html-CEKY6GzN.js" as="script"><link rel="prefetch" href="/assets/index.html-DSzJUQYl.js" as="script"><link rel="prefetch" href="/assets/index.html-wtjoLRct.js" as="script"><link rel="prefetch" href="/assets/404.html-Cz5CtYhV.js" as="script"><link rel="prefetch" href="/assets/index.html-DIaou6_r.js" as="script"><link rel="prefetch" href="/assets/index.html-B_SO6l26.js" as="script"><link rel="prefetch" href="/assets/index.html-CFugWzoq.js" as="script"><link rel="prefetch" href="/assets/index.html-Bpjb7oU-.js" as="script"><link rel="prefetch" href="/assets/index.html-wKH1OOUq.js" as="script"><link rel="prefetch" href="/assets/index.html-BggLMDZ_.js" as="script"><link rel="prefetch" href="/assets/index.html-mbof122a.js" as="script"><link rel="prefetch" href="/assets/index.html-q1i-UNeM.js" as="script"><link rel="prefetch" href="/assets/index.html-FB0tK6qG.js" as="script"><link rel="prefetch" href="/assets/index.html-Bpjb7oU-.js" as="script"><link rel="prefetch" href="/assets/index.html-wKH1OOUq.js" as="script"><link rel="prefetch" href="/assets/index.html-DIsN-ifs.js" as="script"><link rel="prefetch" href="/assets/index.html-CJGWyisS.js" as="script"><link rel="prefetch" href="/assets/index.html-jX7gB30v.js" as="script"><link rel="prefetch" href="/assets/index.html-DxlgL5Jl.js" as="script"><link rel="prefetch" href="/assets/index.html-C2nc6vGL.js" as="script"><link rel="prefetch" href="/assets/index.html-DTJIU8H9.js" as="script"><link rel="prefetch" href="/assets/index.html-AJYUhq7W.js" as="script"><link rel="prefetch" href="/assets/index.html-4EfqHrry.js" as="script"><link rel="prefetch" href="/assets/index.html-WacU9Q53.js" as="script"><link rel="prefetch" href="/assets/index.html-AdBmK8fA.js" as="script"><link rel="prefetch" href="/assets/index.html-CoZuteTx.js" as="script"><link rel="prefetch" href="/assets/index.html-BWwR1IRS.js" as="script"><link rel="prefetch" href="/assets/index.html-CNZvuQfI.js" as="script"><link rel="prefetch" href="/assets/index.html-Cw9pUrfc.js" as="script"><link rel="prefetch" href="/assets/index.html-DCJjrCYo.js" as="script"><link rel="prefetch" href="/assets/index.html-C-BCGB-3.js" as="script"><link rel="prefetch" href="/assets/index.html-B6hUWOO5.js" as="script"><link rel="prefetch" href="/assets/index.html-C2IEgwcH.js" as="script"><link rel="prefetch" href="/assets/index.html-CcVuZ19g.js" as="script"><link rel="prefetch" href="/assets/index.html-BF8WksTN.js" as="script"><link rel="prefetch" href="/assets/index.html-T0Nx75nA.js" as="script"><link rel="prefetch" href="/assets/index.html-CUAL30b1.js" as="script"><link rel="prefetch" href="/assets/index.html-DTmj7fT3.js" as="script"><link rel="prefetch" href="/assets/index-YsyrxmwF.js" as="script"><link rel="prefetch" href="/assets/mermaid.esm.min-CEjZKp_y.js" as="script">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="vp-theme-container no-sidebar external-link-icon" vp-container><!--[--><header class="vp-navbar" vp-navbar><div class="vp-toggle-sidebar-button" title="toggle sidebar" aria-expanded="false" role="button" tabindex="0"><div class="icon" aria-hidden="true"><span></span><span></span><span></span></div></div><span><a class="route-link" href="/"><img class="vp-site-logo" src="/images/logo.png" alt="Java 后端知识库"><span class="vp-site-name vp-hide-mobile" aria-hidden="true">Java 后端知识库</span></a></span><div class="vp-navbar-items-wrapper" style=""><!--[--><!--]--><nav class="vp-navbar-items vp-hide-mobile" aria-label="site navigation"><!--[--><div class="vp-navbar-item"><a class="route-link auto-link" href="/resource/" aria-label="资源"><!--[--><!--[--><!--]--><!--]-->资源<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><div class="vp-navbar-dropdown-wrapper"><button class="vp-navbar-dropdown-title" type="button" aria-label="Java"><span class="title">Java</span><span class="arrow down"></span></button><button class="vp-navbar-dropdown-title-mobile" type="button" aria-label="Java"><span class="title">Java</span><span class="right arrow"></span></button><ul class="vp-navbar-dropdown" style="display:none;"><!--[--><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/java/" aria-label="Java 笔记"><!--[--><!--[--><!--]--><!--]-->Java 笔记<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/test/" aria-label="测试工程"><!--[--><!--[--><!--]--><!--]-->测试工程<!--[--><!--[--><!--]--><!--]--></a></li><!--]--></ul></div></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/posts/spring/" aria-label="Spring"><!--[--><!--[--><!--]--><!--]-->Spring<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/posts/db/" aria-label="数据库"><!--[--><!--[--><!--]--><!--]-->数据库<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/arch/" aria-label="架构"><!--[--><!--[--><!--]--><!--]-->架构<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/algorithm/" aria-label="算法"><!--[--><!--[--><!--]--><!--]-->算法<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/linux/command.html" aria-label="Linux"><!--[--><!--[--><!--]--><!--]-->Linux<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/git/" aria-label="Git"><!--[--><!--[--><!--]--><!--]-->Git<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/vuepress/" aria-label="VuePress"><!--[--><!--[--><!--]--><!--]-->VuePress<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><div class="vp-navbar-dropdown-wrapper"><button class="vp-navbar-dropdown-title" type="button" aria-label="杂项"><span class="title">杂项</span><span class="arrow down"></span></button><button class="vp-navbar-dropdown-title-mobile" type="button" aria-label="杂项"><span class="title">杂项</span><span class="right arrow"></span></button><ul class="vp-navbar-dropdown" style="display:none;"><!--[--><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/web/" aria-label="Web"><!--[--><!--[--><!--]--><!--]-->Web<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/python/" aria-label="Python"><!--[--><!--[--><!--]--><!--]-->Python<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/ai/" aria-label="AI"><!--[--><!--[--><!--]--><!--]-->AI<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/language-comparison/" aria-label="语言对比"><!--[--><!--[--><!--]--><!--]-->语言对比<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/others/" aria-label="其他"><!--[--><!--[--><!--]--><!--]-->其他<!--[--><!--[--><!--]--><!--]--></a></li><!--]--></ul></div></div><!--]--></nav><!--[--><!--]--><button type="button" class="vp-toggle-color-mode-button" title="toggle color mode"><svg class="light-icon" viewbox="0 0 32 32" style=""><path d="M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6z" fill="currentColor"></path><path d="M5.394 6.813l1.414-1.415l3.506 3.506L8.9 10.318z" fill="currentColor"></path><path d="M2 15.005h5v2H2z" fill="currentColor"></path><path d="M5.394 25.197L8.9 21.691l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 25.005h2v5h-2z" fill="currentColor"></path><path d="M21.687 23.106l1.414-1.415l3.506 3.506l-1.414 1.414z" fill="currentColor"></path><path d="M25 15.005h5v2h-5z" fill="currentColor"></path><path d="M21.687 8.904l3.506-3.506l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 2.005h2v5h-2z" fill="currentColor"></path></svg><svg class="dark-icon" viewbox="0 0 32 32" style="display:none;"><path d="M13.502 5.414a15.075 15.075 0 0 0 11.594 18.194a11.113 11.113 0 0 1-7.975 3.39c-.138 0-.278.005-.418 0a11.094 11.094 0 0 1-3.2-21.584M14.98 3a1.002 1.002 0 0 0-.175.016a13.096 13.096 0 0 0 1.825 25.981c.164.006.328 0 .49 0a13.072 13.072 0 0 0 10.703-5.555a1.01 1.01 0 0 0-.783-1.565A13.08 13.08 0 0 1 15.89 4.38A1.015 1.015 0 0 0 14.98 3z" fill="currentColor"></path></svg></button><!----></div></header><!--]--><div class="vp-sidebar-mask"></div><!--[--><aside class="vp-sidebar" vp-sidebar><nav class="vp-navbar-items" aria-label="site navigation"><!--[--><div class="vp-navbar-item"><a class="route-link auto-link" href="/resource/" aria-label="资源"><!--[--><!--[--><!--]--><!--]-->资源<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><div class="vp-navbar-dropdown-wrapper"><button class="vp-navbar-dropdown-title" type="button" aria-label="Java"><span class="title">Java</span><span class="arrow down"></span></button><button class="vp-navbar-dropdown-title-mobile" type="button" aria-label="Java"><span class="title">Java</span><span class="right arrow"></span></button><ul class="vp-navbar-dropdown" style="display:none;"><!--[--><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/java/" aria-label="Java 笔记"><!--[--><!--[--><!--]--><!--]-->Java 笔记<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/test/" aria-label="测试工程"><!--[--><!--[--><!--]--><!--]-->测试工程<!--[--><!--[--><!--]--><!--]--></a></li><!--]--></ul></div></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/posts/spring/" aria-label="Spring"><!--[--><!--[--><!--]--><!--]-->Spring<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/posts/db/" aria-label="数据库"><!--[--><!--[--><!--]--><!--]-->数据库<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/arch/" aria-label="架构"><!--[--><!--[--><!--]--><!--]-->架构<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/algorithm/" aria-label="算法"><!--[--><!--[--><!--]--><!--]-->算法<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/linux/command.html" aria-label="Linux"><!--[--><!--[--><!--]--><!--]-->Linux<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/git/" aria-label="Git"><!--[--><!--[--><!--]--><!--]-->Git<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><a class="route-link auto-link" href="/vuepress/" aria-label="VuePress"><!--[--><!--[--><!--]--><!--]-->VuePress<!--[--><!--[--><!--]--><!--]--></a></div><div class="vp-navbar-item"><div class="vp-navbar-dropdown-wrapper"><button class="vp-navbar-dropdown-title" type="button" aria-label="杂项"><span class="title">杂项</span><span class="arrow down"></span></button><button class="vp-navbar-dropdown-title-mobile" type="button" aria-label="杂项"><span class="title">杂项</span><span class="right arrow"></span></button><ul class="vp-navbar-dropdown" style="display:none;"><!--[--><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/web/" aria-label="Web"><!--[--><!--[--><!--]--><!--]-->Web<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/python/" aria-label="Python"><!--[--><!--[--><!--]--><!--]-->Python<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/ai/" aria-label="AI"><!--[--><!--[--><!--]--><!--]-->AI<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/language-comparison/" aria-label="语言对比"><!--[--><!--[--><!--]--><!--]-->语言对比<!--[--><!--[--><!--]--><!--]--></a></li><li class="vp-navbar-dropdown-item"><a class="route-link auto-link" href="/others/" aria-label="其他"><!--[--><!--[--><!--]--><!--]-->其他<!--[--><!--[--><!--]--><!--]--></a></li><!--]--></ul></div></div><!--]--></nav><!--[--><!--]--><!----><!--[--><!--]--></aside><!--]--><!--[--><main class="page"><h1 class="timeline-title">Timeline</h1><div class="article-wrapper"><!----><!--[--><article class="article"><header class="title">7/24/2025: SQL语法基础</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, sql</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>变量</h2>
+<h3>查询变量</h3>
+
+<h3>设置变量</h3>
+
+<h2>NULL</h2>
+<p>NULL 表示未知值，与 0、空字符串不同：</p>
+<ul>
+<li>NULL 与任何值比较(=, &lt;, &gt;, &lt;=, &gt;=, &lt;&gt;)，结果都为 NULL
+<ul>
+<li>NULL = 1 返回 NULL</li>
+<li>NULL = NULL 返回 NULL</li>
+<li>NULL &lt;&gt; 1 返回 NULL</li>
+<li>NULL &gt; 1 返回 NULL</li>
+</ul>
+</li>
+<li>NULL 参与计算，结果为 NULL
+<ul>
+<li>加法：NULL + 1 = NULL</li>
+<li>减法：NULL - 1 = NULL</li>
+<li>乘法：NULL * 1 = NULL</li>
+<li>除法：NULL / 1 = NULL</li>
+</ul>
+</li>
+<li>NULL 参与逻辑运算
+<ul>
+<li>NULL IN 返回 NULL 而不是 FALSE</li>
+<li>NOT NULL 返回 NULL 而不是 TRUE</li>
+<li>NULL OR TRUE 返回 TRUE</li>
+<li>NULL OR FALSE 返回 NULL</li>
+</ul>
+</li>
+<li>NULL 参与日期计算，结果为 NULL</li>
+<li>NULL 参与字符串连接，Oracle 会将其视为空字符串（''），其他数据库如SQL Server结果为 NULL</li>
+</ul></div></article><article class="article"><header class="title">7/24/2025: SQL优化</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, optimize</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<div class="hint-container tip">
+<p class="hint-container-title">提示</p>
+<p>本文主要给出一些通用的优化建议，包括索引相关、字段相关和查询相关的优化建议，最后给出了大表优化的建议，这部分根据实际情况判断是否需要优化。</p>
+</div>
+<h2>索引相关</h2>
+<h3>负向查询不能使用索引</h3>
+<p>避免not in，not exists，&lt;&gt;，!=，is null，is not null等负向查询，负向条件通常需要全表扫描来验证。</p>
+<ul>
+<li>优化器难以使用索引（特别是对NOT IN和NOT EXISTS）</li>
+<li>对于大数据集，NOT EXISTS通常比NOT IN性能更好</li>
+<li>IS NULL/IS NOT NULL在某些数据库中对索引使用有限制</li>
+</ul></div></article><article class="article"><header class="title">7/18/2025: 数据库基础</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, base, how-it-word</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+</div></article><article class="article"><header class="title">7/18/2025: 关系型数据库原理</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, base, how-it-word</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>全局概览</h2>
+<h3>核心组件</h3>
+<ul>
+<li>进程管理器：为了实现纳秒级操作，一些现代数据库使用自己的线程</li>
+<li>网络管理器：对于分布式数据库来说网路I/O是个大问题</li>
+<li>文件系统管理器：磁盘I/O是数据库的首要瓶颈</li>
+<li>内存管理器：为了避免磁盘I/O带来的性能随时，需要大量的内存</li>
+<li>安全管理器：用于对用户的验证和授权</li>
+<li><strong>客户端管理器</strong>：用于管理客户端连接</li>
+</ul>
+<h3>工具</h3>
+<ul>
+<li>备份管理器：用于备份和恢复数据</li>
+<li>恢复管理器：用于崩溃后重启数据库到一个抑制状态</li>
+<li>监控管理器：用于记录数据库活动信息和提供监控数据库的工具</li>
+<li>管理员管理器：用于保存元数据（比如表的名称和结构），提供管理数据库、模式、表空间的工具</li>
+</ul></div></article><article class="article"><header class="title">7/7/2025: ElasticSearch</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, nosql, elasticsearch</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+</div></article><article class="article"><header class="title">7/7/2025: Redis</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, nosql, redis</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+</div></article><article class="article"><header class="title">7/7/2025: MongoDB</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, nosql, mongo-db</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+</div></article><article class="article"><header class="title">7/7/2025: NoSQL</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, nosql, redis</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>Redis</h2>
+<h2>MongoDB</h2>
+<h2>ElasticSearch</h2>
+</div></article><article class="article"><header class="title">7/7/2025: 存储过程</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, procedure</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>什么是存储过程？</h2>
+<p>存储过程（Stored Procedure）是一种数据库对象，它存储在数据库中，可以像函数一样被调用，执行存储过程中的代码。存储过程可以减少网络通信，提高数据库的性能。</p>
+<p>存储过程具有以下优点：</p>
+<ul>
+<li>简单：把数据处理封装在一个易用的单元中，可以简化复杂的操作。</li>
+<li>安全：通过存储过程限制对基础数据的访问，减少了数据误修改。</li>
+<li>高性能：存储过程通常以编译过的形式存储，所以 DBMS 处理命令所需的工作量少，提高了性能。</li>
+</ul>
+<h2>创建存储过程</h2>
+<p>创建存储过程的语法如下：</p></div></article><article class="article"><header class="title">7/7/2025: 触发器</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, trigger</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>创建触发器</h2>
+<p>基础语法：</p>
+<div class="language-sql line-numbers-mode" data-highlighter="prismjs" data-ext="sql"><pre><code><span class="line"><span class="token keyword">CREATE</span> <span class="token operator">OR</span> <span class="token keyword">REPLACE</span> <span class="token keyword">TRIGGER</span> trigger_name</span>
+<span class="line">BEFORE <span class="token keyword">INSERT</span> <span class="token operator">OR</span> <span class="token keyword">UPDATE</span> <span class="token operator">OR</span> <span class="token keyword">DELETE</span> <span class="token keyword">ON</span> table_name</span>
+<span class="line"><span class="token keyword">FOR EACH ROW</span></span>
+<span class="line"><span class="token keyword">BEGIN</span></span>
+<span class="line">    <span class="token comment">-- trigger body</span></span>
+<span class="line"><span class="token keyword">END</span><span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></article><article class="article"><header class="title">7/7/2025: 索引</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, sql_index</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>索引类型</h2>
+<p>按照功能分类，索引可分为以下几类：</p>
+<ol>
+<li>普通索引：不唯一的索引，允许有空值<code>CREATE INDEX idx_name ON table_name(column)</code></li>
+<li>唯一索引：保证索引列不重复，但允许有空值<code>CREATE UNIQUE INDEX idx_name ON table_name(column)</code></li>
+<li>主键索引：特殊的唯一索引，不允许有空值 <code>ALTER TABLE table_name ADD PRIMARY KEY (column1)</code></li>
+<li>组合索引：多个列组合在一起的索引 <code>CREATE INDEX idx_name ON table_name(column1, column2)</code></li>
+<li>函数索引：基于表达式或函数的索引 <code>CREATE INDEX idx_name ON table_name(UPPER(column1))</code></li>
+<li>覆盖索引：索引列包含查询列的数据，不需要回表查询 <code>CREATE INDEX idx_name ON table_name(column1) INCLUDE (column2, column3)</code></li>
+</ol></div></article><article class="article"><header class="title">7/4/2025: 约束</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, constraint</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>创建表时定义约束</h2>
+<div class="hint-container tip">
+<p class="hint-container-title">提示</p>
+<p>MySQL 定义约束时，除NOT NULL外，约束单独一行，放在字段定义后面。
+SQL Server/Oracle 定义约束时，除CHECK外，约束与字段定义在同一行。
+根据是否有名称，约束可分为匿名约束和命名约束。</p>
+</div>
+<h3>单个约束</h3>
+<p>基本语法：</p>
+<div class="language-sql line-numbers-mode" data-highlighter="prismjs" data-ext="sql"><pre><code><span class="line"><span class="token keyword">CONSTRAINT</span> <span class="token punctuation">[</span>constraint_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>constraint_type<span class="token punctuation">]</span> <span class="token punctuation">(</span>parameter_list<span class="token punctuation">)</span></span>
+<span class="line">参数说明：</span>
+<span class="line"><span class="token punctuation">[</span>constraint_name<span class="token punctuation">]</span> 约束名称，可选</span>
+<span class="line">当不指定约束名称时，<span class="token keyword">CONSTRAINT</span> 关键字可以省略</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></article><article class="article"><header class="title">7/3/2025: PL/SQL</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, pl_sql</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<p>PL/SQL（Procedural Language extensions to SQL）是 Oracle 数据库的过程化编程语言，它扩展了 SQL，使其支持：</p>
+<ul>
+<li>变量、条件判断、循环（过程化编程）</li>
+<li>异常处理（错误管理）</li>
+<li>存储过程、函数、触发器（模块化编程）</li>
+<li>游标（逐行处理查询结果）</li>
+</ul>
+<h2>基本结构</h2>
+<p>PL/SQL 代码由 块（Block） 组成，分为：</p>
+<ul>
+<li>匿名块（临时执行）</li>
+<li>命名块（存储过程、函数等）</li>
+</ul>
+<p>匿名块的语法如下：</p></div></article><article class="article"><header class="title">7/3/2025: 数据库</header><hr><div class="article-info"><!----><!----><span class="category">Category: db</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>数据库架构设计</h2>
+<h2>SQL</h2>
+</div></article><article class="article"><header class="title">7/3/2025: 游标介绍</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, cursor</span><span class="tag">Tag: </span></div><div class="excerpt"><p>简单地使用 SELECT 语句，没有办法得到上一行、下一行或前 10 行，有时需要在检索出来的行中前进或后退一行或多行，这时就需要使用游标（Cursor）。游标（Cursor）不是一条SELECT语句，而是被该语句检索出来的结果集，使用游标之后，应用程序可以根据需要滚动或浏览其中的数据。游标主要用于存储过程、触发器或编程语言（如 PL/SQL、T-SQL）中，用于遍历结果集并逐行操作数据。</p>
+</div></article><article class="article"><header class="title">7/3/2025: SQL</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>SQL 语法基础</h2>
+<h2>SQL 优化</h2>
+</div></article><article class="article"><header class="title">7/3/2025: 游标</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, sql, cursor</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<!-- TODO 滚动游标 -->
+<h2>游标的概念</h2>
+<p>简单地使用 SELECT 语句，没有办法得到上一行、下一行或前 10 行，有时需要在检索出来的行中前进或后退一行或多行，这时就需要使用游标（Cursor）。游标（Cursor）不是一条SELECT语句，而是被该语句检索出来的结果集，使用游标之后，应用程序可以根据需要滚动或浏览其中的数据。游标主要用于存储过程、触发器或编程语言（如 PL/SQL、T-SQL）中，用于遍历结果集并逐行操作数据。</p>
+<hr>
+<h2>游标的作用</h2>
+<ol>
+<li>逐行处理数据：适用于大数据量查询，避免内存溢出。</li>
+<li>支持定位更新：可以基于游标位置修改或删除数据。</li>
+<li>支持滚动操作：某些游标可以向前或向后移动（如 <code>SCROLL</code> 游标）。</li>
+<li>适用于复杂业务逻辑：在存储过程中实现多步骤数据处理。</li>
+</ol></div></article><article class="article"><header class="title">6/30/2025: SpringBoot 集成 HikariCP</header><hr><div class="article-info"><!----><!----><span class="category">Category: spring, spring-boot-hikaricp</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<ol>
+<li>
+<p>引入依赖</p>
+<ul>
+<li>Spring Boot Starter 间接引入，以下依赖都会引入 HikariCP 依赖
+<ul>
+<li>spring-boot-starter-jdbc</li>
+<li>spring-boot-starter-data-jpa</li>
+</ul>
+</li>
+<li>Spring Boot 2.x 开始默认使用 HikariCP 作为连接池，隐式引入 HikariCP 依赖</li>
+</ul>
+</li>
+<li>
+<p>如果需要自定义 HikariCP 配置，可在 application.yml 中配置</p>
+</li>
+<li>
+<p>通过 @Bean 注解配置 HikariCP 数据源，并注入 JdbcTemplate 对象</p>
+</li>
+</ol></div></article><article class="article"><header class="title">6/25/2025: 数据库架构设计</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, arch, multi-tenant</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+</div></article><article class="article"><header class="title">6/25/2025: 多租户数据存储</header><hr><div class="article-info"><!----><!----><span class="category">Category: db, arch, multi-tenant</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>什么是多租户</h2>
+<p>多租户技术（multi-tenancy technology）是一种软件架构技术，可以让多个租户共享同一个系统或程序组件，并且仍可确保各用户间数据的隔离性。</p>
+<h2>多租户数据存储实现方式</h2>
+<p>多租户架构在数据存储层面主要有三种实现方式，各有优缺点和适用场景：</p>
+<h2>1. 独立数据库模式</h2>
+<ul>
+<li><strong>描述</strong>：每个租户拥有完全独立的数据库实例</li>
+<li><strong>优点</strong>：
+<ul>
+<li>数据完全隔离，安全性最高</li>
+<li>可针对不同租户进行定制化优化</li>
+<li>故障影响范围小</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>硬件资源消耗大</li>
+<li>维护成本高</li>
+<li>升级迁移复杂</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：对数据隔离要求极高的大型企业客户</li>
+</ul></div></article><article class="article"><header class="title">6/20/2025: 源码解析</header><hr><div class="article-info"><!----><!----><span class="category">Category: framework</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>MyBatis</h2>
+</div></article><article class="article"><header class="title">6/19/2025: SpringBoot 集成 Oracle</header><hr><div class="article-info"><!----><!----><span class="category">Category: spring, spring-boot-oracle</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<div class="hint-container tip">
+<p class="hint-container-title">提示</p>
+<p>本文主要介绍如何在SpringBoot项目中集成Oracle数据库，给出了JPA、MyBatis和MyBatis-Plus三种方式，并对比了它们的优缺点。
+注意，本文仅讨论如何集成，并给出简单的使用示例，进阶功能请参考官方文档。</p>
+</div>
+<h2>JDBC、ORM、JPA、MyBatis对比</h2>
+<p>JDBC（Java Database Connectivity）是Java语言操作关系型数据库的标准API，它允许开发者通过Java程序（而非数据库控制台）执行SQL语句并处理结果。作为Java SE的一部分，JDBC提供了一套与数据库无关的通用接口，具体实现由各数据库厂商的驱动完成。</p></div></article><article class="article"><header class="title">6/19/2025: Spring基础 - SpringMVC</header><hr><div class="article-info"><!----><!----><span class="category">Category: spring, spring-mvc</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+</div></article><article class="article"><header class="title">6/6/2025: spring-boot-redis-intro</header><hr><div class="article-info"><!----><!----><span class="category">Category: spring, spring-boot-redis-intro</span><span class="tag">Tag: </span></div><div class="excerpt"><p>Redis是最常用的KV数据库，Spring 通过模板方式（RedisTemplate）提供了对Redis的数据查询和操作功能。</p>
+<p>Spring Boot 为 Redis 集成提供了开箱即用的支持，通过 spring-boot-starter-data-redis 简化了配置流程。该 starter 会自动配置 Redis 连接工厂和模板类，开发者只需关注业务实现即可。</p>
+<p>在客户端选择方面，Spring Boot 2.x 默认使用高性能的 Lettuce 客户端（支持响应式编程和连接复用），而 1.x 版本则采用 Jedis。</p>
+<p>当存在相关依赖时，还会激活可选功能：</p></div></article><article class="article"><header class="title">6/5/2025: Spring Boot 集成 Redis</header><hr><div class="article-info"><!----><!----><span class="category">Category: spring, spring-boot-redis</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>简介</h2>
+<p>Redis是最常用的KV数据库，Spring 通过模板方式（RedisTemplate）提供了对Redis的数据查询和操作功能。</p>
+<p>Spring Boot 为 Redis 集成提供了开箱即用的支持，通过 spring-boot-starter-data-redis 简化了配置流程。该 starter 会自动配置 Redis 连接工厂和模板类，开发者只需关注业务实现即可。</p>
+<p>在客户端选择方面，Spring Boot 2.x 默认使用高性能的 Lettuce 客户端（支持响应式编程和连接复用），而 1.x 版本则采用 Jedis。</p>
+</div></article><article class="article"><header class="title">6/4/2025: Spring Boot 入门</header><hr><div class="article-info"><!----><!----><span class="category">Category: spring, spring-boot</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>Spring Boot简介</h2>
+<p>SpringBoot采用"约定优于配置"的理念，提供了大量默认配置，开发者只需调修改不符合默认约定的配置即可快速构建应用，无需繁琐的XML配置。</p>
+<p>通过一个简单的HelloWorld示例，可以快速掌握SpringBoot项目的创建、开发、运行和打包流程。其核心特性之一是Starter机制，如spring-boot-starter-data-jpa、spring-boot-starter-web等，这些预置依赖能自动整合相关技术栈，实现开箱即用。</p>
+<p>在开发过程中，常用注解如@SpringBootApplication、@Configuration等简化了配置工作，而属性绑定和组件扫描则进一步提升了开发效率。此外，SpringBoot支持热部署、缓存优化和开发者工具，为调试和测试提供了便利，最终打包生成的独立JAR文件可直接运行，极大简化了部署流程。</p></div></article><article class="article"><header class="title">6/3/2025: Spring AOP 实现原理</header><hr><div class="article-info"><!----><!----><span class="category">Category: Spring, Spring AOP</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<div class="hint-container tip">
+<p class="hint-container-title">提示</p>
+<p>AOP是基于IOC的Bean加载来实现的。</p>
+</div>
+<h2>Spring AOP 初始化过程</h2>
+<ol>
+<li>解析配置并创建<code>AspectJAwareAdvisorAutoProxyCreator</code>，分为XML配置、注解配置和自动注册三种方式，下面以XML配置为例介绍：
+<ol>
+<li>Spring 容器解析 XML 配置文件的过程中会调用</li>
+<li><code>AopNamespaceHandler.init()</code>方法会注册<code>aop:aspectj-autoproxy</code>的解析类：</li>
+<li><code>AspectJAutoProxyBeanDefinitionParser</code>的<code>parse()</code>方法创建了</li>
+</ol>
+</li>
+<li>创建代理：识别需要代理的Bean，如需代理返回代理对象，否则返回原始Bean
+<ol>
+<li><code>AspectJAwareAdvisorAutoProxyCreator</code>实现了接口<code>BeanPostProcessor</code></li>
+<li>创建代理的方法是<code>postProcessAfterInitialization</code>：如果bean被子类标识为代理，则使用配置的拦截器创建一个代理；否则返回原始Bean。</li>
+</ol>
+</li>
+<li>生成代理：代理对象的实际创建/生成过程，Spring AOP支持两种代理方式：
+<ol>
+<li>JDK动态代理</li>
+<li>CGLIB代理</li>
+</ol>
+</li>
+<li>拦截器链构建
+<ol>
+<li>将各种通知类型（Before、After等）转换为MethodInterceptor</li>
+<li>跟据通知的优先级和顺序注解(@Order)排序：@Around → @Before → @After → @AfterReturning/@AfterThrowing</li>
+<li>代理对象增强：生成的代理对象内部包含原始对象和拦截器链，方法调用时，会按顺序执行拦截器链</li>
+</ol>
+</li>
+</ol></div></article><article class="article"><header class="title">5/14/2025: Spring核心 - AOP</header><hr><div class="article-info"><!----><!----><span class="category">Category: Spring, Spring Framework, AOP</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>AOP是什么</h2>
+<p>AOP是Aspect Oriented Programming的缩写，意为：面向切面编程。面向切面编程是指将相同逻辑的重复代码横向抽取出来，使用预编译、代理等技术将这些重复代码织入到目标对象方法中，实现和原来一样的功能。这样一来，我们就在写业务时只关心业务代码，而不用关心与业务无关的代码。</p>
+<h2>AOP术语</h2>
+<ul>
+<li>连接点JoinPoint：方法的执行</li>
+<li>织入Weaving：切面应用到目标对象的过程
+<ul>
+<li>切面Aspect：应该使用哪个通知并在哪个关注点使用它
+<ul>
+<li>切入点PointCut：匹配连接点的条件</li>
+<li>通知Advice：做什么+何时做</li>
+</ul>
+</li>
+<li>目标对象Target ：真正执行业务的核心逻辑对象</li>
+</ul>
+</li>
+</ul></div></article><article class="article"><header class="title">5/14/2025: Spring Boot 知识体系</header><hr><div class="article-info"><!----><!----><span class="category">Category: Spring, Spring Boot</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>Spring Boot 入门</h2>
+<p>SpringBoot采用"约定优于配置"的理念，提供了大量默认配置，开发者只需调修改不符合默认约定的配置即可快速构建应用，无需繁琐的XML配置。</p>
+<p>通过一个简单的HelloWorld示例，可以快速掌握SpringBoot项目的创建、开发、运行和打包流程。其核心特性之一是Starter机制，如spring-boot-starter-data-jpa、spring-boot-starter-web等，这些预置依赖能自动整合相关技术栈，实现开箱即用。</p>
+<p>在开发过程中，常用注解如@SpringBootApplication、@Configuration等简化了配置工作，而属性绑定和组件扫描则进一步提升了开发效率。此外，SpringBoot支持热部署、缓存优化和开发者工具，为调试和测试提供了便利，最终打包生成的独立JAR文件可直接运行，极大简化了部署流程。</p></div></article><article class="article"><header class="title">5/12/2025: Spring IoC 实现原理</header><hr><div class="article-info"><!----><!----><span class="category">Category: Spring, Spring Framework, IoC</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>IoC 体系结构设计</h2>
+<h3>BeanFactory 定义了IoC容器基本功能规范</h3>
+<p>BeanFactory 作为最顶层的接口，定义了IoC容器基本功能规范：</p>
+<ul>
+<li>getBean()：提供多个重载方法，根据bean名称、bean类型等参数获取bean实例</li>
+<li>containsBean(String name)：判断是否包含指定名称的bean</li>
+<li>isSingleton(String name)：判断bean是否为单例模式</li>
+<li>isPrototype(String name)：判断bean是否为原型模式</li>
+<li>isTypeMatch(String name, typeToMatch)：提供多个重载方法，判断bean类型是否匹配</li>
+<li>getType(String name)：获取bean类型</li>
+<li>getAliases(String name)：获取bean的别名
+BeanFactory 有三个子类：ListableBeanFactory、HierarchicalBeanFactory 和AutowireCapableBeanFactory。</li>
+<li>ListableBeanFactory：提供了获取bean名称列表的功能</li>
+<li>HierarchicalBeanFactory：提供了获取父BeanFactory的功能</li>
+<li>AutowireCapableBeanFactory：提供了自动装配功能</li>
+</ul></div></article><article class="article"><header class="title">5/8/2025: Spring核心 - IoC容器</header><hr><div class="article-info"><!----><!----><span class="category">Category: Spring, Spring Framework, IoC</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>容器概述</h2>
+<p><code>ApplicationContext</code> 接口代表 Spring IoC 容器，容器通过读取配置元数据获取指令来实例化、配置并组装 Bean。<br>
+Spring 有两种IoC容器：<code>BeanFactory</code> 和 <code>ApplicationContext</code>。</p>
+<ul>
+<li>BeanFactory就像一个包含 Bean 集合的工厂类。</li>
+<li>ApplicationContext 接口扩展了 BeanFactory 接口，它在 BeanFactory 基础上提供了一些额外的功能。</li>
+</ul></div></article><article class="article"><header class="title">5/7/2025: spring</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt">
+<p>学习 Spring 框架是 Java 开发者进阶的必经之路，因为 Spring 是 Java 生态系统中最流行的企业级应用开发框架。以下是一个详细的学习路线，从基础到高级，逐步深入。</p>
+
+<h2>Spring 核心概念</h2>
+<p>首先， 从Spring框架的整体架构和组成对整体框架有个认知。</p>
+<h3>Spring Framework 简介</h3>
+<ul>
+<li>了解 Spring 框架的历史和核心模块（如 Spring Core、Spring MVC、Spring Data 等）。</li>
+<li>了解 Spring 的核心控制反转（IoC）和面向切面编程（AOP）。</li>
+<li>理解 Spring 的设计理念：控制反转（IoC）和依赖注入（DI）。</li>
+</ul></div></article><article class="article"><header class="title">5/7/2025: spring-boot-hello-world-intro</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt"><p>SpringBoot采用"约定优于配置"的理念，提供了大量默认配置，开发者只需调修改不符合默认约定的配置即可快速构建应用，无需繁琐的XML配置。</p>
+<p>通过一个简单的HelloWorld示例，可以快速掌握SpringBoot项目的创建、开发、运行和打包流程。其核心特性之一是Starter机制，如spring-boot-starter-data-jpa、spring-boot-starter-web等，这些预置依赖能自动整合相关技术栈，实现开箱即用。</p>
+<p>在开发过程中，常用注解如@SpringBootApplication、@Configuration等简化了配置工作，而属性绑定和组件扫描则进一步提升了开发效率。此外，SpringBoot支持热部署、缓存优化和开发者工具，为调试和测试提供了便利，最终打包生成的独立JAR文件可直接运行，极大简化了部署流程。</p></div></article><article class="article"><header class="title">5/7/2025: Spring Framework知识体系</header><hr><div class="article-info"><!----><!----><span class="category">Category: Spring, Spring Framework, AOP</span><span class="tag">Tag: </span></div><div class="excerpt">
+
+<h2>Spring概述</h2>
+<h3>什么是Spring？</h3>
+<p>Spring是构建于Java平台之上的一个开源的控制反转(IoC)和面向切面(AOP)的容器框架。</p>
+<h3>Spring的主要目的是什么？</h3>
+<p>Spring的主要目的是为了简化Java企业级应用的开发。</p>
+<h3>Spring有哪些特性？</h3>
+<ol>
+<li>控制反转（IoC：Inversion of Control）：将对象的创建权交给Spring容器管理，而不是由程序代码直接创建对象，由容器负责管理组件的生命周期。</li>
+<li>依赖注入（DI：Dependency Injection）：是指依赖的对象不需要手动调用 setXX 方法去设置，而是通过配置赋值实现，将对象之间的依赖关系交给Spring容器管理。</li>
+<li>面向切面编程（AOP：Aspect-Oriented Programming）：是一种通过预编译和运行期动态代理实现程序功能的一种技术。通过利用容器提供的AOP技术很容易实现如权限拦截、运行期监控等功能。</li>
+<li>可以使用容器提供的众多服务，如：事务管理服务、消息服务等等。当我们使用容器管理事务时，开发人员就不再需要手工控制事务。也不需处理复杂的事务传播。</li>
+<li>容器提供的众多辅作类，使用这些类能够加快应用的开发，如： JdbcTemplate、 HibernateTemplate。Spring对于主流的应用框架提供了集成支持，如：集成Hibernate、JPA、Struts等，这样更便于应用的开发。</li>
+</ol></div></article><article class="article"><header class="title">4/11/2025: Oracle和MySQL中将多行数据合并为一行</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt"><p>Oracle中将多行数据合并为一行通常使用LISTAGG和XMLAGG函数：</p>
+<ul>
+<li>LISTAGG 有 4000 字节的限制，大数据量使用XMLAGG</li>
+<li>XMLAGG返回的数据是一个 XML 片段，并且末尾包含分隔符，需搭配GETCLOBVAL/XMLCAST和RTRIM函数使用</li>
+</ul>
+<p>MySQL中将多行数据合并为一行通常使用GROUP_CONCAT函数：</p>
+<ul>
+<li>GROUP_CONCAT最大长度限制由group_concat_max_len控制</li>
+</ul>
+<h1>Oracle</h1>
+<h2>LISTAGG</h2></div></article><article class="article"><header class="title">3/31/2025: Oracle 数据库定时任务与物化视图常用命令大全</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt">
+<h2>1. DBMS_JOB 相关命令 (传统方式)</h2>
+<p>注意：所有 DBMS_JOB 操作必须显式提交才会生效</p>
+<div class="language-sql line-numbers-mode" data-highlighter="prismjs" data-ext="sql"><pre><code><span class="line"><span class="token comment">-- 创建定时任务</span></span>
+<span class="line"><span class="token keyword">DECLARE</span></span>
+<span class="line">  job_id NUMBER<span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">BEGIN</span></span>
+<span class="line">  DBMS_JOB<span class="token punctuation">.</span>SUBMIT<span class="token punctuation">(</span></span>
+<span class="line">    job <span class="token operator">=</span><span class="token operator">&gt;</span> job_id<span class="token punctuation">,</span></span>
+<span class="line">    what <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token string">'BEGIN 您的PL/SQL代码; END;'</span><span class="token punctuation">,</span></span>
+<span class="line">    next_date <span class="token operator">=</span><span class="token operator">&gt;</span> SYSDATE<span class="token punctuation">,</span></span>
+<span class="line">    <span class="token keyword">interval</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token string">'SYSDATE+1/24'</span>  <span class="token comment">-- 每小时执行</span></span>
+<span class="line">  <span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">  <span class="token keyword">COMMIT</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">END</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token operator">/</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">-- 修改作业内容</span></span>
+<span class="line"><span class="token keyword">BEGIN</span></span>
+<span class="line">  DBMS_JOB<span class="token punctuation">.</span>WHAT<span class="token punctuation">(</span></span>
+<span class="line">          job  <span class="token operator">=</span><span class="token operator">&gt;</span> job_id<span class="token punctuation">,</span></span>
+<span class="line">          what <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token string">'BEGIN 新的PL/SQL代码; END;'</span></span>
+<span class="line">    <span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">  <span class="token keyword">COMMIT</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">END</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token operator">/</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">-- 修改下次执行时间</span></span>
+<span class="line"><span class="token keyword">BEGIN</span></span>
+<span class="line">  DBMS_JOB<span class="token punctuation">.</span>NEXT_DATE<span class="token punctuation">(</span>job_id<span class="token punctuation">,</span> SYSDATE <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">-- 明天执行</span></span>
+<span class="line">  <span class="token keyword">COMMIT</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">END</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token operator">/</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">-- 修改执行间隔</span></span>
+<span class="line"><span class="token keyword">BEGIN</span></span>
+<span class="line">  DBMS_JOB<span class="token punctuation">.</span><span class="token keyword">INTERVAL</span><span class="token punctuation">(</span>job_id<span class="token punctuation">,</span> <span class="token string">'SYSDATE+1/1440'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">-- 每分钟执行</span></span>
+<span class="line">  <span class="token keyword">COMMIT</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">END</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token operator">/</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">-- 立即执行任务</span></span>
+<span class="line"><span class="token keyword">BEGIN</span></span>
+<span class="line">  DBMS_JOB<span class="token punctuation">.</span>RUN<span class="token punctuation">(</span>job_id<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">  <span class="token keyword">COMMIT</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">END</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token operator">/</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">-- 删除任务</span></span>
+<span class="line"><span class="token keyword">BEGIN</span></span>
+<span class="line">  DBMS_JOB<span class="token punctuation">.</span>REMOVE<span class="token punctuation">(</span>job_id<span class="token punctuation">)</span><span class="token punctuation">;</span></span>
+<span class="line">  <span class="token keyword">COMMIT</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token keyword">END</span><span class="token punctuation">;</span></span>
+<span class="line"><span class="token operator">/</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment">-- 查看所有任务</span></span>
+<span class="line"><span class="token keyword">SELECT</span> job<span class="token punctuation">,</span> what<span class="token punctuation">,</span> next_date<span class="token punctuation">,</span> <span class="token keyword">interval</span><span class="token punctuation">,</span> broken <span class="token keyword">FROM</span> user_jobs<span class="token punctuation">;</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></article><article class="article"><header class="title">3/28/2025: Oracle 数据库物化视图未更新问题分析与解决</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt">
+<p>this_date 非空但长时间不变化：可能作业卡死。
+this_date 为空但 next_date 为过去时间: 可能作业队列进程不足。
+next_date 为过去时间：说明作业调度已经停止运行。</p>
+<h1>原因分析</h1>
+<p>this_date 字段表示：</p>
+<ol>
+<li>当前执行开始时间：记录作业最近一次开始执行的时间戳</li>
+<li>运行中标识：当作业正在执行时，此字段会显示开始时间</li>
+<li>完成状态：作业执行完成后，此字段会被清空（设为NULL）
+所以this_date 非空但长时间不变化可能是作业卡死导致的。</li>
+</ol>
+<p>可能导致next_date为过去时间的原因：</p></div></article><article class="article"><header class="title">3/6/2025: 【Hexo】更高级的Markdown渲染器</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt"><p>Hexo 默认搭配的 Markdown 渲染器为 hexo-renderer-marked，但其实现功能有限，推荐换成<code>hexo-renderer-markdown-it-plus</code>渲染器。</p>
+<h1>切换渲染器</h1>
+<div class="language-bash line-numbers-mode" data-highlighter="prismjs" data-ext="sh"><pre><code><span class="line"><span class="token function">npm</span> uninstall hexo-renderer-marked <span class="token parameter variable">--save</span></span>
+<span class="line"><span class="token function">npm</span> <span class="token function">install</span> hexo-renderer-markdown-it-plus <span class="token parameter variable">--save</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div></div></div></div></article><article class="article"><header class="title">3/6/2025: 【Hexo】Next主题个性化配置</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt">
+<p>修改左侧导航栏，包括关于、标签、分类、归档、日历、站点地图等。默认只有主页，其他页面需要自己添加，包括修改配置文件，添加页面，设置页面类型。</p>
+<h2>修改菜单主题里配置</h2>
+<ol>
+<li>修改主题配置文件<code>themes/_config.yml</code>，放开关于、标签及分类设置
+如果是通过npm安装的主题，主题配置文件路径为<code>node_modules/hexo-theme-next/_config.yml</code>，将路径下的配置文件复制到项目主题目录下</li>
+</ol>
+<div class="language-text line-numbers-mode" data-highlighter="prismjs" data-ext="text"><pre><code><span class="line">menu:</span>
+<span class="line">  home: / || fa fa-home</span>
+<span class="line">  about: /about/ || fa fa-user</span>
+<span class="line">  tags: /tags/ || fa fa-tags</span>
+<span class="line">  categories: /categories/ || fa fa-th</span>
+<span class="line">  #archives: /archives/ || fa fa-archive</span>
+<span class="line">  #schedule: /schedule/ || fa fa-calendar</span>
+<span class="line">  #sitemap: /sitemap.xml || fa fa-sitemap</span>
+<span class="line">  #commonweal: /404/ || fa fa-heartbeat</span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></article><article class="article"><header class="title">3/3/2025: GitHub Pages + Hexo搭建个人网站</header><hr><div class="article-info"><!----><!----><span class="category">Category: </span><span class="tag">Tag: </span></div><div class="excerpt">
+<p>准备一个 GitHub 账号并新建一个仓库，仓库名称为 <code>&lt;username&gt;.github.io</code>。</p>
+<p>安装 Node.js 和 Git。</p>
+<h2>Node</h2>
+<p><strong>hexo需要ES6 模块语法支持, ES6 模块语法在 Node.js 12.x 版本中引入，并在 Node.js 14.x 及更高版本中得到更好的支持。</strong></p>
+<h2>同时使用GitHub和GitLab</h2>
+<h3>为每个平台生成不同的SSH密钥</h3>
+<div class="language-git line-numbers-mode" data-highlighter="prismjs" data-ext="git"><pre><code><span class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa.github -C <span class="token string">"youremail"</span></span>
+<span class="line"><span class="token comment"># 因为gitee已经配置了SSH,文件名为id_rsa,所以注释下面这条命令</span></span>
+<span class="line"><span class="token comment"># ssh-keygen -t rsa -f ~/.ssh/id_rsa.gitee -C "youremail"</span></span>
+<span class="line"></span></code></pre>
+<div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div></article><!--]--></div></main><!--]--></div><!--[--><!----><!--]--><!--]--></div>
+    <script type="module" src="/assets/app-ekva9aW0.js" defer></script>
+  </body>
+</html>

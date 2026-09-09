@@ -1,0 +1,2 @@
+- [ ] 显示NVM已安装的Node版本，并添加自定义备注
+  - 20.19.0: chrome-devtools-mcp、n8n-mcp

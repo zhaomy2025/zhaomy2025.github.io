@@ -1,0 +1,154 @@
+---
+title: Oracle 数据库物化视图未更新问题分析与解决
+date: 2025-03-28 14:50:29
+tags:
+  - 数据库
+  - Oracle
+  - 物化视图
+categories:
+  - 数据库
+  - Oracle
+  - 物化视图
+---
+# 问题定位
+this_date 非空但长时间不变化：可能作业卡死。
+this_date 为空但 next_date 为过去时间: 可能作业队列进程不足。
+next_date 为过去时间：说明作业调度已经停止运行。
+
+# 原因分析
+this_date 字段表示：
+1. 当前执行开始时间：记录作业最近一次开始执行的时间戳
+2. 运行中标识：当作业正在执行时，此字段会显示开始时间
+3. 完成状态：作业执行完成后，此字段会被清空（设为NULL）
+所以this_date 非空但长时间不变化可能是作业卡死导致的。
+   
+可能导致next_date为过去时间的原因：
+1. next_date设置错误，导致next_date为过去时间
+2. 物化视图创建时间较长，创建结束时间>创建语句中指定的开始时间（仅为猜测，待验证，想要验证物化视图是否会更新一般会设置一个靠近当前时间的开始时间，当物化视图创建时间较长时，容易出现这种情况）
+3. 作业调度程序出现故障，导致作业未能正常运行，next_date就会停留在过去（DBMS_JOB无法查看日志，推荐使用 DBMS_SCHEDULER）
+
+# 尝试解决方法
+1. 修改next_date为未来的时间
+```sql
+    BEGIN
+        DBMS_JOB.NEXT_DATE(jobid, SYSDATE + 1/720); -- 设置为2分钟以后
+        COMMIT;
+    END;
+    /
+```
+注意：修改next_date必须COMMIT，否则修改不会生效。
+2. 修改成功后仍然没有更新物化视图，再次排查发现this_date为过去时间，且长时间不变，查找原因可能是作业卡死导致的，尝试修改this_date（无效）
+   2.1. 标记作业为 BROKEN 再恢复(无效)
+   ```sql
+   BEGIN
+       DBMS_JOB.BROKEN(job_id => 您的作业ID, broken => TRUE);
+       DBMS_JOB.BROKEN(job_id => 您的作业ID, broken => FALSE);
+       COMMIT;
+   END;
+   /
+   ```
+   2.2. 修改作业的 INTERVAL（无效）
+   ```sql
+   BEGIN
+       DBMS_JOB.INTERVAL(job_id => 您的作业ID, interval => 'SYSDATE+1');
+       COMMIT;
+   END;
+   /
+   ```
+
+3. 重启作业调度程序（无效）
+```sql
+BEGIN
+    DBMS_JOB.RUN(jobid);
+END;
+/
+```
+4. 重新创建物化视图（有效）
+虽然重建物化视图有效，但数据量大时，DROP操作耗时较长，生产环境中4G数据量，执行DROP操作需要19个小时，对比CREATE操作需要半个小时，DROP操作耗时还是比较久的。
+```sql
+DROP MATERIALIZED VIEW mview_name;
+CREATE MATERIALIZED VIEW mview_name AS ...;
+/
+```
+5. 排查日志发现物化视图定时任务有DELETE操作，手动执行刷新组操作`DBMS_REFRESH.REFRESH`阻塞住了，无论是通过定时任务方式，还是手动执行，都不能同时刷新。
+   kill对应进程后，优化刷新方式。
+   5.1. 手动刷新物化视图，设置`ATOMIC_REFRESH`为`FALSE`（有效）
+      定时任务自带的刷新是通过刷新组方式刷新，默认开启原子操作，改为使用单个物化视图刷新方式刷新，设置`ATOMIC_REFRESH`为`FALSE`，关闭原子操作，删除数据时无需记录日志，可提高刷新效率（刷新时长大约半小时，与创建物化视图时间相当）。
+   ```sql
+   BEGIN
+   DBMS_MVIEW.REFRESH('MVIEW_NAME', 'C',ATOMIC_REFRESH => FALSE);
+   END;
+   /
+   ```
+   
+   5.2. 删除重建作业，使用单个物化视图刷新方式刷新（推荐）
+   在物化视图定时刷新任务中，删除重建作业并非删除重建物化视图，无需考虑重建物化视图执行时间长的问题。
+   ```sql
+   --
+   BEGIN
+   DBMS_JOB.REMOVE(您的作业ID);
+   -- 然后重新提交作业
+   DBMS_JOB.SUBMIT();
+   COMMIT;
+   END;
+   ```
+   5.3. 也可以通过修改作业内容方式修改物化视图刷新方式
+   ```sql
+   BEGIN
+     DBMS_JOB.WHAT(
+             job  => job_id,
+             what => 'BEGIN DBMS_MVIEW.REFRESH(''MVIEW_NAME'', ''C'',ATOMIC_REFRESH => FALSE); END;'
+       );
+     COMMIT;
+   END;
+   /
+   ```
+# 运维
+
+```sql
+-- 检查运行时间过长的作业
+SELECT job, (SYSDATE-this_date)*24*60 minutes_running
+FROM dba_jobs 
+WHERE this_date IS NOT NULL;
+
+-- 运行作业
+BEGIN
+    DBMS_JOB.RUN(jobid);
+END;
+/
+
+-- 更新作业的 next_date
+BEGIN
+    DBMS_JOB.NEXT_DATE(jobid, SYSDATE + 1/720); -- 设置为2分钟后
+    COMMIT;
+END;
+/
+
+BEGIN
+    DBMS_JOB.NEXT_DATE(jobid, TRUNC(SYSDATE) + 22/24); -- 设置当天 22:00 执行
+    COMMIT;
+END;
+/
+
+-- 修改作业的 INTERVAL
+BEGIN
+    DBMS_JOB.INTERVAL(jobid, 'TRUNC(SYSDATE+1) + 22/24' );
+    COMMIT;
+END;
+
+-- 删除作业
+BEGIN
+    DBMS_JOB.REMOVE(job_id); -- 替换为实际的job编号
+    COMMIT;
+END;
+/
+/
+```
+
+# 总结
+通过查看日志发现是有物化视图的delete操作阻塞，无论是定时任务还是手动刷新，都不能同时执行。
+如果想要重置一个卡住的作业(this_date 非空但长时间不变化)，更安全的方法是：
+1. 先用 DBMS_JOB.BROKEN 停止作业，必要时kill进程
+2. 分析作业卡住的原因（刷新组方式默认开启原子操作，数据量大的情况下执行实际较慢）
+3. 修复问题后重新启用作业（改为单个物化视图刷新方式，关闭原子操作）
+4. 考虑迁移到更现代的 DBMS_SCHEDULER 系统
