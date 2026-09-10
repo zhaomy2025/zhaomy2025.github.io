@@ -407,7 +407,7 @@ export default defineUserConfig({
           '/vuepress/plugin',
           '/vuepress/vue-component',
           '/vuepress/css',
-          '/vuepress/vuepress_cloud.md',
+          '/vuepress/vuepress_cloud',
       ],
       '/posts/hexo/': [
         '/posts/hexo/GitHub-Pages-Hexo搭建个人网站',

@@ -330,4 +330,4 @@ jobs:
 
 
 ## 自动部署VuePress配置文件
-@[code](../../code/github/workflows/deploy-docs.yml)
+@[code](../../code/github/workflows/deploy-docs-gh-pages.yml)

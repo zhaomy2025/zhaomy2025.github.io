@@ -10,9 +10,7 @@ tags:
 categories:
   - 语言对比
 ---
-# TODO
-哈希表
-# 概述
+# 集合在不同语言中的对比：Java、JavaScript、Python
 本文对比了Java、JavaScript和Python的集合API方法，包括数组/列表、散列表、哈希表等。
 
 # 数组/列表

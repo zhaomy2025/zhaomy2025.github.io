@@ -1,0 +1,102 @@
+name: 部署文档
+
+on:
+  push:
+    branches:
+      # 确保这是你正在使用的分支名称
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+
+  build-docs:
+    name: 构建文档
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 2. 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 3. 安装依赖
+        run: npm ci                      # 按 package-lock.json 精确安装依赖
+
+      # 创建空的 .nojekyll 文件，随构建产物传递
+      - name: 4. 构建文档
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          npm run build
+          > docs/.vuepress/dist/.nojekyll
+
+      - name: 5. 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-dist
+          path: docs/.vuepress/dist/
+          include-hidden-files: true
+
+      - name: 6. 上传 Pages 构建产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vuepress/dist/
+
+  deploy-to-pages:
+    name: 发布用户站点
+    runs-on: ubuntu-latest
+    needs: build-docs
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-server:
+    name: 部署到云服务器
+    runs-on: ubuntu-latest
+    needs: build-docs  # 确保先完成构建文档
+    steps:
+      - name: 1. 下载构建产物
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-dist
+          path: docs
+
+      - name: 2. 打包构建产物
+        run: tar -czvf docs.tar.gz -C docs/ .
+
+      - name: 3. 传输到服务器
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: docs.tar.gz
+          target: /tmp/
+
+      - name: 4. 部署到服务器
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            mkdir -p /www/wwwroot # 确认该目录仅用于本站后再清理
+            cd /www/wwwroot
+            rm -rf -- ./* ./.[!.]* ./..?*
+            echo "解压前文件列表：" && ls -l
+            tar -xzvf /tmp/docs.tar.gz -C .
+            echo "解压后文件列表：" && ls -l
+
