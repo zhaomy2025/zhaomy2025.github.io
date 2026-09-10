@@ -1,5 +1,5 @@
 ---
-title: 部署VuePress到云服务器
+title: VuePress 部署指南：GitHub Pages 与云服务器
 date: 2025-07-09T07:32:26.463Z
 category:
   - vuepress
@@ -9,7 +9,7 @@ tags:
   - cloud
 ---
 
-# 部署VuePress到云服务器
+# VuePress 部署指南：GitHub Pages 与云服务器
 [[toc]]
 
 ## GitHub Pages 部署
