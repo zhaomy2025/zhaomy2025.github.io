@@ -137,7 +137,7 @@ GitHub Pages 的分支托管方式默认会使用 Jekyll 处理文件，可能�
 
 ### 方式二：部署到用户站点仓库
 
-项目仓库不是 `<用户名>.github.io`，但仍希望用 `https://<用户名>.github.io/` 访问？可以单独创建一个 `<用户名>.github.io` 仓库，把构建产物推送过去。这样还能让**源码仓库和对外站点分离**，不想暴露源码时只公开站点仓库即可。
+源码仓库不是 `<用户名>.github.io`，但仍希望用 `https://<用户名>.github.io/` 访问？可以单独创建一个 `<用户名>.github.io` 仓库，把构建产物推送过去。这样还能让**源码仓库和对外站点分离**，不想暴露源码时只公开站点仓库即可。
 
 **1. 创建用户站点仓库**
 
@@ -159,9 +159,9 @@ ssh-keygen -t ed25519 -C "vuepress-deploy" -f ~/.ssh/id_ed25519_vuepress_deploy
 
 在目标仓库的 `Settings > Pages > Build and deployment` 中，将 `Source` 设置为 `Deploy from a branch`，选择 `main` 分支和 `/ (root)` 目录。
 
-**5. 配置本项目仓库的 Secrets**
+**5. 配置源码仓库的 Secrets**
 
-在项目仓库的 `Settings > Secrets and variables > Actions` 中，添加 `DEPLOY_KEY`，值为 `id_ed25519_vuepress_deploy` 私钥的完整内容（含 `-----BEGIN OPENSSH PRIVATE KEY-----` 和 `-----END OPENSSH PRIVATE KEY-----`）。
+在源码仓库的 `Settings > Secrets and variables > Actions` 中，添加 `DEPLOY_KEY`，值为 `id_ed25519_vuepress_deploy` 私钥的完整内容（含 `-----BEGIN OPENSSH PRIVATE KEY-----` 和 `-----END OPENSSH PRIVATE KEY-----`）。
 
 `<用户名>.github.io` 是本文的示例目标仓库，实际使用时请替换为自己的用户名和仓库名。
 
@@ -250,7 +250,7 @@ export default defineUserConfig({
 | | 方式一（仓库名即 `<username>.github.io`） | 方式二（用户站点仓库） | 方式三（gh-pages 分支） |
 |---|---|---|---|
 | 仓库要求 | **`<用户名>.github.io`** | 无特殊要求 | 无特殊要求 |
-| 部署目标 | GitHub Pages 用户站点（Pages artifact） | `${{ github.repository_owner }}.github.io` 仓库 `main` 分支 | 本仓库 `gh-pages` 分支 |
+| 部署目标 | GitHub Pages 用户站点（Pages artifact） | `${{ github.repository_owner }}.github.io` 仓库 `main` 分支 | 源码仓库 `gh-pages` 分支 |
 | 访问地址 | `https://xxx.github.io/` | `https://xxx.github.io/` | `https://xxx.github.io/`**`<仓库名>`**`/` |
 | base 配置 | 无需 | 无需 | **`base: '/<仓库名>/'`** |
 | SSH deploy key | 不需要 | **需要** | 不需要 |

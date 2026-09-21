@@ -52,7 +52,7 @@ Ace Admin（社区常称 Ace 后台模板）是一套基于 **Bootstrap 3 + jQue
 
 新项目不要再引入 jQuery / Bootstrap 3 类模板。中后台首选 **Vue 3 + Element Plus** 或 **React + Ant Design**；要从零搭完整后台用 **Ant Design Pro** / **Vue Vben Admin** 脚手架；要轻量、TypeScript 友好选 **Naive UI**；偏字节生态选 **Arco**；走 Material Design 选 **React + MUI**。
 
-各方案谁来开发、适用什么场景，单独写成了一篇 [前端 UI 框架选型](./ui-framework-selection.md)，这里不展开。
+各方案谁来开发、适用什么场景，单独写成了一篇 [前端框架与 UI 生态选型：主流方案对比](./ui-framework-selection.md)，这里不展开。
 
 ## 小结
 

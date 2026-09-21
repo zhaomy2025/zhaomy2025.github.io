@@ -85,7 +85,15 @@ export default defineUserConfig({
             prefix: 'basic/',
             children: [
               'exception-handling',
-              'file-operations',
+              {
+                text: '常用类库',
+                children: [
+                  'collection-framework',
+                  'date-time',
+                  'file-operations',
+                  'io',
+                ]
+              },
             ]
           },
           {
@@ -404,7 +412,14 @@ export default defineUserConfig({
           '/vuepress/',
           '/vuepress/page',
           '/vuepress/markdown',
-          '/vuepress/plugin',
+          {
+            text: 'VuePress 常用插件',
+            link: 'plugin',
+            prefix: 'plugin/',
+            children: [
+              'mermaid',
+            ],
+          },
           '/vuepress/vue-component',
           '/vuepress/css',
           '/vuepress/vuepress_cloud',
@@ -426,9 +441,20 @@ export default defineUserConfig({
       ],
       '/web/': [
         '/web/',
-        'ui-framework-selection',
         {
-          text: '应用框架',
+          text: 'Web 标准与基础设施',
+          link: 'web-standards/',
+          prefix: 'web-standards/',
+          children: [
+            'well-known',
+          ],
+        },
+        {
+          text: '前端框架与 UI 生态选型',
+          link: 'ui-framework-selection',
+        },
+        {
+          text: '前端框架',
           children: [
             'angularjs-lifecycle',
           ],

@@ -5,3 +5,307 @@
 .VPNavBarTitle .title {
   display: none;
 }
+
+// 预览第二版时，默认隐藏独立箭头按钮；宽窗口中再显示
+.vp-desktop-sidebar-toggle--arrow-only {
+  display: none;
+}
+
+// 宽窗口保留侧边栏切换按钮，并将按钮放在侧边栏与正文的分界线上
+@media (min-width: 960px) {
+  // 宽窗口只使用独立的绿色加粗箭头按钮
+  .vp-toggle-sidebar-button {
+    display: none;
+  }
+
+  .vp-desktop-sidebar-toggle--arrow-only {
+    position: fixed;
+    top: 42vh;
+    inset-inline-start: var(--sidebar-width);
+    z-index: 30;
+
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--vp-c-accent);
+    transform: translateX(-50%);
+
+    &:hover {
+      color: var(--vp-c-accent-hover);
+    }
+
+    .icon {
+      position: relative;
+      display: block;
+      width: 1.5rem;
+      height: 1.5rem;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0.375rem;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-inline-start: 4px solid currentColor;
+        border-bottom: 4px solid currentColor;
+        transform: rotate(45deg);
+      }
+
+      &::before {
+        inset-inline-start: 0.05rem;
+      }
+
+      &::after {
+        inset-inline-start: 0.65rem;
+      }
+    }
+  }
+
+  .vp-theme-container.sidebar-collapsed
+    .vp-desktop-sidebar-toggle--arrow-only {
+    inset-inline-start: 0.3rem;
+    transform: translateX(0);
+
+    .icon::before,
+    .icon::after {
+      top: 0.375rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-inline-start: 0;
+      border-bottom: 0;
+      border-inline-end: 4px solid currentColor;
+      border-top: 4px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    .icon::before {
+      inset-inline-start: 0.3rem;
+    }
+
+    .icon::after {
+      inset-inline-start: 0.9rem;
+    }
+  }
+}
+
+// 窄桌面/平板窗口（≤959px）自动隐藏侧边栏，与移动端行为一致
+@media (max-width: 959px) {
+  // 导航栏给切换按钮留空间，避免与 logo 重叠
+  .vp-navbar {
+    padding-inline-start: 4rem;
+  }
+
+  // 隐藏顶部导航栏的菜单项（侧边栏中已有，避免双 navbar）
+  .vp-navbar .vp-navbar-items {
+    display: none;
+  }
+
+  .vp-sidebar {
+    top: 0;
+    padding-top: var(--navbar-height);
+    transform: translateX(-100%);
+
+    [dir="rtl"] & {
+      transform: translateX(100%);
+    }
+  }
+
+  .vp-sidebar .vp-navbar-items {
+    display: block;
+    padding: 0.5rem 0 0.75rem;
+    border-bottom: 1px solid var(--vp-c-gutter);
+  }
+
+  // 修复侧边栏中下拉菜单：改为 static 流式展开 + 移动端点击标题
+  .vp-sidebar {
+    .vp-navbar-dropdown-wrapper {
+      height: auto;
+
+      .vp-navbar-dropdown-title {
+        display: none;
+      }
+      .vp-navbar-dropdown-title-mobile {
+        display: block;
+      }
+      .vp-navbar-dropdown {
+        position: static;
+        background: var(--vp-sidebar-c-bg);
+        border: none;
+        border-radius: 0;
+        padding: 0.25rem 0;
+        max-height: none;
+      }
+    }
+
+    // 统一 navbar 项左边距
+    .vp-navbar-item {
+      padding-inline: 1.5rem 1.5rem;
+    }
+  }
+
+  .vp-page {
+    padding-inline-start: 0;
+  }
+
+  .vp-toggle-sidebar-button {
+    display: block;
+  }
+}
+
+// 侧边栏打开状态（≤959px）
+.vp-theme-container.sidebar-open {
+  @media (max-width: 959px) {
+    .vp-sidebar {
+      transform: translateX(0);
+    }
+
+    .vp-sidebar-mask {
+      display: block;
+    }
+  }
+}
+
+/* code-tabs 代码块限高 + 标签栏吸顶 */
+.vp-code-tabs {
+  .vp-code-tabs-nav {
+    position: sticky;
+    top: 3.6rem;
+    z-index: 5;
+    background: var(--vp-c-bg);
+    border-bottom: 1px solid var(--vp-c-border);
+  }
+
+  .vp-code-tab-nav {
+    background: var(--vp-c-bg-alt);
+    color: var(--vp-c-text-mute);
+    border-radius: 6px 6px 0 0;
+
+    &:hover {
+      background: var(--vp-c-control-hover);
+      color: var(--vp-c-text);
+    }
+
+    &.active {
+      background: var(--vp-c-bg);
+      color: var(--vp-c-accent);
+      font-weight: 700;
+      box-shadow: inset 0 -2px 0 0 var(--vp-c-accent);
+
+      // 覆盖插件伪元素圆角过渡（不再匹配深色代码块，用白底即可）
+      &::before,
+      &::after {
+        background: none;
+      }
+    }
+  }
+
+  .vp-code-tab {
+    max-height: 600px;
+    overflow-y: auto;
+  }
+}
+
+/* 让页内锚点避开固定导航栏 */
+html {
+  scroll-padding-top: var(--navbar-height);
+}
+
+/* 集合表格提示图标 */
+.collection-note,
+.collection-note:hover,
+.collection-note:focus,
+.collection-note:visited {
+  color: #d97706 !important;
+  text-decoration: none !important;
+}
+
+.collection-note-target {
+  display: block;
+  height: 0;
+  scroll-margin-top: var(--navbar-height);
+}
+
+/* 集合框架类图图例色块 */
+.collection-framework-legend {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-inline-end: 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  vertical-align: -0.08rem;
+
+  &.interface {
+    background: #dbeafe;
+    border-color: #2563eb;
+  }
+
+  &.implementation {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+
+  &.copy-on-write {
+    background: #fed7aa;
+    border-color: #ea580c;
+  }
+
+  &.concurrent {
+    background: #fdba74;
+    border-color: #c2410c;
+  }
+
+  &.blocking {
+    background: #fb923c;
+    border-color: #c2410c;
+  }
+
+  &.storage {
+    background: #f3f4f6;
+    border-color: #6b7280;
+  }
+}
+
+/* I/O 类图图例色块 */
+.io-class-diagram-legend {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-inline-end: 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  vertical-align: -0.08rem;
+
+  &.contract {
+    background: #dbeafe;
+    border-color: #2563eb;
+  }
+
+  &.node {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+
+  &.processing {
+    background: #fed7aa;
+    border-color: #ea580c;
+  }
+
+  &.nio {
+    background: #ede9fe;
+    border-color: #7c3aed;
+  }
+}
+
+/* 类图备注与连线文字颜色由 Mermaid init 的 classText 控制，见文章内类图配置 */
+
+/* 对比表格单元格上对齐 + 不换行 */
+.compare-top table td {
+  vertical-align: top;
+  white-space: nowrap;
+}

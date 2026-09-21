@@ -1,5 +1,5 @@
 ---
-title: Java文件目录操作核心类
+title: Java文件目录操作
 date: 2025-03-06 14:32:00
 tags:
   - Java
@@ -10,12 +10,23 @@ categories:
   - Java基础
   - 常用类库
 ---
+# Java文件目录操作
+[[toc]]
+
+本文依次介绍 Java 文件和目录操作中的几个核心类：
+
+- `File`：Java 早期版本提供的传统文件和目录路径类，支持创建、删除、重命名以及属性检查等基本操作。
+- `Path`：Java 7 引入的路径接口，用于更灵活地表示和处理文件或目录路径，是 `File` 的现代化替代方案。
+- `Paths`：Java 7 引入的路径工具类，通过静态方法创建 `Path` 对象。
+- `Files`：Java 7 引入的文件操作工具类，配合 `Path` 提供创建、判断、复制、移动、删除、遍历及读写文件等丰富功能。
+- 其他文件操作类：补充介绍 `FileOutputStream` 等类在创建文件和目录时的行为差异。
+
 在 Java 中，`File`、`Files`、`Path` 和 `Paths` 是与文件和目录操作相关的核心类。文件和目录操作是指对文件和目录的创建、查找和删除等操作，只对文件本身进行操作，而非对文件内容进行操作。
 
-# File
+## File
 `File` 类是 Java 早期版本（Java 1.0）中用于表示文件和目录路径的类。它提供了对文件和目录的基本操作，如创建、删除、重命名、检查属性等。
 
-## 主要方法
+### 主要方法
 ```
 构造方法
 File(String path)
@@ -45,14 +56,14 @@ String[] list() 返回目录中的文件和子目录名称列表
 File[] listFiles()
 ```
 
-## 缺点
+### 缺点
 + 功能有限，不支持符号链接、文件属性等高级操作。
 + 路径处理不够灵活，跨平台兼容性较差。
 
-# Path接口
+## Path接口
 `Path` 是 Java 7 引入的 `java.nio.file` 包中的一个接口，用于表示文件或目录的路径。它是对 `File` 类的现代化替代，提供了更强大的路径操作功能。
 
-## 主要方法
+### 主要方法
 ```
 判断
 startsWith(Path other) 检查路径是否以指定路径开头
@@ -80,7 +91,7 @@ relativize 返回两个路径的相对路径
 normalize() 规范化路径（去除冗余部分）
 ```
 
-# Paths
+## Paths
 `Paths` 是 Java 7 引入的工具类，用于创建 `Path` 对象。它提供了静态方法来构造 `Path` 实例。
 
 ```
@@ -88,10 +99,10 @@ get(String first, String... more)  根据字符串路径创建 `Path` 对象
 get(URI uri)   根据 URI 创建 Path 对象
 ```
 
-# Files
+## Files
 `Files` 是 Java 7 引入的工具类，提供了丰富的静态方法用于操作文件和目录。Files 类与 java.nio.file.Path 类一起工作，需要了解 Path 类，然后才能使用 Files 类。
 
-## 主要方法
+### 主要方法
 ```
 创建目录和文件
 createDirectory(Path, attrs) 创建目录，若目录已存在，会抛异常，不能一次创建多级目录
@@ -183,7 +194,7 @@ DELETE_ON_CLOSE
 如果文件是目录，则该目录必须为空才能删除
 除了文件复制比较简洁通用，其他两个方法个人认为使用IO流或者NIO流比较方便一点。
 
-## walkFileTree()
+### walkFileTree()
 Files类有两个重载的walkFileTree()方法：
 
 ```
@@ -207,10 +218,10 @@ public interface FileVisitor<T> {
 }
 ```
 
-# 其他文件操作类
+## 其他文件操作类
 FileOutputStream会自动创建文件，但是如果是多级目录，就创建不了并且报错。
 
-# 总结
+## 总结
 | 特性 | `File` 类 | `Path` 接口 | `Paths` 类 | `Files` 类 |
 | --- | --- | --- | --- | --- |
 | 引入版本 | Java 1.0 | Java 7 | Java 7 | Java 7 |

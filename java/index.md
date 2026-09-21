@@ -29,10 +29,44 @@
     - 自定义异常
 + **常用类库**
     - String、StringBuilder、StringBuffer
-    - 集合框架（List、Set、Map等）
-    - 日期和时间处理
-    - 文件目录操作（对文件本身进行操作，而非文件内容，File、Path、Files、Paths等）
-    - 输入输出流（I/O）
+    - [集合框架](basic/collection-framework.md)
+        - `Collection`
+            - `List`：`ArrayList`、`LinkedList`
+            - `Set`：`HashSet`、`LinkedHashSet`、`TreeSet`、`EnumSet`
+            - `Queue` / `Deque`：`PriorityQueue`、`ArrayDeque`、`LinkedList`
+        - `Map`：`HashMap`、`LinkedHashMap`、`TreeMap`
+        - 迭代器：`Iterator`、`ListIterator`
+        - 比较器：`Comparable`、`Comparator`
+        - 不可修改集合：`List.of`、`Set.of`、`Map.of`、`Collections.unmodifiableList`
+        - 并发集合
+            - 写时复制：`CopyOnWriteArrayList`、`CopyOnWriteArraySet`
+            - `BlockingQueue`：`ArrayBlockingQueue`、`LinkedBlockingQueue`、`PriorityBlockingQueue`
+            - 并发容器：`ConcurrentMap`、`ConcurrentHashMap`、`ConcurrentLinkedQueue`
+    - [日期和时间处理](basic/date-time.md)
+        - Java 1.0：`Date`
+        - Java 1.1：`Calendar`、`SimpleDateFormat`
+        - Java 8：`java.time`
+            - 无时区：`LocalDate`、`LocalTime`、`LocalDateTime`
+            - 带偏移/时区：`OffsetDateTime`、`ZonedDateTime`
+            - 时间点：`Instant`
+            - 工具：`DateTimeFormatter`
+    - [文件目录操作](basic/file-operations.md)（对文件本身进行操作，而非文件内容，File、Path、Files、Paths等）
+    - [输入输出流（I/O）](basic/io.md)
+        - 字节流
+            - `InputStream`、`OutputStream`
+            - `FileInputStream`、`FileOutputStream`
+            - `BufferedInputStream`、`BufferedOutputStream`
+        - 字符流
+            - `Reader`、`Writer`
+            - `FileReader`、`FileWriter`
+            - `BufferedReader`、`BufferedWriter`
+        - 转换流：`InputStreamReader`、`OutputStreamWriter`
+        - 数据流与打印流
+            - `DataInputStream`、`DataOutputStream`
+            - `PrintStream`、`PrintWriter`
+        - 对象流与序列化：`ObjectInputStream`、`ObjectOutputStream`、`Serializable`
+        - 资源管理：`try-with-resources`、`AutoCloseable`
+        - NIO 文件 API：`Path`、`Files`、`FileChannel`、`ByteBuffer`
 
 # 中级阶段
 + **泛型**
