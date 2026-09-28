@@ -49,6 +49,8 @@ tags:
 
 哈希函数的核心特性与工作流程，MD 系列、SHA 系列到 SHA-3、BLAKE2 的演进与原理，以及文件完整性验证、密码存储、消息认证码(MAC)的应用与安全挑战。
 
+内部构造另有三篇展开：[《SHA-256 原理》](./hash-sha256-principle.md)、[《SHA-3 原理》](./hash-sha3-principle.md)、[《BLAKE2 原理》](./hash-blake2-principle.md)。
+
 ## [对称加密算法详解](./symmetric-encryption.md)
 
 对称加密的工作流程与核心设计权衡，Feistel 网络等经典范式，DES/3DES 到 AES/ChaCha20 的演进，ECB 到 GCM、ChaCha20-Poly1305 的加密模式，以及算法选择、密钥管理与性能优化。

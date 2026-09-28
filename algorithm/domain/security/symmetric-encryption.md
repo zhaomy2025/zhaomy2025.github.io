@@ -25,10 +25,9 @@ tags:
 
 对称加密的完整流程包含六个环节：
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐      ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│ 密钥协商      │────▶│ 密钥生成     │────▶│ 加密过程      │────▶│ 密文传输      │────▶│ 密文接收     │────▶│ 解密过程      │
-└─────────────┘     └─────────────┘     └─────────────┘      └─────────────┘     └─────────────┘     └─────────────┘
+```mermaid
+flowchart LR
+    A[密钥协商] --> B[密钥生成] --> C[加密过程] --> D[密文传输] --> E[密文接收] --> F[解密过程]
 ```
 
 - 密钥协商：建立安全通信时进行，用于交换或生成共享密钥
@@ -59,6 +58,27 @@ tags:
 ## 对称加密的演进：从 DES 到 AES
 
 对称加密算法的演进史，是应对计算能力增长与安全威胁变化的过程。每一次算法迭代，都是对"安全-性能-可实现性"三角关系的重新平衡。
+
+```mermaid
+%%{init: {"gantt": {"useWidth": 1384}}}%%
+gantt
+    dateFormat YYYY
+    axisFormat %Y
+    todayMarker off
+
+    section 分组密码
+    DES（56 位有效密钥 · 64 位分组 · 16 轮 Feistel） :done, 1977, 2005
+    22 小时被暴力破解(1998) :milestone, m1, 1998, 0d
+    NIST 撤销 DES 标准(2005) :milestone, m2, 2005, 0d
+    3DES（112/168 位密钥 · 64 位分组 · EDE 三层） :done, 1999, 2023
+    2023 年后禁止用于加密(2023) :milestone, m3, 2023, 0d
+    AES（128/192/256 位密钥 · 128 位分组 · SPN） :active, 2001, 2026
+
+    section 流密码
+    RC4（256 字节 S 盒 · 已被 TLS 弃用） :done, 1987, 2015
+    RFC 7465 禁止在 TLS 中使用(2015) :milestone, m4, 2015, 0d
+    ChaCha20（256 位密钥 · 20 轮） :active, 2008, 2026
+```
 
 在演进过程中，Feistel 网络结构是许多经典块密码算法（如 DES）的核心设计基础。
 
@@ -194,79 +214,24 @@ Feistel 网络的设计体现了密码学"简单组件构建复杂系统"的思�
 加密模式定义了如何将块密码算法扩展到处理任意长度的数据。选择合适的加密模式，是实现安全加密的关键。
 
 ### ECB (Electronic Codebook)
-```svg
-<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
-  <!-- 标题 -->
-  <text x="200" y="25" font-size="14" text-anchor="middle" font-weight="bold">ECB 模式示意图</text>
-  
-  <!-- 明文分组 -->
-  <rect x="50" y="50" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="80" y="70" font-size="12" text-anchor="middle">P1</text>
-  
-  <rect x="120" y="50" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="150" y="70" font-size="12" text-anchor="middle">P2</text>
-  
-  <rect x="190" y="50" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="220" y="70" font-size="12" text-anchor="middle">P1</text>
-  
-  <rect x="260" y="50" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="290" y="70" font-size="12" text-anchor="middle">P3</text>
-  
-  <!-- 加密函数 -->
-  <rect x="50" y="100" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="80" y="120" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="80" y="135" font-size="10" text-anchor="middle">Key</text>
-  
-  <rect x="120" y="100" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="150" y="120" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="150" y="135" font-size="10" text-anchor="middle">Key</text>
-  
-  <rect x="190" y="100" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="220" y="120" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="220" y="135" font-size="10" text-anchor="middle">Key</text>
-  
-  <rect x="260" y="100" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="290" y="120" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="290" y="135" font-size="10" text-anchor="middle">Key</text>
-  
-  <!-- 密文分组 -->
-  <rect x="50" y="160" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="80" y="180" font-size="12" text-anchor="middle">C1</text>
-  
-  <rect x="120" y="160" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="150" y="180" font-size="12" text-anchor="middle">C2</text>
-  
-  <rect x="190" y="160" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="220" y="180" font-size="12" text-anchor="middle">C1</text>
-  
-  <rect x="260" y="160" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="290" y="180" font-size="12" text-anchor="middle">C3</text>
-  
-  <!-- 连接线 -->
-  <line x1="80" y1="80" x2="80" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="80,100 75,95 85,95" fill="#666"/>
-  
-  <line x1="150" y1="80" x2="150" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="150,100 145,95 155,95" fill="#666"/>
-  
-  <line x1="220" y1="80" x2="220" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="220,100 215,95 225,95" fill="#666"/>
-  
-  <line x1="290" y1="80" x2="290" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="290,100 285,95 295,95" fill="#666"/>
-  
-  <line x1="80" y1="130" x2="80" y2="150" stroke="#666" stroke-width="2"/>
-  <polygon points="80,150 75,155 85,155" fill="#666"/>
-  
-  <line x1="150" y1="130" x2="150" y2="150" stroke="#666" stroke-width="2"/>
-  <polygon points="150,150 145,155 155,155" fill="#666"/>
-  
-  <line x1="220" y1="130" x2="220" y2="150" stroke="#666" stroke-width="2"/>
-  <polygon points="220,150 215,155 225,155" fill="#666"/>
-  
-  <line x1="290" y1="130" x2="290" y2="150" stroke="#666" stroke-width="2"/>
-  <polygon points="290,150 285,155 295,155" fill="#666"/>
-</svg>
+
+```mermaid
+flowchart LR
+    subgraph ENC["加密"]
+        direction LR
+        P1["P1"] --> EA["Encrypt(K)"] --> C1["C1"]
+        P2["P2"] --> EB["Encrypt(K)"] --> C2["C2"]
+        P1b["P1"] --> EC["Encrypt(K)"] --> C1b["C1"]
+        P3["P3"] --> ED["Encrypt(K)"] --> C3["C3"]
+    end
+    subgraph DEC["解密"]
+        direction LR
+        C1i["C1"] --> DA["Decrypt(K)"] --> P1o["P1"]
+        C2i["C2"] --> DB["Decrypt(K)"] --> P2o["P2"]
+        C1j["C1"] --> DC["Decrypt(K)"] --> P1p["P1"]
+        C3i["C3"] --> DD["Decrypt(K)"] --> P3o["P3"]
+    end
+    ENC ~~~ DEC
 ```
 
 - 架构特点：每个明文分组独立加密，相同明文产生相同密文
@@ -279,107 +244,32 @@ Feistel 网络的设计体现了密码学"简单组件构建复杂系统"的思�
 ### CBC、CTR、CFB 与 OFB
 
 #### CBC (Cipher Block Chaining)
-```svg
-<svg width="450" height="220" xmlns="http://www.w3.org/2000/svg">
-  <!-- 标题 -->
-  <text x="225" y="25" font-size="14" text-anchor="middle" font-weight="bold">CBC 模式示意图</text>
-  
-  <!-- 初始化向量 -->
-  <rect x="30" y="50" width="60" height="30" fill="#e8f5e9" stroke="#4caf50" stroke-width="2" rx="3"/>
-  <text x="60" y="70" font-size="12" text-anchor="middle">IV</text>
-  
-  <!-- 明文分组 -->
-  <rect x="110" y="50" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="140" y="70" font-size="12" text-anchor="middle">P1</text>
-  
-  <rect x="240" y="50" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="270" y="70" font-size="12" text-anchor="middle">P2</text>
-  
-  <rect x="370" y="50" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="400" y="70" font-size="12" text-anchor="middle">P3</text>
-  
-  <!-- XOR符号 -->
-  <circle cx="185" cy="65" r="15" fill="#fff" stroke="#9c27b0" stroke-width="2"/>
-  <text x="185" y="70" font-size="16" text-anchor="middle" font-weight="bold">⊕</text>
-  
-  <circle cx="315" cy="65" r="15" fill="#fff" stroke="#9c27b0" stroke-width="2"/>
-  <text x="315" y="70" font-size="16" text-anchor="middle" font-weight="bold">⊕</text>
-  
-  <circle cx="445" cy="65" r="15" fill="#fff" stroke="#9c27b0" stroke-width="2"/>
-  <text x="445" y="70" font-size="16" text-anchor="middle" font-weight="bold">⊕</text>
-  
-  <!-- 加密函数 -->
-  <rect x="230" y="100" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="260" y="120" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="260" y="135" font-size="10" text-anchor="middle">Key</text>
-  
-  <rect x="360" y="100" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="390" y="120" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="390" y="135" font-size="10" text-anchor="middle">Key</text>
-  
-  <rect x="490" y="100" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="520" y="120" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="520" y="135" font-size="10" text-anchor="middle">Key</text>
-  
-  <!-- 密文分组 -->
-  <rect x="230" y="160" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="260" y="180" font-size="12" text-anchor="middle">C1</text>
-  
-  <rect x="360" y="160" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="390" y="180" font-size="12" text-anchor="middle">C2</text>
-  
-  <rect x="490" y="160" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="520" y="180" font-size="12" text-anchor="middle">C3</text>
-  
-  <!-- 连接线 -->
-  <!-- IV到XOR -->
-  <line x1="60" y1="80" x2="170" y2="80" stroke="#666" stroke-width="2"/>
-  <polygon points="170,80 162,75 162,85" fill="#666"/>
-  
-  <!-- P1到XOR -->
-  <line x1="140" y1="80" x2="170" y2="80" stroke="#666" stroke-width="2"/>
-  <polygon points="170,80 162,75 162,85" fill="#666"/>
-  
-  <!-- XOR到加密1 -->
-  <line x1="185" y1="80" x2="260" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="260,100 252,95 252,105" fill="#666"/>
-  
-  <!-- 加密1到C1 -->
-  <line x1="260" y1="130" x2="260" y2="150" stroke="#666" stroke-width="2"/>
-  <polygon points="260,150 255,155 265,155" fill="#666"/>
-  
-  <!-- C1到XOR2 -->
-  <line x1="260" y1="190" x2="300" y2="80" stroke="#666" stroke-width="2"/>
-  <polygon points="300,80 292,75 292,85" fill="#666"/>
-  
-  <!-- P2到XOR2 -->
-  <line x1="270" y1="80" x2="300" y2="80" stroke="#666" stroke-width="2"/>
-  <polygon points="300,80 292,75 292,85" fill="#666"/>
-  
-  <!-- XOR2到加密2 -->
-  <line x1="315" y1="80" x2="390" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="390,100 382,95 382,105" fill="#666"/>
-  
-  <!-- 加密2到C2 -->
-  <line x1="390" y1="130" x2="390" y2="150" stroke="#666" stroke-width="2"/>
-  <polygon points="390,150 385,155 395,155" fill="#666"/>
-  
-  <!-- C2到XOR3 -->
-  <line x1="390" y1="190" x2="430" y2="80" stroke="#666" stroke-width="2"/>
-  <polygon points="430,80 422,75 422,85" fill="#666"/>
-  
-  <!-- P3到XOR3 -->
-  <line x1="400" y1="80" x2="430" y2="80" stroke="#666" stroke-width="2"/>
-  <polygon points="430,80 422,75 422,85" fill="#666"/>
-  
-  <!-- XOR3到加密3 -->
-  <line x1="445" y1="80" x2="520" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="520,100 512,95 512,105" fill="#666"/>
-  
-  <!-- 加密3到C3 -->
-  <line x1="520" y1="130" x2="520" y2="150" stroke="#666" stroke-width="2"/>
-  <polygon points="520,150 515,155 525,155" fill="#666"/>
-</svg>
+
+```mermaid
+flowchart LR
+    subgraph ENC["加密"]
+        direction TB
+        IV["IV"] --> X1["⊕"]
+        P1["P1"] --> X1
+        X1 --> E1["Encrypt(K)"] -->|"C1"| X2["⊕"]
+        P2["P2"] --> X2
+        X2 --> E2["Encrypt(K)"] -->|"C2"| X3["⊕"]
+        PN["PN"] --> X3
+        X3 --> E3["Encrypt(K)"] -->|"CN"| CT["密文"]
+    end
+    subgraph DEC["解密"]
+        direction TB
+        C1i["C1"] --> D1["Decrypt(K)"] --> X4["⊕"]
+        IVd["IV"] --> X4
+        X4 --> P1o["P1"]
+        C2i["C2"] --> D2["Decrypt(K)"] --> X5["⊕"]
+        C1i --> X5
+        X5 --> P2o["P2"]
+        CNi["CN"] --> D3["Decrypt(K)"] --> X6["⊕"]
+        C2i --> X6
+        X6 --> PNo["PN"]
+    end
+    ENC ~~~ DEC
 ```
 
 - 架构特点：
@@ -397,130 +287,34 @@ Feistel 网络的设计体现了密码学"简单组件构建复杂系统"的思�
 - 适用场景：适用于对安全性要求较高但对并行性能要求不高的场景，如文件加密、数据存储加密
 
 #### CTR (Counter)
-```svg
-<svg width="400" height="220" xmlns="http://www.w3.org/2000/svg">
-  <!-- 标题 -->
-  <text x="200" y="25" font-size="14" text-anchor="middle" font-weight="bold">CTR 模式示意图</text>
-  
-  <!-- 计数器 -->
-  <rect x="50" y="50" width="60" height="30" fill="#e8f5e9" stroke="#4caf50" stroke-width="2" rx="3"/>
-  <text x="80" y="70" font-size="12" text-anchor="middle">Counter</text>
-  <text x="80" y="85" font-size="10" text-anchor="middle">(递增)</text>
-  
-  <!-- 明文分组 -->
-  <rect x="50" y="160" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="80" y="180" font-size="12" text-anchor="middle">P1</text>
-  
-  <rect x="140" y="160" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="170" y="180" font-size="12" text-anchor="middle">P2</text>
-  
-  <rect x="230" y="160" width="60" height="30" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="3"/>
-  <text x="260" y="180" font-size="12" text-anchor="middle">P3</text>
-  
-  <!-- 加密函数（生成密钥流） -->
-  <rect x="140" y="50" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="170" y="70" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="170" y="85" font-size="10" text-anchor="middle">Key</text>
-  
-  <rect x="230" y="50" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="260" y="70" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="260" y="85" font-size="10" text-anchor="middle">Key</text>
-  
-  <rect x="320" y="50" width="60" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="2" rx="3"/>
-  <text x="350" y="70" font-size="12" text-anchor="middle">Encrypt</text>
-  <text x="350" y="85" font-size="10" text-anchor="middle">Key</text>
-  
-  <!-- 密钥流 -->
-  <rect x="140" y="100" width="60" height="30" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" rx="3"/>
-  <text x="170" y="120" font-size="12" text-anchor="middle">KS1</text>
-  
-  <rect x="230" y="100" width="60" height="30" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" rx="3"/>
-  <text x="260" y="120" font-size="12" text-anchor="middle">KS2</text>
-  
-  <rect x="320" y="100" width="60" height="30" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" rx="3"/>
-  <text x="350" y="120" font-size="12" text-anchor="middle">KS3</text>
-  
-  <!-- XOR符号 -->
-  <circle cx="80" cy="195" r="15" fill="#fff" stroke="#9c27b0" stroke-width="2"/>
-  <text x="80" y="200" font-size="16" text-anchor="middle" font-weight="bold">⊕</text>
-  
-  <circle cx="170" cy="195" r="15" fill="#fff" stroke="#9c27b0" stroke-width="2"/>
-  <text x="170" y="200" font-size="16" text-anchor="middle" font-weight="bold">⊕</text>
-  
-  <circle cx="260" cy="195" r="15" fill="#fff" stroke="#9c27b0" stroke-width="2"/>
-  <text x="260" y="200" font-size="16" text-anchor="middle" font-weight="bold">⊕</text>
-  
-  <!-- 密文分组 -->
-  <rect x="140" y="210" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="170" y="230" font-size="12" text-anchor="middle">C1</text>
-  
-  <rect x="230" y="210" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="260" y="230" font-size="12" text-anchor="middle">C2</text>
-  
-  <rect x="320" y="210" width="60" height="30" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="3"/>
-  <text x="350" y="230" font-size="12" text-anchor="middle">C3</text>
-  
-  <!-- 连接线 -->
-  <!-- 计数器到加密1 -->
-  <line x1="80" y1="80" x2="170" y2="50" stroke="#666" stroke-width="2"/>
-  <polygon points="170,50 162,55 162,45" fill="#666"/>
-  
-  <!-- 计数器到加密2 -->
-  <line x1="80" y1="80" x2="260" y2="50" stroke="#666" stroke-width="2"/>
-  <polygon points="260,50 252,55 252,45" fill="#666"/>
-  
-  <!-- 计数器到加密3 -->
-  <line x1="80" y1="80" x2="350" y2="50" stroke="#666" stroke-width="2"/>
-  <polygon points="350,50 342,55 342,45" fill="#666"/>
-  
-  <!-- 加密1到KS1 -->
-  <line x1="170" y1="80" x2="170" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="170,100 165,105 175,105" fill="#666"/>
-  
-  <!-- 加密2到KS2 -->
-  <line x1="260" y1="80" x2="260" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="260,100 255,105 265,105" fill="#666"/>
-  
-  <!-- 加密3到KS3 -->
-  <line x1="350" y1="80" x2="350" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="350,100 345,105 355,105" fill="#666"/>
-  
-  <!-- KS1到XOR1 -->
-  <line x1="170" y1="130" x2="80" y2="180" stroke="#666" stroke-width="2"/>
-  <polygon points="80,180 72,175 72,185" fill="#666"/>
-  
-  <!-- P1到XOR1 -->
-  <line x1="80" y1="190" x2="80" y2="210" stroke="#666" stroke-width="2"/>
-  <polygon points="80,210 75,215 85,215" fill="#666"/>
-  
-  <!-- XOR1到C1 -->
-  <line x1="80" y1="210" x2="170" y2="210" stroke="#666" stroke-width="2"/>
-  <polygon points="170,210 162,205 162,215" fill="#666"/>
-  
-  <!-- KS2到XOR2 -->
-  <line x1="260" y1="130" x2="170" y2="180" stroke="#666" stroke-width="2"/>
-  <polygon points="170,180 162,175 162,185" fill="#666"/>
-  
-  <!-- P2到XOR2 -->
-  <line x1="170" y1="190" x2="170" y2="210" stroke="#666" stroke-width="2"/>
-  <polygon points="170,210 165,215 175,215" fill="#666"/>
-  
-  <!-- XOR2到C2 -->
-  <line x1="170" y1="210" x2="260" y2="210" stroke="#666" stroke-width="2"/>
-  <polygon points="260,210 252,205 252,215" fill="#666"/>
-  
-  <!-- KS3到XOR3 -->
-  <line x1="350" y1="130" x2="260" y2="180" stroke="#666" stroke-width="2"/>
-  <polygon points="260,180 252,175 252,185" fill="#666"/>
-  
-  <!-- P3到XOR3 -->
-  <line x1="260" y1="190" x2="260" y2="210" stroke="#666" stroke-width="2"/>
-  <polygon points="260,210 255,215 265,215" fill="#666"/>
-  
-  <!-- XOR3到C3 -->
-  <line x1="260" y1="210" x2="350" y2="210" stroke="#666" stroke-width="2"/>
-  <polygon points="350,210 342,205 342,215" fill="#666"/>
-</svg>
+
+```mermaid
+flowchart LR
+    subgraph ENC["加密"]
+        direction TB
+        CTR["Counter<br/>（递增）"] --> E1["Encrypt(K)"] --> K1["KS1"]
+        CTR --> E2["Encrypt(K)"] --> K2["KS2"]
+        CTR --> E3["Encrypt(K)"] --> K3["KS3"]
+        K1 --> X1["⊕"] --> C1["C1"]
+        P1["P1"] --> X1
+        K2 --> X2["⊕"] --> C2["C2"]
+        P2["P2"] --> X2
+        K3 --> X3["⊕"] --> C3["C3"]
+        P3["P3"] --> X3
+    end
+    subgraph DEC["解密"]
+        direction TB
+        CTRd["Counter<br/>（递增）"] --> F1["Encrypt(K)"] --> L1["KS1"]
+        CTRd --> F2["Encrypt(K)"] --> L2["KS2"]
+        CTRd --> F3["Encrypt(K)"] --> L3["KS3"]
+        L1 --> Y1["⊕"] --> M1["P1"]
+        C1i["C1"] --> Y1
+        L2 --> Y2["⊕"] --> M2["P2"]
+        C2i["C2"] --> Y2
+        L3 --> Y3["⊕"] --> M3["P3"]
+        C3i["C3"] --> Y3
+    end
+    ENC ~~~ DEC
 ```
 
 - 架构特点：

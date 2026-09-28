@@ -359,7 +359,15 @@ export default defineUserConfig({
               link: 'security/',
               prefix: 'security/',
               children: [
-                'hash-function-integrity',
+                {
+                  text: '哈希函数与数据完整性验证',
+                  link: 'hash-function-integrity',
+                  children: [
+                    'hash-sha256-principle',
+                    'hash-sha3-principle',
+                    'hash-blake2-principle',
+                  ],
+                },
                 'symmetric-encryption',
                 'message-authentication-code',
                 'asymmetric-encryption-pki',

@@ -1,0 +1,22 @@
+// mermaid 图的样式补丁
+
+// classDiagram：类框和边标签用的是同一个主题绿（#4abf8a）——框是绿底，标签也是绿底白字，
+// 两者糊在一起分不出哪个是类、哪个是连线上的说明。改成「页面底色 + 细边框 + 常规文字色」，
+// 和绿色类框拉开对比。
+// 注：必须 !important —— 底色是 mermaid 写在元素内联 style 上的，字色是 mermaid 注入的
+// `<style>` 里用 id 选择器（#mermaid-NNN .edgeLabel）定的，特异性都比这里的规则高。
+// 另注：主题的文字色变量叫 `--vp-c-text`（不是 `--vp-c-text-1`，后者未定义）。
+// 写成未定义变量时 `var()` 取不到值、整条声明作废，字色会退回继承到的白色 —— 也是白字，看不出来。
+// **别再给这个元素加 padding**：mermaid 是按「没加 padding 的文字宽度」算出 foreignObject 宽度的，
+// 加了水平内边距内容就超出这个宽度、被裁掉（实测「绑定 · 检测到 log4j 就用」这类长标签整条被截断）。
+.mermaid-wrapper .edgeLabel .labelBkg {
+  background: var(--vp-c-bg) !important;
+  border: 1px solid var(--vp-c-border);
+  border-radius: 0.25rem;
+}
+
+.mermaid-wrapper .edgeLabel .labelBkg,
+.mermaid-wrapper .edgeLabel .labelBkg p,
+.mermaid-wrapper .edgeLabel .labelBkg span {
+  color: var(--vp-c-text) !important;
+}
