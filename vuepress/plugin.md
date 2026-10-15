@@ -56,6 +56,10 @@ export default {
 ```
 
 ### 选项卡和代码选项卡 @vuepress/plugin-markdown-tab
+::: tip
+theme-default 主题已默认启用本插件，默认配置即 `{ codeTabs: true, tabs: true }`，无需手动安装和注册。
+:::
+
 安装依赖：
 ```bash
 npm i -D @vuepress/plugin-markdown-tab@next
@@ -273,6 +277,10 @@ npm i vuepress-plugin-auto-sidebar@alpha -D
 
 ## 页面增强
 ### back-to-top
+::: tip
+theme-default 主题已默认启用本插件，无需手动安装和注册。
+:::
+
 ```bash
 npm i -D @vuepress/plugin-back-to-top@next
 ```

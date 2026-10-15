@@ -272,6 +272,121 @@ html {
   }
 }
 
+/* 日志系列「门面与实现的关系」图图例：线段表示线型（实线 = 绑定、虚线 = 桥接），
+   方块表示角色配色（与图里的 classDef 同色） */
+.logging-legend {
+  display: inline-block;
+  width: 1.5rem;
+  height: 0;
+  margin-inline-end: 0.35rem;
+  vertical-align: 0.3rem;
+  border-top: 2px solid #333;
+
+  &.dashed {
+    border-top-style: dashed;
+  }
+
+  /* 角色方块：0.8rem，与 collection-framework-legend 的色块同规格 */
+  &.facade,
+  &.impl,
+  &.weak {
+    width: 0.8rem;
+    height: 0.8rem;
+    vertical-align: -0.08rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+  }
+
+  &.facade {
+    background: #dbeafe;
+    border-color: #2563eb;
+  }
+
+  &.impl {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+
+  &.weak {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+  }
+}
+
+/* Spring 容器核心接口类图图例色块（接口 / 抽象类 / 实现类） */
+.spring-legend {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-inline-end: 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  vertical-align: -0.08rem;
+
+  &.interface {
+    background: #dbeafe;
+    border-color: #2563eb;
+  }
+
+  &.abstract {
+    background: #e0e7ff;
+    border-color: #4f46e5;
+  }
+
+  &.implementation {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+
+  /* 线型修饰：线段表示连线的语义（实线 = 继承、虚线 = 接口实现、
+     细实线 = 无三角箭头的依赖 / 持有），写法与 .logging-legend 的线段一致 */
+  &.inherit,
+  &.impl,
+  &.dep {
+    width: 1.5rem;
+    height: 0;
+    vertical-align: 0.3rem;
+    border: none;
+    border-top: 2px solid #333;
+    border-radius: 0;
+    background: none;
+  }
+
+  &.impl {
+    border-top-style: dashed;
+  }
+
+  &.dep {
+    border-top-width: 1px;
+  }
+}
+
+/* log4j 调用链流程图图例色块（门面 / 适配器 / log4j 自身） */
+.log4j-legend {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-inline-end: 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  vertical-align: -0.08rem;
+
+  &.facade {
+    background: #dbeafe;
+    border-color: #2563eb;
+  }
+
+  &.adapter {
+    background: #fed7aa;
+    border-color: #ea580c;
+  }
+
+  &.core {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+}
+
 /* I/O 类图图例色块 */
 .io-class-diagram-legend {
   display: inline-block;

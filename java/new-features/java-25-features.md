@@ -82,7 +82,7 @@ Simplify concurrent programming by introducing an API for structured concurrency
 
 <!-- @include:./structured-concurrency-intro.md -->
 
-[结构化并发](./structured-concurrency-guide.md)
+[结构化并发](./structured-concurrency.md)
 
 ## JEP 506：作用域值
 

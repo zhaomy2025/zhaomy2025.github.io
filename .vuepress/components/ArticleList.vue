@@ -52,9 +52,10 @@ defineProps({
 @use '@vuepress/theme-default/styles/mixins';
 
 .article-wrapper {
-  @include mixins.content-wrapper;
   padding-top: calc(var(--navbar-height) + 1rem) !important;
   text-align: center;
+
+  @include mixins.content-wrapper;
 }
 
 .article {

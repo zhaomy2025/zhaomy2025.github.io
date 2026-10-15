@@ -270,6 +270,8 @@ flowchart LR
 如果想让它们上下排列，最直接的做法是**把外层方向改成 `LR`**——本文示例就是外层 `LR`，读取在上、写出在下。子图内部仍保留自己的 `direction LR`，两层方向互不影响。
 
 也可以反过来：外层保持 `TB`，在子图之间补一条连线（可见连线或隐藏连线 `~~~`），它们才会沿 `TB` 方向上下排列，见下一节。
+
+以上都建立在「子图内的节点没有连到子图外」这个前提上；一旦有节点跨出去，子图的 `direction` 会被忽略，见「子图内 direction 何时失效」一节。
 :::
 
 ### 隐形连线
@@ -301,6 +303,44 @@ flowchart LR
 ```
 
 `LR` 下两个子图本来就会上下堆叠（见上一节的提示框），补上 `A ~~~ B` 后改为左右并排。也就是说，`~~~` 的作用是让它们**沿主方向**排列；`TB` 下这个方向是上下，`LR` 下是左右。
+
+### 子图内 direction 何时失效
+
+子图里的 `direction` 有个前提：该子图内不能有**节点**连到子图外。只要有一个节点跨出去（例如 `D --> E` 连到另一个子图的节点），这个子图的 `direction` 就被忽略，改为跟随外层方向。
+
+后果是：外层用 `TB` 时，哪怕子图里写了 `direction TB`，也只能得到「子图内竖排、两个子图上下堆叠」，做不出「子图内竖排 + 两图左右并排」。
+
+绕法是把跨子图的连线降到**子图层级**——连的是子图本身，而不是里面的节点：
+
+````markdown
+```mermaid
+flowchart LR
+    subgraph pub[发布端]
+        direction TB
+        A[原始文件] --> B[计算哈希值] --> C[发布哈希值] --> D[用户下载文件]
+    end
+    subgraph ver[验证端]
+        direction TB
+        E[计算下载文件哈希值] --> F[比较哈希值] --> G[验证结果] --> H[采取行动]
+    end
+    pub --> ver
+```
+````
+
+```mermaid
+flowchart LR
+    subgraph pub[发布端]
+        direction TB
+        A[原始文件] --> B[计算哈希值] --> C[发布哈希值] --> D[用户下载文件]
+    end
+    subgraph ver[验证端]
+        direction TB
+        E[计算下载文件哈希值] --> F[比较哈希值] --> G[验证结果] --> H[采取行动]
+    end
+    pub --> ver
+```
+
+`pub --> ver` 连的是两个子图本身，不算「节点连到外部」，两个子图的 `direction TB` 都保得住；子图之间有连线，又会沿外层 `LR` 方向左右排列。换成隐藏连线 `pub ~~~ ver` 效果相同。
 
 ### 调整布局参数
 
@@ -579,6 +619,32 @@ gantt
 - `:active`、`:done`、`:crit`：使用 Mermaid 内置状态设置任务状态；
 - `:milestone, id, 时间, 0d`：添加持续时间为 0 天的里程碑。
 
+`gantt` 的宽度默认取父容器的 `offsetWidth`，也就是撑满正文栏并随浏览器窗口伸缩；给外层容器加 CSS `max-width` 不生效，SVG 仍按原容器宽度渲染。要固定宽度，用 `%%{init: ...}%%` 覆盖 `useWidth`：
+
+````markdown
+```mermaid
+%%{init: {"gantt": {"useWidth": 500}}}%%
+gantt
+    dateFormat YYYY
+    axisFormat %Y
+    section 应用框架
+    React :react, 2013, 2026
+```
+````
+
+```mermaid
+%%{init: {"gantt": {"useWidth": 500}}}%%
+gantt
+    dateFormat YYYY
+    axisFormat %Y
+    section 应用框架
+    React :react, 2013, 2026
+```
+
+参数名是 `useWidth` 而不是 `useMaxWidth`，后者 `gantt` 的渲染器不读。`useWidth` 不在 Mermaid 的默认配置里，是渲染器代码里额外读取的。
+
+定宽之后图不再随窗口伸缩，窗口宽度小于该值时会出现横向滚动条。
+
 ::: warning gantt 的配色限制
 `gantt` 不支持 `classDef` 和 `class`。在甘特图中使用这两个关键字会导致解析错误，不能照搬 `flowchart` 或 `classDiagram` 的自定义样式写法。甘特图配色使用 Mermaid 内置的 `:active`、`:done`、`:crit` 状态；默认颜色循环也可能导致不同任务颜色不同。
 :::
@@ -737,7 +803,7 @@ classDiagram
 
 ## 因果图：ishikawa
 
-`ishikawa`（鱼骨图）用来把一个问题按原因分类展开，每根鱼骨是一条归因分支，分支下可以再挂具体原因。它适合梳理「某类问题由哪些因素造成」，不适合表达步骤顺序或调用关系：
+`ishikawa`（鱼骨图）用来把一个问题按原因分类展开，每根鱼骨是一条归因分支，分支下可以再挂具体原因。它适合梳理「某类问题由哪些因素造成」，不适合表达步骤顺序或调用关系；图中也没有时间刻度，表达时间线（年份轴）仍用 `gantt`：
 
 ````markdown
 ```mermaid
@@ -856,5 +922,6 @@ frontmatter 块和 `%%{init: ...}%%` 指令可以同时存在，但不要让两�
 | 图类型 | 限制 |
 | --- | --- |
 | `gantt` | 不支持 `classDef` / `class`，配色只能用内置的 `:active`、`:done`、`:crit` |
+| `gantt` 宽度 | 默认撑满正文栏且随窗口伸缩，CSS `max-width` 改不动它；固定宽度用 `%%{init: {"gantt": {"useWidth": N}}}%%`，参数是 `useWidth` 而非 `useMaxWidth` |
 | `flowchart` | 站点样式会给节点统一加圆角，`[]` 和 `()` 视觉上差异不明显 |
 | `%%{init}%%` | 内容按 JSON 解析，写法不合法时整段指令被跳过，不报错也不生效 |

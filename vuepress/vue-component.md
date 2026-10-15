@@ -73,21 +73,21 @@ export default defineClientConfig({
 ::: code-tabs#shell
 
 @tab MyTag.vue
-@[code](../../.vuepress/components/MyTag.vue)
+@[code](../.vuepress/components/MyTag.vue)
 
 @tab Tip.vue
-@[code](../../.vuepress/components/Tip.vue)
+@[code](../.vuepress/components/Tip.vue)
 
 @tab Warning.vue
-@[code](../../.vuepress/components/Warning.vue)
+@[code](../.vuepress/components/Warning.vue)
 
 @tab Danger.vue
-@[code](../../.vuepress/components/Danger.vue)
+@[code](../.vuepress/components/Danger.vue)
 
 :::
 
 公共样式放到了.vuepress/styles/index.scss 文件中：
-@[code](../../.vuepress/styles/inline-tag.scss)
+@[code](../.vuepress/styles/inline-tag.scss)
 
 在 Markdown 中使用：
 ```markdown
@@ -101,6 +101,37 @@ export default defineClientConfig({
 <Tip>提示</Tip> 
 <Warning>注意</Warning> 
 <Danger>警告</Danger>  
+
+### 卡片组件
+
+卡片由容器 `<Cards>` 和单张 `<Card>` 组成。`title` 通过 prop 传入，正文写在默认插槽里；样式用 `<style scoped>` 内置在组件内，没有独立的样式文件。一个 `<Cards>` 里放多张 `<Card>` 即三列并排，窗口宽度 ≤719px 时折成一列。
+
+组件代码：
+::: code-tabs#shell
+
+@tab Cards.vue
+@[code](../.vuepress/components/Cards.vue)
+
+@tab Card.vue
+@[code](../.vuepress/components/Card.vue)
+
+:::
+
+在 Markdown 中使用：
+```markdown
+<Cards>
+  <Card title="碰撞攻击">找到两个完全不同的输入，却产生相同的哈希值</Card>
+  <Card title="预图像攻击">给定一个哈希值，找到生成它的那个输入</Card>
+  <Card title="第二预图像攻击">给定输入 A 和它的哈希值，找到另一个输入 B（≠A）具有相同的哈希值</Card>
+</Cards>
+```
+效果如下：
+
+<Cards>
+  <Card title="碰撞攻击">找到两个完全不同的输入，却产生相同的哈希值</Card>
+  <Card title="预图像攻击">给定一个哈希值，找到生成它的那个输入</Card>
+  <Card title="第二预图像攻击">给定输入 A 和它的哈希值，找到另一个输入 B（≠A）具有相同的哈希值</Card>
+</Cards>
 
 ## 客户端配置文件
 有些时候用户们可能希望直接添加一些客户端代码。 VuePress 通过客户端配置文件`client.js`来支持这种需求。

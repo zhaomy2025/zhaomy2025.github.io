@@ -394,7 +394,7 @@ jmap -dump:format=b,file=heap.hprof <pid>
 - 大对象内存消耗分析
 - 内存优化和调优
 
-**详细指南**：[MAT 内存分析工具详解](memory-tools-mat.md)
+**详细指南**：[Java 内存分析工具详解](memory-tools.md)
 
 ## 线程分析工具详解
 

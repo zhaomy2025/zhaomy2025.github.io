@@ -1,10 +1,8 @@
-import { backToTopPlugin } from '@vuepress/plugin-back-to-top'
 import { blogPlugin } from '@vuepress/plugin-blog'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
 import { mdEnhancePlugin } from 'vuepress-plugin-md-enhance'
-import {markdownTabPlugin} from "@vuepress/plugin-markdown-tab";
 import {markdownIncludePlugin} from "@vuepress/plugin-markdown-include";
 import { markdownStylizePlugin } from "@vuepress/plugin-markdown-stylize";
 import { markdownExtPlugin } from "@vuepress/plugin-markdown-ext";
@@ -32,7 +30,10 @@ export default defineUserConfig({
       },
       {
         text: 'Spring',
-        link: '/posts/spring/',
+        children: [
+          { text: 'Spring Framework', link: '/spring-framework/' },
+          { text: 'Spring Boot', link: '/spring-boot/' },
+        ],
       },
       {
         text: '数据库',
@@ -94,6 +95,20 @@ export default defineUserConfig({
                   'io',
                 ]
               },
+              {
+                text: '日志',
+                link: 'logging/',
+                prefix: 'logging/',
+                children: [
+                  'jcl',
+                  'slf4j',
+                  'log4j',
+                  'jul',
+                  'logback',
+                  'log4j2',
+                  'spring-boot-logging',
+                ]
+              },
             ]
           },
           {
@@ -129,11 +144,16 @@ export default defineUserConfig({
                   'diagnostic-jps',
                   'diagnostic-jinfo',
                   'diagnostic-jstat',
+                  'diagnostic-jstatd',
                   'diagnostic-jmap',
                   'memory-tools',
+                  'diagnostic-jstack',
                   'profiling-jfr',
                   'profiling-jmc',
-                  'profiling-tools'
+                  'profiling-tools',
+                  'profiling-async-profiler',
+                  'profiling-visualvm',
+                  'system-tools'
                 ]
               },
               {
@@ -269,34 +289,83 @@ export default defineUserConfig({
           ],
         },
       ],
-      '/posts/spring/': [
-          {
-            text: 'Spring',
-            link: '/posts/spring/',
-          },
+      '/spring-framework/': [
           {
             text: 'Spring Framework',
-            prefix: '/posts/spring/',
+            link: '/spring-framework/',
+            prefix: '/spring-framework/',
             collapsible: true,
             children: [
-                'spring-framework',
-                'spring-framework-ioc',
-                'spring-framework-ioc-impi',
-                'spring-framework-aop',
-                'spring-framework-aop-impi'
+                {
+                  text: 'Spring核心 - IoC 容器',
+                  link: 'spring-framework-ioc',
+                  children: ['spring-core-interfaces', 'spring-framework-ioc-impi'],
+                },
+                {
+                  text: 'Spring核心 - AOP',
+                  link: 'spring-framework-aop',
+                  children: ['spring-framework-aop-impi'],
+                },
+                {
+                  text: '注解',
+                  link: 'annotations/',
+                  prefix: 'annotations/',
+                  children: ['enable-annotations'],
+                },
+                {
+                  text: '回调接口',
+                  link: 'framework-callbacks/',
+                  prefix: 'framework-callbacks/',
+                  children: [
+                    'application-context-initializer',
+                    'condition',
+                    'import-selector',
+                    'bean-post-processor',
+                    'web-mvc-configurer',
+                    'smart-lifecycle',
+                    'application-listener',
+                    'handler-interceptor',
+                    'client-http-request-interceptor',
+                  ],
+                  collapsible: true,
+                },
             ],
           },
+      ],
+      '/spring-boot/': [
           {
             text: 'Spring Boot',
-            prefix: '/posts/spring/',
+            link: '/spring-boot/',
+            prefix: '/spring-boot/',
+            collapsible: true,
             children: [
-                'spring-boot',
                 'spring-boot-hello-world',
+                'spring-boot-config',
+                'spring-boot-profile',
+                'spring-boot-web',
+                {
+                  text: '回调接口',
+                  link: 'boot-callbacks/',
+                  prefix: 'boot-callbacks/',
+                  children: [
+                    'environment-post-processor',
+                    'spring-boot-condition',
+                    'web-server-factory-customizer',
+                    'application-runner',
+                    'failure-analyzer',
+                    'error-controller',
+                    'http-client-customizer',
+                    'exit-code-generator',
+                  ],
+                  collapsible: true,
+                },
+                'spring-boot-hot-deploy',
                 'spring-boot-redis',
                 'spring-boot-oracle',
+                'spring-boot-hikaricp',
+                'spring-boot-faq',
             ],
-            collapsible: true,
-          }
+          },
       ],
       '/arch/':[
         {
@@ -445,6 +514,7 @@ export default defineUserConfig({
       '/language-comparison/': [
         '/language-comparison/',
         'collections',
+        'strings',
         'regex',
       ],
       '/web/': [
@@ -546,6 +616,10 @@ export default defineUserConfig({
         {
           text: '多策略横评',
           link: '/quant/strategy-zoo/',
+        },
+        {
+          text: '组合构建',
+          link: '/quant/portfolio/',
         },
       ],
     },
@@ -672,13 +746,6 @@ export default defineUserConfig({
     markdownExtPlugin({
       // 脚注 [^1]
       footnote: true,
-    }),
-    backToTopPlugin(),
-    markdownTabPlugin({
-      // 启用代码选项卡
-      codeTabs: true,
-      // 启用选项卡
-      tabs: true,
     }),
     markdownIncludePlugin({
     }),

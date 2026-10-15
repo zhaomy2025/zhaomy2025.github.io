@@ -642,5 +642,5 @@ cat /tmp/profile-*.col > /tmp/merged.col
 - [Facebook 的性能分析实践](https://code.facebook.com/posts/971137969217467/)
 
 **相关工具对比**：
-- [JFR 性能监控增强详解](jfr-enhancements.md)
+- [JFR 性能监控增强详解](profiling-jfr.md)
 - [Java Mission Control 官方文档](https://docs.oracle.com/en/java/java-components/jdk-mission-control/)

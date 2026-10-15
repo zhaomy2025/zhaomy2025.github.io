@@ -18,7 +18,7 @@ tags:
 
 <!-- @include: ./common_markdown.md -->
 
-优先使用官方插件，官方插件不支持的功能，再考虑自己编写插件或Vue组件来实现相关功能，Vue组件的开发可以参考[VuePress 编写 Vue 组件](./vue_component.md)，目前实现了以下功能：
+优先使用官方插件，官方插件不支持的功能，再考虑自己编写插件或Vue组件来实现相关功能，Vue组件的开发可以参考[VuePress 编写 Vue 组件](./vue-component.md)，目前实现了以下功能：
   - 行内标签组件
 
 部分简单功能，也可以通过HTML+CSS来实现，参考[纯CSS扩展Vuepress功能](./css.md)，目前实现了以下功能：

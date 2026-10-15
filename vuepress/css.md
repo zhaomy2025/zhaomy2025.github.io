@@ -13,4 +13,4 @@ tags:
 
 ## 标题、目录自动编号
 将以下代码添加到`.vuepress/styles/index.scss`文件中：
-@[code](../../.vuepress/styles/auto-number.scss)
+@[code](../.vuepress/styles/auto-number.scss)

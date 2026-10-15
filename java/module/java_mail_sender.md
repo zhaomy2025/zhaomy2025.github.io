@@ -1,6 +1,6 @@
 ---
 title: JavaMailSender
-date: 2025-07-28T07:13:15.813Z
+date: 2025-07-28
 category:
   - java
   - module
@@ -29,6 +29,8 @@ JavaMailSender 是Spring Framework提供的邮件发送接口，对JavaMail API�
     1. 创建MimeMessage，设置发件人、收件人、抄送人、主题、内容，添加附件
 6. 发送邮件
     1. 使用Transport发送邮件
+
+本文以 Spring Boot 4.1.1 为准。
 
 ## 获取邮件服务器信息
 
@@ -93,6 +95,42 @@ public JavaMailSender javaMailSender() {
     return sender;
 }
 ```
+
+## 配置来自数据库时手动构造
+
+发信账号不固定（运行中可能被改）时，配置存在数据库里，`spring.mail.*` 就用不上了——它读的是启动那一刻的静态配置。这种情况直接 new 一个 `JavaMailSenderImpl`，把从库里取到的属性填进去：
+
+```java
+public class DynamicMailSender {
+
+    private final JavaMailSenderImpl mailSender;
+
+    // config 是从数据库读出的发信配置
+    public DynamicMailSender(MailConfig config) {
+        this.mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(config.getHost());
+        mailSender.setPort(config.getPort());
+        mailSender.setUsername(config.getUsername());
+        mailSender.setPassword(config.getPassword());
+        mailSender.setDefaultEncoding("utf-8");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.timeout", "25000");
+    }
+
+    public void send(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setFrom(mailSender.getUsername());
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
+    }
+}
+```
+
+代价是 `spring.mail.*` 不再作用于这个手建实例：配置改了就得重建实例，`JavaMailSenderImpl` 的生命周期也由调用方自己管。要注意，手建实例只有注册成 `MailSender` bean 时，自动配置才会整体退让；否则只要 yml 里还配着 `spring.mail.host`，Boot 照样会另建一个用不上的 `MailSender` bean。配置固定、只是不想写在 yml 里的场景，用上一节的 `@Bean` 方式更省事。
 
 ## 关键类说明
 - JavaMailSender 核心发送接口，提供创建消息、发送邮件等方法 

@@ -67,6 +67,18 @@
         - 对象流与序列化：`ObjectInputStream`、`ObjectOutputStream`、`Serializable`
         - 资源管理：`try-with-resources`、`AutoCloseable`
         - NIO 文件 API：`Path`、`Files`、`FileChannel`、`ByteBuffer`
++ **日志**
+    - [日志体系](basic/logging/index.md)（门面与实现的分层、两层的常见搭配）
+        - 出现顺序：log4j → JUL → JCL → slf4j → logback → log4j2
+        - 门面
+            - [JCL](basic/logging/jcl.md)：Apache 的统一日志 API，兼容多种日志实现
+            - [slf4j](basic/logging/slf4j.md)：目前最常用的日志门面，业务代码通常依赖它
+        - 实现
+            - [log4j](basic/logging/log4j.md)：早期常用的日志实现，1.x 已停止维护
+            - [JUL](basic/logging/jul.md)：JDK 自带的日志实现
+            - [logback](basic/logging/logback.md)：原生实现 slf4j 的日志框架
+            - [log4j2](basic/logging/log4j2.md)：log4j 的升级版，支持异步日志
+    - [Spring Boot 的日志体系](basic/logging/spring-boot-logging.md)
 
 # 中级阶段
 + **泛型**

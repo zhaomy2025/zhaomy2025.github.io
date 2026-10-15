@@ -667,7 +667,7 @@ pipeline {
 |---|---|---|---|
 | **Spring Boot Web** | JUnit5 + Mockito + SpringBootTest | `@SpringBootTest` + `@MockBean` | [5分钟搭建](#新项目测试环境搭建5分钟完成) |
 | **微服务架构** | JUnit5 + RESTAssured + Testcontainers | `@SpringBootTest` + MockServer | [查看示例](./examples/spring-boot.md) |
-| **数据密集型** | JUnit5 + Testcontainers + AssertJ | `@DataJpaTest` + Flyway | [数据库测试](./framework/Testcontainers.md) |
+| **数据密集型** | JUnit5 + Testcontainers + AssertJ | `@DataJpaTest` + Flyway | [数据库测试](./framework/testcontainers.md) |
 
 ### 🚀 从入门到精通路线图
 

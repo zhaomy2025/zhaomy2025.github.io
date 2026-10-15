@@ -983,8 +983,8 @@ JMC 支持插件扩展：
 - [JMC 插件开发指南](https://wiki.openjdk.org/display/jmc/Plugin+Development)
 
 **学习资源**：
-- [JFR 性能监控增强详解](jfr-enhancements.md)
-- [Async Profiler 实战指南](async-profiler.md)
+- [JFR 性能监控增强详解](profiling-jfr.md)
+- [Async Profiler 实战指南](profiling-async-profiler.md)
 - [Oracle Learning Library - JMC Videos](https://www.oracle.com/technical-resources/articles/java/performance-with-jmc/)
 
 **社区资源**：

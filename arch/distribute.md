@@ -18,10 +18,7 @@ timeline
       init: {
         'theme': 'base',
         'themeVariables': {
-          'primaryColor': '#FFF4E6',
-          'primaryColor2': '#E0F7FA',
-          'primaryColor3': '#F3E5F5',
-          'primaryColor4': '#E8F5E9'
+          'primaryColor': '#FFF4E6'
         }
       }
     }%%

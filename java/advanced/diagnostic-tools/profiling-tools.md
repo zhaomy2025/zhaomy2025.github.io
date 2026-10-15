@@ -71,7 +71,7 @@ jcmd <PID> JFR.dump name=test filename=dump.jfr
 - 热点方法识别
 - GC 调优分析
 
-**详细指南**：[JFR 性能监控增强详解](jfr-enhancements.md)
+**详细指南**：[JFR 性能监控增强详解](profiling-jfr.md)
 
 ### 2. JMC (Java Mission Control)
 
@@ -98,7 +98,7 @@ jmc
 - 线程竞争分析
 - GC 性能调优
 
-**详细指南**：[Java Mission Control 实战指南](jmc-guide.md)
+**详细指南**：[Java Mission Control 实战指南](profiling-jmc.md)
 
 ### 3. Async Profiler
 
@@ -128,7 +128,7 @@ jmc
 - 锁竞争排查
 - 深度性能优化
 
-**详细指南**：[Async Profiler 实战指南](async-profiler.md)
+**详细指南**：[Async Profiler 实战指南](profiling-async-profiler.md)
 
 ## 工具对比与选择
 

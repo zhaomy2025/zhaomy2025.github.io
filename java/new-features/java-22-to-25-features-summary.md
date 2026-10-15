@@ -122,7 +122,7 @@ JEP 428 (Java 19) → JEP 437 (Java 19) → JEP 453 (Java 21) → JEP 462 (Java 
 - **Java 24：JEP 499第四次预览**，无 API 变更
 - **Java 25：JEP 505第五次预览**，使用静态工厂方法`StructuredTaskScope::open()`创建作用域
 
-[结构化并发](./structured-concurrency-guide.md)
+[结构化并发](./structured-concurrency.md)
 
 ### 作用域值
 
