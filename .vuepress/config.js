@@ -6,6 +6,28 @@ import { mdEnhancePlugin } from 'vuepress-plugin-md-enhance'
 import {markdownIncludePlugin} from "@vuepress/plugin-markdown-include";
 import { markdownStylizePlugin } from "@vuepress/plugin-markdown-stylize";
 import { markdownExtPlugin } from "@vuepress/plugin-markdown-ext";
+
+function normalizeSidebarGroups(sidebar) {
+  const normalizeItem = (item) => {
+    if (typeof item === 'string') return item
+
+    const normalized = { ...item }
+    if (normalized.children) {
+      normalized.collapsible = true
+      normalized.collapsed = false
+      normalized.children = normalized.children.map(normalizeItem)
+    }
+    return normalized
+  }
+
+  return Object.fromEntries(
+    Object.entries(sidebar).map(([path, items]) => [
+      path,
+      items.map(normalizeItem),
+    ]),
+  )
+}
+
 export default defineUserConfig({
   lang: 'zh-CN',
   title: 'Java 后端知识库',
@@ -37,7 +59,7 @@ export default defineUserConfig({
       },
       {
         text: '数据库',
-        link: '/posts/db/',
+        link: '/db/',
       },
       {
         text: '架构',
@@ -70,7 +92,7 @@ export default defineUserConfig({
         ],
       },
     ],
-    sidebar: {
+    sidebar: normalizeSidebarGroups({
       '/resource/': [
         '/resource/',
         '/resource/windows-tools',
@@ -388,7 +410,8 @@ export default defineUserConfig({
           ],
         }
       ],
-      '/posts/db/': [
+      '/db/': [
+        '/db/',
         {
           text:'数据库结构设计',
           link: 'arch/',
@@ -402,11 +425,39 @@ export default defineUserConfig({
           link: 'sql/',
           prefix: 'sql/',
           children: [
+            'sql',
+            'constraint',
+            'sql_index',
             'cursor',
             'merge-rows',
-            'oracle-job-mview',
-            'oracle-mview-issue',
-            'pl_sql/',
+            'optimize',
+            'procedure',
+            'trigger',
+            {
+              text: 'Oracle',
+              children: [
+                'pl_sql/',
+                'oracle-job-mview',
+                'oracle-mview-issue',
+              ],
+            },
+          ],
+        },
+        {
+          text: 'NoSQL',
+          link: 'nosql/',
+          prefix: 'nosql/',
+          children: [
+            {
+              text: 'Redis',
+              link: 'redis/',
+              prefix: 'redis/',
+              children: [
+                'commands',
+                'data-structures',
+                'web-applications',
+              ],
+            },
           ],
         },
       ],
@@ -622,7 +673,7 @@ export default defineUserConfig({
           link: '/quant/portfolio/',
         },
       ],
-    },
+    }),
     sidebarDepth: 0,
   }),
 

@@ -22,3 +22,13 @@
 .mermaid-wrapper .edgeLabel .labelBkg span {
   color: var(--vp-c-text) !important;
 }
+
+/* 隐藏子图容器：以 HideCluster_ 为前缀的子图只用于布局*/
+svg.flowchart [id^='HideCluster_'] rect {
+  fill: transparent !important;
+  stroke: transparent !important;
+}
+
+svg.flowchart [id^='HideCluster_'] .cluster-label {
+  display: none;
+}

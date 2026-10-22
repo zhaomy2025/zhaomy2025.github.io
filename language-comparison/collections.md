@@ -14,14 +14,15 @@ categories:
 
 [[toc]]
 
-本文以“常见操作如何表达”为入口，对照 Java、JavaScript 和 Python 的数组/列表、栈、队列和优先队列，以及Set、Map/字典。这里的“对照”是为了帮助迁移思路，不表示三种语言的容器在类型、可变性、异常或复杂度上完全等价。
+本文以“常见操作如何表达”为入口，对照 Java、JavaScript 和 Python 的数组/列表、栈、队列和优先队列，以及 Redis 的 List、Set、Sorted Set 和 Hash。这里的“对照”是为了帮助迁移思路，不表示这些容器在类型、可变性、异常、持久化或复杂度上完全等价。
 
 ::: tip 对照视角
 - Java 数组是定长且元素类型固定的容器
 - JavaScript Array 可以动态扩容并且可以是稀疏数组
-- Python `list` 是可变长的对象序列。
+- Python `list` 是可变长的对象序列
+- Redis 的 List、Set、Sorted Set 和 Hash 都挂在 key 上，由服务端命令操作；它们不是进程内的普通容器
 
-下表把它们放在一起，是为了对照“同一类需求的常见写法”，具体边界见各节说明。
+下表把它们放在一起，是为了对照“同一类需求的常见写法”，具体边界见各节说明。Redis 不提供数组的全部操作，通常需要客户端处理或使用 Lua / Redis Functions。
 :::
 
 ## 数组/列表
@@ -29,13 +30,17 @@ categories:
 ### 基本操作
 #### 创建与插入
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
-|----|----|----|----|----|
-|创建集合|`int[] arr = {1, 2, 3};`<br>`int[] arr = new int[10];`|直接创建：<br>`new ArrayList<>()`<Tip>可变、可扩容</Tip><br>`Arrays.asList(1, 2, 3)`<a class="collection-note" href="#arrays-as-list"><Warning>固定长度、可修改值</Warning></a><br>`List.of(1, 2, 3)`<Tip>Java 9+</Tip><a class="collection-note" href="#arrays-as-list"><Warning>不可变</Warning></a><br>对象数组<Warning>展开为多个元素</Warning><br>`Arrays.asList(objectArr)`<br>`List.of(objectArr)`<br>基本类型数组<Warning>整个数组作为一个元素</Warning><br>`Arrays.asList(primitiveArr)`<br>`List.of(primitiveArr)`|`const arr = [1, 2, 3];`<br>`const arr = new Array();`<br>`const arr = new Array(1, 2, 3);`<br>`const arr = new Array(3);`<Warning>长度为 3 的空数组</Warning>|`[]`<br>`list()`<br>`list(iterable)`<Tip>`iterable`：可迭代对象，可用 `for` 遍历</Tip>|
-|任意位置插入|/|`list.add(index, value);`|`arr.splice(index, 0, value);`|`arr.insert(index, value)`|
-|头部插入|/|`list.add(0, value);`|`arr.unshift(value1, value2, ...items);`|`arr.insert(0, value)`|
-|尾部插入|/|`list.add(value);`|`arr.push(value1, value2, ...items);`|`arr.append(value)`|
-|批量追加|/|`list.addAll(collection)`|`arr.push(...items)`|`arr.extend(items)`|
+|操作|Java数组|Java List|JavaScript数组|Python列表|Redis List|
+|----|----|----|----|----|----|
+|创建集合|`int[] arr = {1, 2, 3};`<br>`int[] arr = new int[10];`|直接创建：<br>`new ArrayList<>()`<Tip>可变、可扩容</Tip><br>`Arrays.asList(1, 2, 3)`<a class="collection-note" href="#arrays-as-list"><Warning>固定长度、可修改值</Warning></a><br>`List.of(1, 2, 3)`<Tip>Java 9+</Tip><a class="collection-note" href="#arrays-as-list"><Warning>不可变</Warning></a><br>对象数组<Warning>展开为多个元素</Warning><br>`Arrays.asList(objectArr)`<br>`List.of(objectArr)`<br>基本类型数组<Warning>整个数组作为一个元素</Warning><br>`Arrays.asList(primitiveArr)`<br>`List.of(primitiveArr)`|`const arr = [1, 2, 3];`<br>`const arr = new Array();`<br>`const arr = new Array(1, 2, 3);`<br>`const arr = new Array(3);`<Warning>长度为 3 的空数组</Warning>|`[]`<br>`list()`<br>`list(iterable)`<Tip>`iterable`：可迭代对象，可用 `for` 遍历</Tip>|`RPUSH key value...`<br>`LPUSH key value...`|
+|任意位置插入|/|`list.add(index, value);`|`arr.splice(index, 0, value);`|`arr.insert(index, value)`|`LINSERT key BEFORE 或 AFTER pivot value`|
+|头部插入|/|`list.add(0, value);`|`arr.unshift(value1, value2, ...items);`|`arr.insert(0, value)`|`LPUSH key value...`|
+|尾部插入|/|`list.add(value);`|`arr.push(value1, value2, ...items);`|`arr.append(value)`|`RPUSH key value...`|
+|批量追加|/|`list.addAll(collection)`|`arr.push(...items)`|`arr.extend(items)`|`RPUSH key value...`|
+
+<div id="redis-create" class="collection-note-target"></div>
+
+> Redis 的 List、Set、Hash 和 Sorted Set 都没有独立的创建命令：key 在首次写入时创建、数据保存在服务端，最后一个元素被移除后 key 自动删除。因此这几类的「创建集合」行直接写写入命令。
 
 ::: tip Java List 的实现
 - `new ArrayList`：长度可变、可修改元素值，基于动态数组，支持按索引快速访问，通常适合大多数 List 场景。
@@ -82,14 +87,14 @@ list(x * 2 for x in range(3))       # [0, 2, 4]
 
 #### 删除
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
+|操作|Java List|JavaScript数组|Python列表|Redis List|
 |----|----|----|----|----|
-|头部删除|/|`list.remove(int index)`|`arr.shift()`|`arr.pop(0)`|
-|尾部删除|/|`list.remove(int index)`|`arr.pop()`|`arr.pop()`|
-|按值删除第一个|/|`list.remove(Object value)`|先查找索引，再 `splice`|`arr.remove(value)`|
-|按下标删除|/|`list.remove(int index)`|`arr.splice(index, 1);`|`del arr[index]`|
-|删除多个元素|/|`list.removeAll(collection);`<br>`list.removeIf(predicate);`|`arr.splice(start, deleteCount)`|`arr[:] = [x for x in arr if not predicate(x)]`|
-|清空列表|/|`list.clear();`|`arr.length = 0`|`arr.clear()`<Tip>Python 3.3+</Tip>|
+|头部删除|`list.remove(0)`|`arr.shift()`|`arr.pop(0)`|`LPOP key`|
+|尾部删除|`list.remove(list.size() - 1)`|`arr.pop()`|`arr.pop()`<Tip>等价于 `arr.pop(-1)`</Tip>|`RPOP key`|
+|按值删除第一个|`list.remove(value)`|先查找索引，再 `splice`|`arr.remove(value)`|`LREM key 1 value`|
+|按下标删除|`list.remove(index)`|`arr.splice(index, 1);`|`del arr[index]`|/|
+|删除多个元素|`list.removeAll(collection);`<br>`list.removeIf(predicate);`|`arr.splice(start, deleteCount)`|`arr[:] = [x for x in arr if not predicate(x)]`|`LREM key count value`<br>`LTRIM key start stop`|
+|清空列表|`list.clear();`|`arr.length = 0`|`arr.clear()`<Tip>Python 3.3+</Tip>|`DEL key`|
 
 ::: warning 删除方法的返回值与重载
 <span id="list-remove-semantics" class="collection-note-target"></span>
@@ -108,7 +113,7 @@ list(x * 2 for x in range(3))       # [0, 2, 4]
     }
     ```
 - **Python list**
-  - `pop(index)`：返回被删除的元素。
+  - `pop(index=-1)`：按下标删除并返回被删除的元素。`index` 为正数时从头部计数（`0` 是第一个元素），为负数时从尾部计数（`-1` 是最后一个元素）；省略时删除末尾元素；越界时抛 `IndexError`。
   - `remove(value)`：删除第一个匹配项，但返回 `None`；找不到时抛 `ValueError`。
   - `del`、切片赋值和 `clear()`：不返回被删除的元素。
 - **删除多个元素**
@@ -121,11 +126,11 @@ list(x * 2 for x in range(3))       # [0, 2, 4]
 :::
 #### 修改
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
-|----|----|----|----|----|
-|修改元素|`arr[index] = value;`|`list.set(index, value);`|`arr[index] = value`|`arr[index] = value`|
-|替换全部元素|`Arrays.fill(arr, newValue)`<br>`Arrays.setAll(arr, i -> newValue)`|`Collections.fill(list, newValue)`|`arr.fill(newValue)`|`arr[:] = [newValue] * len(arr)`|
-|按范围替换|/|/|`arr.splice(start, deleteCount, ...items)`|`arr[start:end] = items`|
+|操作|Java数组|Java List|JavaScript数组|Python列表|Redis List|
+|----|----|----|----|----|----|
+|修改元素|`arr[index] = value;`|`list.set(index, value);`|`arr[index] = value`|`arr[index] = value`|`LSET key index value`|
+|替换全部元素|`Arrays.fill(arr, newValue)`<br>`Arrays.setAll(arr, i -> newValue)`|`Collections.fill(list, newValue)`|`arr.fill(newValue)`|`arr[:] = [newValue] * len(arr)`|/|
+|按范围替换|/|/|`arr.splice(start, deleteCount, ...items)`|`arr[start:end] = items`|`LTRIM key start stop`（只能保留范围）|
 
 ::: warning JavaScript 字符串索引不可写
 JavaScript 字符串索引不可写；严格模式下赋值可能抛 `TypeError`，非严格模式下通常静默无效。
@@ -142,12 +147,12 @@ Python 切片赋值两侧的元素数量可以不同，会同时插入或删除�
 
 #### 其他
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
-|----|----|----|----|----|
-|查询长度|`arr.length`|`list.size()`|`arr.length`|`len(arr)`|
-|是否为空|`arr.length == 0`|`list.isEmpty()`|`arr.length === 0`|`not arr`|
-|访问元素|`arr[index]`|`list.get(index)`|`arr[index]`|`arr[index]`|
-|遍历|`for(int value : arr)`<br>&nbsp;&nbsp;`{System.out.println(value)}`|`list.forEach(System.out::println);`|`arr.forEach(value => console.log(value))`|`for value in arr:print(value)`|
+|操作|Java数组|Java List|JavaScript数组|Python列表|Redis List|
+|----|----|----|----|----|----|
+|查询长度|`arr.length`|`list.size()`|`arr.length`|`len(arr)`|`LLEN key`|
+|是否为空|`arr.length == 0`|`list.isEmpty()`|`arr.length === 0`|`not arr`|`LLEN key == 0`|
+|访问元素|`arr[index]`|`list.get(index)`|`arr[index]`|`arr[index]`|`LINDEX key index`|
+|遍历|`for(int value : arr)`<br>&nbsp;&nbsp;`{System.out.println(value)}`|`list.forEach(System.out::println);`|`arr.forEach(value => console.log(value))`|`for value in arr:print(value)`|`LRANGE key 0 -1`|
 
 ::: warning 不同语言的越界行为
 - JavaScript 数组越界访问返回 `undefined`
@@ -169,11 +174,11 @@ Python 切片赋值两侧的元素数量可以不同，会同时插入或删除�
 
 #### 根据元素查找
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
-|----|----|----|----|----|
-|元素是否存在|对象数组<br>`Arrays.asList(objectArr).contains(value)`<br>基本类型数组<br>`Arrays.stream(intArr).anyMatch(x -> x == value)`<br>`Arrays.stream(intArr).boxed().collect(Collectors.toSet()).contains(value)`|`list.contains(value);`<br>`list.containsAll(collection)`|`arr.includes(value)`|`value in arr`|
-|元素位置|对象数组<br>`Arrays.asList(objectArr).indexOf(value)`<br>`Arrays.asList(objectArr).lastIndexOf(value)`<br>基本类型数组（首次）<br>`IntStream.range(0, intArr.length)`<br>&nbsp;&nbsp;`.filter(i -> intArr[i] == value)`<br>&nbsp;&nbsp;`.findFirst().orElse(-1)`<br>基本类型数组（末次，reduce）<br>`IntStream.range(0, intArr.length)`<br>&nbsp;&nbsp;`.filter(i -> intArr[i] == value)`<br>&nbsp;&nbsp;`.reduce((first, second) -> second).orElse(-1)`<br>基本类型数组（末次，反向查找）<br>`IntStream.range(0, intArr.length)`<br>&nbsp;&nbsp;`.map(i -> intArr.length - 1 - i)`<br>&nbsp;&nbsp;`.filter(i -> intArr[i] == value)`<br>&nbsp;&nbsp;`.findFirst().orElse(-1)`|`list.indexOf(value)`<br>`list.lastIndexOf(value)`|`arr.indexOf(value)`<br>`arr.lastIndexOf(value)`|`arr.index(value)`<br><Tip>找不到时抛 `ValueError`</Tip>|
-|二分查找|`Arrays.binarySearch(arr, value)`|`Collections.binarySearch(list, value)`|不支持内置方法（需自行实现）|`bisect_left` / `bisect_right`|
+|操作|Java数组|Java List|JavaScript数组|Python列表|Redis List|
+|----|----|----|----|----|----|
+|元素是否存在|对象数组<br>`Arrays.asList(objectArr).contains(value)`<br>基本类型数组<br>`Arrays.stream(intArr).anyMatch(x -> x == value)`<br>`Arrays.stream(intArr).boxed() .collect(Collectors.toSet()).contains(value)`|`list.contains(value);`<br>`list.containsAll(collection)`|`arr.includes(value)`|`value in arr`|`LPOS key element`<Tip>Redis 6.0.6+</Tip>|
+|元素位置|对象数组<br>`Arrays.asList(objectArr).indexOf(value)`<br>`Arrays.asList(objectArr).lastIndexOf(value)`<br>基本类型数组（首次）<br>`IntStream.range(0, intArr.length)`<br>&nbsp;&nbsp;`.filter(i -> intArr[i] == value)`<br>&nbsp;&nbsp;`.findFirst().orElse(-1)`<br>基本类型数组（末次，reduce）<br>`IntStream.range(0, intArr.length)`<br>&nbsp;&nbsp;`.filter(i -> intArr[i] == value)`<br>&nbsp;&nbsp;`.reduce((first, second) -> second).orElse(-1)`<br>基本类型数组（末次，反向查找）<br>`IntStream.range(0, intArr.length)`<br>&nbsp;&nbsp;`.map(i -> intArr.length - 1 - i)`<br>&nbsp;&nbsp;`.filter(i -> intArr[i] == value)`<br>&nbsp;&nbsp;`.findFirst().orElse(-1)`|`list.indexOf(value)`<br>`list.lastIndexOf(value)`|`arr.indexOf(value)`<br>`arr.lastIndexOf(value)`|`arr.index(value)`<br><Tip>找不到时抛 `ValueError`</Tip>|`LPOS key element`<Tip>等价于 `LPOS key element RANK 1`</Tip><br>`LPOS key element RANK -1`<br>`LPOS key element RANK n`<Tip>n 为第几次出现</Tip>|
+|二分查找|`Arrays.binarySearch(arr, value)`|`Collections.binarySearch(list, value)`|/|`bisect_left` / `bisect_right`|/|
 
 
 ::: warning Java 数组判断元素是否存在的类型陷阱
@@ -235,7 +240,7 @@ Java 数组和 `List` 通常借助 Stream 表达匹配和查找操作。
 |----|----|----|----|----|
 |判断引用是否相同|`arr1 == arr2`|`list1 == list2`|`arr1 === arr2`|`arr1 is arr2`|
 |判断一维内容相等|`Arrays.equals(arr1, arr2)`|`list1.equals(list2)`|`arr1.length === arr2.length`<br>&nbsp;&nbsp;`&& arr1.every((value, index) => value === arr2[index])`|`arr1 == arr2`|
-|嵌套数组/列表相等|`Arrays.deepEquals(objectArr1, objectArr2)`|`list1.equals(list2)`<Tip>嵌套 `List` 可递归比较</Tip>|无通用内置深层比较|`arr1 == arr2`<Tip>嵌套 `list` 可递归比较</Tip>|
+|嵌套数组/列表相等|`Arrays.deepEquals(objectArr1, objectArr2)`|`list1.equals(list2)`<Tip>嵌套 `List` 可递归比较</Tip>|/|`arr1 == arr2`<Tip>嵌套 `list` 可递归比较</Tip>|
 
 ::: warning 比较规则
 Java 的 `==`、JavaScript 数组的 `===` 和 Python 的 `is` 比较的是「是否同一个对象」，不是内容。
@@ -250,13 +255,13 @@ Java 的 `==`、JavaScript 数组的 `===` 和 Python 的 `is` 比较的是「�
 
 ### 转换
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
-|----|----|----|----|----|
-|转为字符串|`Arrays.toString(intArr)`<br>`Arrays.deepToString(objectArr)`|`list.toString()`|`String(arr)`<br>`arr.toString()`<br>`arr.join()`|`str(arr)`|
-|浅拷贝|`Arrays.copyOf(arr, arr.length)`|`new ArrayList<>(list)`|`arr.slice()`<br>`[...arr]`|`list(arr)`<br>`arr.copy()`<Tip>Python 3.3+</Tip>|
-|数组转 List|`Arrays.asList(objectArr)`<a class="collection-note" href="#arrays-as-list"><Warning>固定长度，可修改值</Warning></a><br>`List.of(objectArr)`<a class="collection-note" href="#arrays-as-list"><Warning>不可变</Warning></a><br>`new ArrayList<>(Arrays.asList(objectArr))`<Warning>可变列表</Warning><br>`new ArrayList<>(List.of(objectArr))`<Warning>可变列表</Warning><br>`Arrays.stream(intArr).boxed().collect(Collectors.toList())`|/|/|/|
-|List 转数组|/|`list.toArray(new String[0])`<br>`list.toArray(String[]::new)`<Tip>Java 11+</Tip>|/|/|
-|转为 Set|`new HashSet<>(Arrays.asList(objectArr))`|`new HashSet<>(list)`|`new Set(arr)`|`set(arr)`|
+|操作|Java数组|Java List|JavaScript数组|Python列表|Redis List|
+|----|----|----|----|----|----|
+|转为字符串|`Arrays.toString(intArr)`<br>`Arrays.deepToString(objectArr)`|`list.toString()`|`String(arr)`<br>`arr.toString()`<br>`arr.join()`|`str(arr)`|`LRANGE key 0 -1` 后由客户端拼接|
+|浅拷贝|`Arrays.copyOf(arr, arr.length)`|`new ArrayList<>(list)`|`arr.slice()`<br>`[...arr]`|`list(arr)`<br>`arr.copy()`<Tip>Python 3.3+</Tip>|`LRANGE key 0 -1` 后写入新 key|
+|数组转 List|`Arrays.asList(objectArr)`<a class="collection-note" href="#arrays-as-list"><Warning>固定长度，可修改值</Warning></a><br>`List.of(objectArr)`<a class="collection-note" href="#arrays-as-list"><Warning>不可变</Warning></a><br>`new ArrayList<>(Arrays.asList(objectArr))`<Warning>可变列表</Warning><br>`new ArrayList<>(List.of(objectArr))`<Warning>可变列表</Warning><br>`Arrays.stream(intArr).boxed().collect(Collectors.toList())`|/|/|/|`LRANGE key 0 -1`（读取为客户端列表）|
+|List 转数组|/|`list.toArray(new String[0])`<br>`list.toArray(String[]::new)`<Tip>Java 11+</Tip>|/|/|`LRANGE key 0 -1` 后由客户端转换|
+|转为 Set|`new HashSet<>(Arrays.asList(objectArr))`|`new HashSet<>(list)`|`new Set(arr)`|`set(arr)`|`SMEMBERS` 不适用于 List，需客户端去重|
 
 ::: warning Java 数组转换的类型边界
 - `Arrays.deepToString` 适用于对象数组或多维数组；一维基本类型数组应使用对应的 `Arrays.toString`
@@ -265,12 +270,12 @@ Java 的 `==`、JavaScript 数组的 `===` 和 Python 的 `is` 比较的是「�
 
 ### 不修改原集合
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
-|----|----|----|----|----|
-|截取|`Arrays.copyOfRange(arr, start, end)`|`list.subList(start, end)`|`arr.slice(start, end)`|`arr[start:stop:step]`|
-|浅拷贝|`arr.clone()`<br>`Arrays.copyOf(arr, arr.length)`|`new ArrayList<>(list)`|`arr.slice()`<br>`[...arr]`|`arr.copy()`<Tip>Python 3.3+</Tip><br>`arr[:]`|
-|复制到已有集合|`System.arraycopy(src, 0, dest, 0, src.length)`|`Collections.copy(dest, src)`|/|/|
-|拼接|`int[] result = new int[arr1.length + arr2.length];`<br>`System.arraycopy(arr1, 0, result, 0, arr1.length);`<br>`System.arraycopy(arr2, 0, result, arr1.length, arr2.length);`<br><br>`IntStream.concat(Arrays.stream(arr1), Arrays.stream(arr2)).toArray()`<Tip>Java 8+</Tip><br><br>`int[] result = Arrays.copyOf(arr1, arr1.length + arr2.length);`<br>`System.arraycopy(arr2, 0, result, arr1.length, arr2.length);`|`List<T> result = new ArrayList<>(list1);`<br>`result.addAll(list2);`|`arr1.concat(arr2)`|`arr1 + arr2`|
+|操作|Java数组|Java List|JavaScript数组|Python列表|Redis List|
+|----|----|----|----|----|----|
+|截取|`Arrays.copyOfRange(arr, start, end)`|`list.subList(start, end)`|`arr.slice(start, end)`|`arr[start:stop:step]`|`LRANGE key start stop`|
+|浅拷贝|`arr.clone()`<br>`Arrays.copyOf(arr, arr.length)`|`new ArrayList<>(list)`|`arr.slice()`<br>`[...arr]`|`arr.copy()`<Tip>Python 3.3+</Tip><br>`arr[:]`|`LRANGE key 0 -1` 后写入新 key|
+|复制到已有集合|`System.arraycopy(src, 0, dest, 0, src.length)`|`Collections.copy(dest, src)`|/|/|/|
+|拼接|`int[] result = new int[arr1.length + arr2.length);`<br>`System.arraycopy(arr1, 0, result, 0, arr1.length);`<br>`System.arraycopy(arr2, 0, result, arr1.length, arr2.length);`<br><br>`IntStream.concat(Arrays.stream(arr1), Arrays.stream(arr2)).toArray()`<Tip>Java 8+</Tip><br><br>`int[] result = Arrays.copyOf(arr1, arr1.length + arr2.length);`<br>`System.arraycopy(arr2, 0, result, arr1.length, arr2.length);`|`List<T> result = new ArrayList<>(list1);`<br>`result.addAll(list2);`|`arr1.concat(arr2)`|`arr1 + arr2`|`LPUSH` / `RPUSH` 配合读取或 Lua / Redis Functions|
 
 ::: warning 视图与复制
 `subList(start, end)` 返回原列表的视图，修改视图会影响原列表；需要独立列表时使用 `new ArrayList<>(list.subList(start, end))`。Python 和 JavaScript 的切片通常创建新容器，Python 切片还支持步长和负索引。
@@ -280,15 +285,15 @@ Java 的 `==`、JavaScript 数组的 `===` 和 Python 的 `is` 比较的是「�
 
 ### 修改原集合
 
-|操作|Java数组|Java List|JavaScript数组|Python列表|
-|----|----|----|----|----|
-|排序|`Arrays.sort(arr)`<br>`Arrays.sort(arr, start, end)`<br>`Arrays.sort(objectArr, comparator)`<br>`Arrays.sort(objectArr, start, end, comparator)`|`list.sort(null)`<br>`list.sort(comparator)`<br>`Collections.sort(list)`|`arr.sort()`<br>`arr.sort(compareFunction)`|`arr.sort()`<br>`arr.sort(key=key_func, reverse=True)`|
-|并行排序|`Arrays.parallelSort(arr)`<br>`Arrays.parallelSort(arr, start, end)`<br>`Arrays.parallelSort(objectArr, comparator)`<br>`Arrays.parallelSort(objectArr, start, end, comparator)`|/|/|/|
-|反转|/|`Collections.reverse(list)`|`arr.reverse()`|`arr.reverse()`|
-|填充|`Arrays.fill(arr, value)`<br>`Arrays.fill(arr, start, end, value)`|`Collections.fill(list, value)`|`arr.fill(value)`<br>`arr.fill(value, start, end)`|`arr[:] = [value] * len(arr)`|
-|按索引设置元素|`Arrays.setAll(arr, i -> i * 2)`|`IntStream.range(0, list.size()).forEach(i -> list.set(i, i * 2))`|`arr.forEach((value, i) => { arr[i] = i * 2; })`|`arr[:] = [i * 2 for i in range(len(arr))]`|
-|插入多个元素|/|`list.addAll(index, collection)`|`arr.splice(index, 0, ...items)`|`arr[index:index] = items`|
-|保留指定元素|/|`list.retainAll(collection)`|/|`arr[:] = [x for x in arr if x in items]`|
+|操作|Java数组|Java List|JavaScript数组|Python列表|Redis List|
+|----|----|----|----|----|----|
+|排序|`Arrays.sort(arr)`<br>`Arrays.sort(arr, start, end)`<br>`Arrays.sort(objectArr, comparator)`<br>`Arrays.sort(objectArr, start, end, comparator)`|`list.sort(null)`<br>`list.sort(comparator)`<br>`Collections.sort(list)`|`arr.sort()`<br>`arr.sort(compareFunction)`|`arr.sort()`<br>`arr.sort(key=key_func, reverse=True)`|`SORT key` 仅适用于可按数值或字典序排序的字符串值，结果默认返回列表|
+|并行排序|`Arrays.parallelSort(arr)`<br>`Arrays.parallelSort(arr, start, end)`<br>`Arrays.parallelSort(objectArr, comparator)`<br>`Arrays.parallelSort(objectArr, start, end, comparator)`|/|/|/|/|
+|反转|/|`Collections.reverse(list)`|`arr.reverse()`|`arr.reverse()`|/|
+|填充|`Arrays.fill(arr, value)`<br>`Arrays.fill(arr, start, end, value)`|`Collections.fill(list, value)`|`arr.fill(value)`<br>`arr.fill(value, start, end)`|`arr[:] = [value] * len(arr)`|/|
+|按索引设置元素|`Arrays.setAll(arr, i -> i * 2)`|`IntStream.range(0, list.size()).forEach(i -> list.set(i, i * 2))`|`arr.forEach((value, i) => { arr[i] = i * 2; })`|`arr[:] = [i * 2 for i in range(len(arr))]`|`LSET key index value`|
+|插入多个元素|/|`list.addAll(index, collection)`|`arr.splice(index, 0, ...items)`|`arr[index:index] = items`|`LPUSH` / `RPUSH` 或循环 `LINSERT`|
+|保留指定元素|/|`list.retainAll(collection)`|/|`arr[:] = [x for x in arr if x in items]`|/|
 
 ::: warning 排序边界
 - Java 对象数组和 `List` 的自然排序都要求元素类型实现 `Comparable`；Comparator 版本必须与元素类型匹配并满足排序契约。
@@ -428,8 +433,9 @@ Java 推荐使用 `Deque`/`ArrayDeque`，不建议把遗留的 `Stack` 作为首
 |出队并返回|`queue.poll()`|`queue.shift()`|`queue.popleft()`|
 |查看队首|`queue.peek()`|`queue[0]`|`queue[0]`|
 
-::: warning 队列的头部操作复杂度
-JavaScript `shift()` 和 Python `list.pop(0)` 需要移动后续元素，反复头部操作通常为 O(n)；高频队列操作应使用 Java `ArrayDeque` 或 Python `collections.deque`。Java `poll()` 和 Python `popleft()` 在空队列时分别返回 `null` 和抛 `IndexError`，JavaScript `shift()` 返回 `undefined`。
+::: warning 队列的头部操作与空队列行为
+- JavaScript `shift()` 和 Python `list.pop(0)` 都要移动后续元素，反复在头部操作是 O(n)。Python 改用 `collections.deque` 即可；JavaScript 没有内置的双端队列或链表，高频头部操作需要自己维护头尾指针（如环形缓冲），或使用第三方实现。
+- 空队列时，Java `poll()` 返回 `null`，Python `popleft()` 抛 `IndexError`，JavaScript `shift()` 返回 `undefined`。
 :::
 
 ### 优先队列：按优先级取出
@@ -438,8 +444,8 @@ JavaScript `shift()` 和 Python `list.pop(0)` 需要移动后续元素，反复�
 |----|----|----|----|
 |创建|`PriorityQueue<Integer> queue = new PriorityQueue<>();`|没有内置通用优先队列|`import heapq`<br>`heap = []`<br>`heapq.heapify_max(heap)`<Tip>Python 3.14+</Tip>|
 |插入|`queue.offer(value)`|需要自行实现堆或使用第三方库|`heapq.heappush(heap, value)`<br>`heapq.heappush_max(heap, value)`<Tip>Python 3.14+</Tip>|
-|取出堆顶元素（默认最小值优先）|`queue.poll()`|需要自行实现|`heapq.heappop(heap)`<br>`heapq.heappop_max(heap)`<Tip>Python 3.14+</Tip>|
-|查看堆顶元素（默认最小值）|`queue.peek()`|需要自行实现|`heap[0]`<br>`heap[0]`（最大堆，Python 3.14+）|
+|取出堆顶元素（默认最小值优先）|`queue.poll()`|/|`heapq.heappop(heap)`<br>`heapq.heappop_max(heap)`<Tip>Python 3.14+</Tip>|
+|查看堆顶元素（默认最小值）|`queue.peek()`|/|`heap[0]`<br>`heap[0]`（最大堆，Python 3.14+）|
 
 ::: warning 优先级方向
 - **Java `PriorityQueue`**：默认是最小堆，优先取出较小的元素；可通过 `new PriorityQueue<>(Comparator.reverseOrder())` 构造最大堆。
@@ -459,17 +465,17 @@ JavaScript `shift()` 和 Python `list.pop(0)` 需要移动后续元素，反复�
 
 ### 基本操作
 
-|操作|Java Set|JavaScript Set|Python Set|
-|----|----|----|----|
-|创建集合|`new HashSet<>()`<Tip>无序</Tip><br>`new LinkedHashSet<>()`<Tip>按插入顺序</Tip><br>`new TreeSet<>()`<Tip>按自然顺序或自定义顺序</Tip>|`new Set(iterable)`|`set()`<br>`{1, 2}`|
-|添加元素|`set.add(value)`<br>`set.addAll(collection)`|`set.add(value)`|`set.add(value)`<br>`set.update(iterable)`|
-|删除元素|`set.remove(value)`<br>`set.removeAll(collection)`|`set.delete(value)`|`set.remove(value)`<br>`set.discard(value)`|
-|判断元素是否存在|`set.contains(value)`<br>`set.containsAll(collection)`|`set.has(value)`|`value in set`|
-|清空集合|`set.clear()`|`set.clear()`|`set.clear()`|
-|查询长度|`set.size()`|`set.size`|`len(set)`|
-|是否为空|`set.isEmpty()`|`set.size === 0`|`not set`|
-|遍历|`set.forEach(value -> ...)`|`for (const value of set) { ... }`|`for value in set:`|
-|转为数组/列表|`new ArrayList<>(set)`|`Array.from(set)`|`list(set)`|
+|操作|Java Set|JavaScript Set|Python Set|Redis Set|
+|----|----|----|----|----|
+|创建集合|`new HashSet<>()`<Tip>无序</Tip><br>`new LinkedHashSet<>()`<Tip>按插入顺序</Tip><br>`new TreeSet<>()`<Tip>按自然顺序或自定义顺序</Tip>|`new Set(iterable)`|`set()`<br>`{1, 2}`|`SADD key member...`<a class="collection-note" href="#redis-create"><Warning>无创建命令</Warning></a>|
+|添加元素|`set.add(value)`<br>`set.addAll(collection)`|`set.add(value)`|`set.add(value)`<br>`set.update(iterable)`|`SADD key member...`|
+|删除元素|`set.remove(value)`<br>`set.removeAll(collection)`|`set.delete(value)`|`set.remove(value)`<br>`set.discard(value)`|`SREM key member...`|
+|判断元素是否存在|`set.contains(value)`<br>`set.containsAll(collection)`|`set.has(value)`|`value in set`|`SISMEMBER key member`|
+|清空集合|`set.clear()`|`set.clear()`|`set.clear()`|`DEL key`|
+|查询长度|`set.size()`|`set.size`|`len(set)`|`SCARD key`|
+|是否为空|`set.isEmpty()`|`set.size === 0`|`not set`|`SCARD key == 0`|
+|遍历|`set.forEach(value -> ...)`|`for (const value of set) { ... }`|`for value in set:`|`SMEMBERS key`|
+|转为数组/列表|`new ArrayList<>(set)`|`Array.from(set)`|`list(set)`|`SMEMBERS key`（返回成员列表）|
 
 ::: tip Java Set 的实现
 - `HashSet`：无序，允许一个 `null` 元素。
@@ -484,20 +490,20 @@ Python Set 元素必须可哈希。
 
 ### 集合运算
 
-|操作|Java Set|JavaScript Set|Python Set|
-|----|----|----|----|
-|交集|`Set<T> result = new HashSet<>(set1);`<br>`result.retainAll(set2);`|`set1.intersection(set2)`<Tip>ES2025+</Tip>|`set1.intersection(set2)`<br>`set1 & set2`|
-|交集更新|`set1.retainAll(set2)`|/|`set1.intersection_update(set2)`|
-|并集|`Set<T> result = new HashSet<>(set1);`<br>`result.addAll(set2);`|`set1.union(set2)`<Tip>ES2025+</Tip>|`set1.union(set2)`<br><code>set1 &#124; set2</code>|
-|并集更新|`set1.addAll(set2)`|/|`set1.update(set2)`|
-|差集|`Set<T> result = new HashSet<>(set1);`<br>`result.removeAll(set2);`|`set1.difference(set2)`<Tip>ES2025+</Tip>|`set1.difference(set2)`<br>`set1 - set2`|
-|差集更新|`set1.removeAll(set2)`|/|`set1.difference_update(set2)`|
-|对称差集|组合 `addAll`、`retainAll`、`removeAll` 实现|`set1.symmetricDifference(set2)`<Tip>ES2025+</Tip>|`set1.symmetric_difference(set2)`<br>`set1 ^ set2`|
-|子集|`set2.containsAll(set1)`|`set1.isSubsetOf(set2)`<Tip>ES2025+</Tip>|`set1.issubset(set2)`<br>`set1 <= set2`|
-|超集|`set1.containsAll(set2)`|`set1.isSupersetOf(set2)`<Tip>ES2025+</Tip>|`set1.issuperset(set2)`<br>`set1 >= set2`|
-|不相交|`Collections.disjoint(set1, set2)`|`set1.isDisjointFrom(set2)`<Tip>ES2025+</Tip>|`set1.isdisjoint(set2)`|
-|判断集合相等|`set1.equals(set2)`|`set1.size === set2.size && [...set1].every(value => set2.has(value))`|`set1 == set2`|
-|浅拷贝|`new HashSet<>(set)`|`new Set(set)`|`set.copy()`|
+|操作|Java Set|JavaScript Set|Python Set|Redis Set|
+|----|----|----|----|----|
+|交集|`Set<T> result = new HashSet<>(set1);`<br>`result.retainAll(set2);`|`set1.intersection(set2)`<Tip>ES2025+</Tip>|`set1.intersection(set2)`<br>`set1 & set2`|`SINTER key...`|
+|交集更新|`set1.retainAll(set2)`|/|`set1.intersection_update(set2)`|`SINTERSTORE destination key...`|
+|并集|`Set<T> result = new HashSet<>(set1);`<br>`result.addAll(set2);`|`set1.union(set2)`<Tip>ES2025+</Tip>|`set1.union(set2)`<br><code>set1 &#124; set2</code>|`SUNION key...`|
+|并集更新|`set1.addAll(set2)`|/|`set1.update(set2)`|`SUNIONSTORE destination key...`|
+|差集|`Set<T> result = new HashSet<>(set1);`<br>`result.removeAll(set2);`|`set1.difference(set2)`<Tip>ES2025+</Tip>|`set1.difference(set2)`<br>`set1 - set2`|`SDIFF key...`|
+|差集更新|`set1.removeAll(set2)`|/|`set1.difference_update(set2)`|`SDIFFSTORE destination key...`|
+|对称差集|组合 `addAll`、`retainAll`、`removeAll` 实现|`set1.symmetricDifference(set2)`<Tip>ES2025+</Tip>|`set1.symmetric_difference(set2)`<br>`set1 ^ set2`|/|
+|子集|`set2.containsAll(set1)`|`set1.isSubsetOf(set2)`<Tip>ES2025+</Tip>|`set1.issubset(set2)`<br>`set1 <= set2`|/|
+|超集|`set1.containsAll(set2)`|`set1.isSupersetOf(set2)`<Tip>ES2025+</Tip>|`set1.issuperset(set2)`<br>`set1 >= set2`|/|
+|不相交|`Collections.disjoint(set1, set2)`|`set1.isDisjointFrom(set2)`<Tip>ES2025+</Tip>|`set1.isdisjoint(set2)`|/|
+|判断集合相等|`set1.equals(set2)`|`set1.size === set2.size && [...set1].every(value => set2.has(value))`|`set1 == set2`|`SISMEMBER` 配合 `SCARD` 或客户端处理|
+|浅拷贝|`new HashSet<>(set)`|`new Set(set)`|`set.copy()`|`SUNIONSTORE destination key`（复制单个集合）|
 
 ::: warning 集合运算的修改语义
 - **Java：运算方法会修改调用者**。`retainAll`、`addAll`、`removeAll` 等方法直接修改调用它们的集合。如果不想修改原集合，需要先复制一份，再对副本执行运算：
@@ -524,38 +530,37 @@ Python Set 元素必须可哈希。
 :::
 
 ::: warning Set 删除返回值与关系判断
-- **Java `Set.remove`**：删除不存在的元素返回 `false`。
-- **JavaScript `Set.delete`**：返回布尔值，表示是否成功删除。
+- **Java `Set.remove`、JavaScript `Set.delete`**：返回布尔值，表示是否删除成功；元素不存在时返回 `false`。
 - **Python `set.remove`**：删除不存在的元素抛出 `KeyError`；`set.discard` 删除不存在的元素时不抛异常。
 - **集合关系判断**：子集和超集判断是非严格关系，集合相等时也会返回真。
 :::
 
 ## Map / 字典
 
-Java 的 `Map`、JavaScript 的 `Map` 和 Python 的 `dict` 都以键值对存储数据，通常通过键查找值；但键的相等规则、空值、返回对象和顺序语义并不完全相同。
+Java 的 `Map`、JavaScript 的 `Map`、Python 的 `dict` 和 Redis 的 Hash 都以键值对存储数据，通常通过键查找值；但键的相等规则、空值、返回对象、顺序语义和数据驻留位置并不完全相同。
 
 ### 基本操作
 
-|操作|Java Map|JavaScript Map|Python dict|
-|----|----|----|----|
-|创建集合|`new HashMap<>()`<Tip>无序</Tip><br>`new LinkedHashMap<>()`<Tip>按插入顺序</Tip><br>`Map.of(key, value)`<Tip>Java 9+，不可变</Tip>|`new Map()`<br>`new Map(entries)`|`{}`<br>`dict()`<br>`{key: value}`|
-|添加或修改键值|`map.put(key, value)`|`map.set(key, value)`|`mapping[key] = value`|
-|批量添加|`map.putAll(otherMap)`|`otherMap.forEach((value, key) => map.set(key, value))`|`mapping.update(other_mapping)`|
-|获取值|`map.get(key)`|`map.get(key)`|`mapping.get(key)`<br>`mapping[key]`|
-|获取默认值|`map.getOrDefault(key, defaultValue)`|/|`mapping.get(key, defaultValue)`|
-|写入默认值|`map.putIfAbsent(key, defaultValue)`<Tip>已有 `null` 时会写入</Tip>|/|`mapping.setdefault(key, defaultValue)`<Tip>已有 `None` 时不会覆盖</Tip>|
-|是否包含键|`map.containsKey(key)`|`map.has(key)`|`key in mapping`|
-|是否包含值|`map.containsValue(value)`|`[...map.values()].includes(value)`|`value in mapping.values()`|
-|删除键值|`map.remove(key)`|`map.delete(key)`|`mapping.pop(key)`<br>`del mapping[key]`|
-|获取所有键|`map.keySet()`|`map.keys()`|`mapping.keys()`|
-|获取所有值|`map.values()`|`map.values()`|`mapping.values()`|
-|获取所有键值对|`map.entrySet()`|`map.entries()`|`mapping.items()`|
-|清空集合|`map.clear()`|`map.clear()`|`mapping.clear()`|
-|查询长度|`map.size()`|`map.size`|`len(mapping)`|
-|是否为空|`map.isEmpty()`|`map.size === 0`|`not mapping`|
-|遍历键值|`map.forEach((key, value) -> ...)`|`map.forEach((value, key) => ...)`|`for key, value in mapping.items():`|
-|按键计算/累积|`map.computeIfAbsent(key, k -> new ArrayList<>())`<br>`map.merge(key, value, operator)`|显式判断或使用 `??=`|`from collections import defaultdict`<br>`defaultdict` / `setdefault`|
-|按值替换|`map.replaceAll((key, value) -> newValue)`|`map.forEach((value, key) => map.set(key, newValue))`|`mapping.update(...)`|
+|操作|Java Map|JavaScript Map|Python dict|Redis Hash|
+|----|----|----|----|----|
+|创建集合|`new HashMap<>()`<Tip>无序</Tip><br>`new LinkedHashMap<>()`<Tip>按插入顺序</Tip><br>`Map.of(key, value)`<Tip>Java 9+，不可变</Tip>|`new Map()`<br>`new Map(entries)`|`{}`<br>`dict()`<br>`{key: value}`|`HSET key field value...`<a class="collection-note" href="#redis-create"><Warning>无创建命令</Warning></a>|
+|添加或修改键值|`map.put(key, value)`|`map.set(key, value)`|`mapping[key] = value`|`HSET key field value...`|
+|批量添加|`map.putAll(otherMap)`|`otherMap.forEach((value, key) => map.set(key, value))`|`mapping.update(other_mapping)`|`HSET key field value...`|
+|获取值|`map.get(key)`|`map.get(key)`|`mapping.get(key)`<br>`mapping[key]`|`HGET key field`|
+|获取默认值|`map.getOrDefault(key, defaultValue)`|/|`mapping.get(key, defaultValue)`|`HGET key field` 配合客户端默认值|
+|写入默认值|`map.putIfAbsent(key, defaultValue)`<Tip>已有 `null` 时会写入</Tip>|/|`mapping.setdefault(key, defaultValue)`<Tip>已有 `None` 时不会覆盖</Tip>|`HSETNX key field value`|
+|是否包含键|`map.containsKey(key)`|`map.has(key)`|`key in mapping`|`HEXISTS key field`|
+|是否包含值|`map.containsValue(value)`|`[...map.values()].includes(value)`|`value in mapping.values()`|`HVALS key` 后由客户端查找|
+|删除键值|`map.remove(key)`|`map.delete(key)`|`mapping.pop(key)`<br>`del mapping[key]`|`HDEL key field...`|
+|获取所有键|`map.keySet()`|`map.keys()`|`mapping.keys()`|`HKEYS key`|
+|获取所有值|`map.values()`|`map.values()`|`mapping.values()`|`HVALS key`|
+|获取所有键值对|`map.entrySet()`|`map.entries()`|`mapping.items()`|`HGETALL key`|
+|清空集合|`map.clear()`|`map.clear()`|`mapping.clear()`|`DEL key`|
+|查询长度|`map.size()`|`map.size`|`len(mapping)`|`HLEN key`|
+|是否为空|`map.isEmpty()`|`map.size === 0`|`not mapping`|`HLEN key == 0`|
+|遍历键值|`map.forEach((key, value) -> ...)`|`map.forEach((value, key) => ...)`|`for key, value in mapping.items():`|`HSCAN key cursor`|
+|按键计算/累积|`map.computeIfAbsent(key, k -> new ArrayList<>())`<br>`map.merge(key, value, operator)`|显式判断或使用 `??=`|`from collections import defaultdict`<br>`defaultdict` / `setdefault`|`HINCRBY key field increment`（仅整数累加）|
+|按值替换|`map.replaceAll((key, value) -> newValue)`|`map.forEach((value, key) => map.set(key, newValue))`|`mapping.update(...)`|/|
 
 ::: tip Java Map 的实现
 - `HashMap`：无序，允许一个 `null` 键和多个 `null` 值。
@@ -578,7 +583,27 @@ Java 的 `keySet()`、`values()`、`entrySet()` 和 Python 的 `keys()`、`value
 按键查找通常是哈希实现下的平均 O(1)，按值查找通常要扫描全部值，为 O(n)。JavaScript 的 `includes` 使用 SameValueZero；Java 主要依据 `equals`，Python 依据对象的相等和哈希规则，三者对 `NaN`、对象和自定义类型不一定等价。
 :::
 
-## 总结
+## Redis 对照边界
+
+Redis 的集合类型通过命令操作远端 key，返回值也不总是容器本身：例如 `LPOP` 返回被移除的元素，`SADD` 返回实际新增的成员数，`HSET` 返回实际新增的 field 数。上表只列常用命令，不能把 Redis 的命令名直接当成进程内 API 的同义替换。
+
+- **List** 按插入顺序保存字符串值，`LPUSH` / `RPUSH` 分别从两端写入；按索引定位用 `LINDEX`，按范围读取用 `LRANGE`。
+- **Set** 只保存不重复的字符串成员；Redis 的 `SINTER`、`SUNION`、`SDIFF` 直接返回运算结果，需要保存结果时使用对应的 `*STORE` 命令。
+- **Hash** 保存 field-value 字符串映射；`HGETALL` 返回全部字段和值，Hash 的 field 不能再嵌套一个独立的 Redis 数据结构。
+- **Sorted Set** 不是普通 Set 的排序视图，而是为每个 member 关联 score；常用写入、范围查询和删除见下表。
+
+### Sorted Set
+
+|操作|Java `TreeSet` / Map|JavaScript|Python|Redis Sorted Set|
+|----|----|----|----|----|
+|创建 / 写入|`new TreeMap<>()`<br>`map.put(score, member)`|需自行维护 score 与 member|`heapq` 不提供按 score 查询的集合语义|`ZADD key score member...`<a class="collection-note" href="#redis-create"><Warning>无创建命令</Warning></a>|
+|按 score 范围查询|`map.subMap(from, to)`|/|/|`ZRANGE key min max BYSCORE`<Tip>Redis 6.2+</Tip>|
+|按排名查询|`map.entrySet()` 配合遍历|/|/|`ZRANGE key start stop`|
+|删除成员|`map.remove(key)`|/|/|`ZREM key member...`|
+|查询成员 score|`map.get(key)`|/|/|`ZSCORE key member`|
+|查询成员排名|/|/|/|`ZRANK key member`|
+|查询长度|`map.size()`|/|`len(collection)`|`ZCARD key`|
+
 
 - 数组/List 适合按位置访问；频繁头部操作应考虑 `Deque` 或 `collections.deque`。
 - 栈关注后进先出，队列关注先进先出，优先队列按优先级取出元素；不要只因 API 名称相似就把三者当成同一种容器。

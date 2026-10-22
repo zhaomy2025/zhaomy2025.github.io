@@ -13,7 +13,11 @@ export default {
 
 <style scoped>
 .category-tag {
-  background: #6b7280;
-  color: #fff;
+  padding: 0.05em 0.35em;
+  border-radius: 2px;
+  font-size: 1em;
+  font-weight: normal;
+  background: #f3f4f6;
+  color: #374151;
 }
 </style>

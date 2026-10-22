@@ -102,6 +102,62 @@ export default defineClientConfig({
 <Warning>注意</Warning> 
 <Danger>警告</Danger>  
 
+### 文字颜色组件
+
+文字颜色组件只改变文字颜色，不添加背景色。组件按彩虹顺序提供红、橙、黄、绿、蓝、靛、紫、灰八种颜色，组件名中的 `Text` 表示它用于文字，而不是底色。
+
+组件代码：
+::: code-tabs#color-text
+
+@tab RedText.vue
+@[code](../.vuepress/components/RedText.vue)
+
+@tab OrangeText.vue
+@[code](../.vuepress/components/OrangeText.vue)
+
+@tab YellowText.vue
+@[code](../.vuepress/components/YellowText.vue)
+
+@tab GreenText.vue
+@[code](../.vuepress/components/GreenText.vue)
+
+@tab BlueText.vue
+@[code](../.vuepress/components/BlueText.vue)
+
+@tab IndigoText.vue
+@[code](../.vuepress/components/IndigoText.vue)
+
+@tab PurpleText.vue
+@[code](../.vuepress/components/PurpleText.vue)
+
+@tab GrayText.vue
+@[code](../.vuepress/components/GrayText.vue)
+
+:::
+
+在 Markdown 中使用：
+```markdown
+<RedText>红色文字</RedText>
+<OrangeText>橙色文字</OrangeText>
+<YellowText>黄色文字</YellowText>
+<GreenText>绿色文字</GreenText>
+<BlueText>蓝色文字</BlueText>
+<IndigoText>靛色文字</IndigoText>
+<PurpleText>紫色文字</PurpleText>
+<GrayText>灰色文字</GrayText>
+```
+
+效果如下：
+
+<RedText>红色文字</RedText>
+<OrangeText>橙色文字</OrangeText>
+<YellowText>黄色文字</YellowText>
+<GreenText>绿色文字</GreenText>
+<BlueText>蓝色文字</BlueText>
+<IndigoText>靛色文字</IndigoText>
+<PurpleText>紫色文字</PurpleText>
+<GrayText>灰色文字</GrayText>
+
 ### 卡片组件
 
 卡片由容器 `<Cards>` 和单张 `<Card>` 组成。`title` 通过 prop 传入，正文写在默认插槽里；样式用 `<style scoped>` 内置在组件内，没有独立的样式文件。一个 `<Cards>` 里放多张 `<Card>` 即三列并排，窗口宽度 ≤719px 时折成一列。

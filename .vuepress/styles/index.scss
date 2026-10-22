@@ -418,7 +418,91 @@ html {
   }
 }
 
-/* 类图备注与连线文字颜色由 Mermaid init 的 classText 控制，见文章内类图配置 */
+/* Redis type / encoding 图例 */
+.redis-encoding-legend {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-inline-end: 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  vertical-align: -0.08rem;
+
+  &.type {
+    background: #dbeafe;
+    border-color: #2563eb;
+  }
+
+  &.encoding {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+
+  &.hll-encoding {
+    background: #ffedd5;
+    border-color: #ea580c;
+  }
+
+  &.history {
+    background: #f3f4f6;
+    border-color: #6b7280;
+  }
+
+  &.capability {
+    background: #ede9fe;
+    border-color: #7c3aed;
+  }
+
+  &.capability-relation {
+    width: 1.5rem;
+    height: 0;
+    border: none;
+    border-top: 3px solid #333;
+    border-radius: 0;
+    background: none;
+    vertical-align: 0.3rem;
+  }
+
+  &.capability-relation::after {
+    content: '';
+    display: block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: -0.27rem;
+    margin-inline-start: auto;
+    border-top: 3px solid #333;
+    border-inline-end: 3px solid #333;
+    transform: rotate(45deg);
+  }
+
+  &.relation,
+  &.history-relation {
+    width: 1.5rem;
+    height: 0;
+    border: none;
+    border-top: 2px solid #333;
+    border-radius: 0;
+    background: none;
+    vertical-align: 0.3rem;
+  }
+
+  &.relation::after,
+  &.history-relation::after {
+    content: '';
+    display: block;
+    width: 0.35rem;
+    height: 0.35rem;
+    margin-top: -0.22rem;
+    margin-inline-start: auto;
+    border-top: 2px solid #333;
+    border-inline-end: 2px solid #333;
+    transform: rotate(45deg);
+  }
+
+  &.history-relation {
+    border-top-style: dashed;
+  }
+}
 
 /* 对比表格单元格上对齐 + 不换行 */
 .compare-top table td {

@@ -9,8 +9,18 @@ import MyTag from './components/MyTag.vue'
 import Tip from './components/Tip.vue'
 import Warning from './components/Warning.vue'
 import Danger from "./components/Danger.vue"
+import Current from './components/Current.vue'
+import History from './components/History.vue'
 import Card from './components/Card.vue'
 import Cards from './components/Cards.vue'
+import RedText from './components/RedText.vue'
+import OrangeText from './components/OrangeText.vue'
+import YellowText from './components/YellowText.vue'
+import GreenText from './components/GreenText.vue'
+import BlueText from './components/BlueText.vue'
+import IndigoText from './components/IndigoText.vue'
+import PurpleText from './components/PurpleText.vue'
+import GrayText from './components/GrayText.vue'
 import CategoryTag1 from './components/CategoryTag1.vue'
 import CategoryTag2 from './components/CategoryTag2.vue'
 import CategoryTag3 from './components/CategoryTag3.vue'
@@ -240,8 +250,18 @@ export default defineClientConfig({
     app.component('Tip', Tip)
     app.component('Warning', Warning)
     app.component('Danger', Danger)
+    app.component('Current', Current)
+    app.component('History', History)
     app.component('Card', Card)
     app.component('Cards', Cards)
+    app.component('RedText', RedText)
+    app.component('OrangeText', OrangeText)
+    app.component('YellowText', YellowText)
+    app.component('GreenText', GreenText)
+    app.component('BlueText', BlueText)
+    app.component('IndigoText', IndigoText)
+    app.component('PurpleText', PurpleText)
+    app.component('GrayText', GrayText)
     app.component('CategoryTag1', CategoryTag1)
     app.component('CategoryTag2', CategoryTag2)
     app.component('CategoryTag3', CategoryTag3)
