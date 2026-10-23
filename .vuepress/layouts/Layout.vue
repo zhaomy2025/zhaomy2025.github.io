@@ -157,6 +157,7 @@ const onBeforeLeave = scrollPromise.pending
     </slot>
 
     <button
+      v-if="!frontmatter.home"
       class="vp-desktop-sidebar-toggle vp-desktop-sidebar-toggle--arrow-only"
       type="button"
       @click="toggleSidebarByViewport"
