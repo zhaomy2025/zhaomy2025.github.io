@@ -15,7 +15,7 @@ features:
   - title: 数据库
     details: SQL 体系与 Oracle 进阶、PL/SQL、Redis、Elasticsearch、多租户结构设计。
   - title: 架构与分布式
-    details: ZooKeeper、分布式协议（一致性 / 共识）、负载均衡、云服务对比与选型。
+    details: ZooKeeper、流程引擎（BPMN / Flowable / Activiti）、分布式协议（一致性 / 共识）、负载均衡、云服务对比与选型。
   - title: Linux 与 Nginx
     details: Linux 常用命令与 SSH 配置、Nginx 反向代理与负载均衡、腾讯云服务器实战。
   - title: 测试工程

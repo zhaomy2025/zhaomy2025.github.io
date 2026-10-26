@@ -408,6 +408,21 @@ export default defineUserConfig({
               'zkclient',
               'curator',
           ],
+        },
+        {
+          text: '流程引擎',
+          link: 'workflow/',
+          prefix: 'workflow/',
+          children: [
+            'bpmn-basics',
+            'engine-core-concepts',
+            'flowable-quickstart',
+            'approval-process-in-practice',
+            'engine-internals',
+            'database-tables',
+            'activiti-and-flowable',
+            'production-pitfalls-and-selection',
+          ],
         }
       ],
       '/db/': [

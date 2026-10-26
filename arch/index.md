@@ -18,3 +18,7 @@ tags:
 ## [Zookeeper](./zookeeper/index.md)
 
 <!-- @include:./zookeeper/zookeeper_intro.md -->
+
+## [流程引擎](./workflow/index.md)
+
+从审批流到可执行模型，覆盖 BPMN 2.0、Flowable 8、Activiti 8.8、引擎内部原理与表结构。
